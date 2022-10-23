@@ -5,7 +5,7 @@ type MainScreenProps = {
   offersCount: number;
 }
 
-const AdvertCards : JSX.Element[] = Array.from(Array(DEFAULT_CARDS_COUNT), AdvertCard);
+const advertCards : JSX.Element[] = Array.from(Array(DEFAULT_CARDS_COUNT), AdvertCard);
 
 function MainScreen({ offersCount }: MainScreenProps): JSX.Element {
   return (
@@ -96,7 +96,7 @@ function MainScreen({ offersCount }: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {AdvertCards.map((item) => item)}
+                {advertCards.map((item) => item)}
               </div>
             </section>
             <div className="cities__right-section">

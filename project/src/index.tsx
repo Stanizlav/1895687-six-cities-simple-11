@@ -4,7 +4,7 @@ import App from './components/app/app';
 
 const Settings = {
   OffersCount: 127
-};
+} as const;
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
