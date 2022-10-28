@@ -1,6 +1,6 @@
-import AdvertCard from '../../components/advert-card/advert-card';
 import Logo from '../../components/logo/logo';
 import Navigation from '../../components/navigation/navigation';
+import OffersList from '../../components/offers-list/offers-list';
 import ReviewForm from '../../components/review-form/review-form';
 import Advert from '../../types/advert';
 
@@ -178,7 +178,7 @@ function PropertyScreen({offers, cardsCount}:PropertyScreenProps):JSX.Element{
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {offers.slice(0, cardsCount).map((offer) => AdvertCard({offer}))}
+              <OffersList offers={offers} count={cardsCount}/>
             </div>
           </section>
         </div>

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import AdvertCard from '../../components/advert-card/advert-card';
 import Logo from '../../components/logo/logo';
 import Navigation from '../../components/navigation/navigation';
+import OffersList from '../../components/offers-list/offers-list';
 import { AppRoute } from '../../consts';
 import Advert from '../../types/advert';
 
@@ -83,7 +83,7 @@ function MainScreen({ offersCount, offers, defaultCardsCount }: MainScreenProps)
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {offers.slice(0, defaultCardsCount).map((offer) => AdvertCard({offer}))}
+                <OffersList offers={offers} count={defaultCardsCount}/>
               </div>
             </section>
             <div className="cities__right-section">
