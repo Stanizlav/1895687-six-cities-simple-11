@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import Logo from '../../components/logo/logo';
 import { AppRoute } from '../../consts';
 
 function LoginScreen():JSX.Element{
@@ -6,11 +8,7 @@ function LoginScreen():JSX.Element{
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link" href={AppRoute.Main}>
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
-            </div>
+            <Logo/>
           </div>
         </div>
       </header>
@@ -33,9 +31,9 @@ function LoginScreen():JSX.Element{
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href={AppRoute.Main}>
+              <Link className="locations__item-link" to={AppRoute.Main}>
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

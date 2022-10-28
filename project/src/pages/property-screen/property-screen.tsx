@@ -1,35 +1,22 @@
 import AdvertCard from '../../components/advert-card/advert-card';
+import Logo from '../../components/logo/logo';
+import Navigation from '../../components/navigation/navigation';
 import ReviewForm from '../../components/review-form/review-form';
-import { AppRoute, DEFAULT_NEAR_PLACES_COUNT } from '../../consts';
+import Advert from '../../types/advert';
 
-const nearPlacesCards: JSX.Element[] = Array.from(Array(DEFAULT_NEAR_PLACES_COUNT),AdvertCard);
+type PropertyScreenProps = {
+  offers: Advert[];
+  cardsCount: number;
+}
 
-function PropertyScreen():JSX.Element{
+function PropertyScreen({offers, cardsCount}:PropertyScreenProps):JSX.Element{
   return(
     <>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <div className="header__nav-profile">
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </div>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href={AppRoute.Main}>
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <Logo/>
+            <Navigation/>
           </div>
         </div>
       </header>
@@ -39,22 +26,22 @@ function PropertyScreen():JSX.Element{
           <div className="property__gallery-container container">
             <div className="property__gallery">
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Photo studio"/>
+                <img className="property__image" src="img/room.jpg" alt="Apartment"/>
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
+                <img className="property__image" src="img/apartment-01.jpg" alt="Apartment"/>
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio"/>
+                <img className="property__image" src="img/apartment-02.jpg" alt="Apartment"/>
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio"/>
+                <img className="property__image" src="img/apartment-03.jpg" alt="Apartment"/>
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Photo studio"/>
+                <img className="property__image" src="img/studio-01.jpg" alt="Apartment"/>
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
+                <img className="property__image" src="img/apartment-01.jpg" alt="Apartment"/>
               </div>
             </div>
           </div>
@@ -191,7 +178,7 @@ function PropertyScreen():JSX.Element{
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {nearPlacesCards.map((item) => item)}
+              {offers.slice(0, cardsCount).map((offer) => AdvertCard({offer}))}
             </div>
           </section>
         </div>

@@ -1,20 +1,26 @@
+import { Link } from 'react-router-dom';
 import { AppRoute } from '../../consts';
+import Advert from '../../types/advert';
 
-function AdvertCard():JSX.Element{
+type AdvertCardProps = {
+  offer:Advert;
+}
+
+function AdvertCard({offer}:AdvertCardProps):JSX.Element{
   return(
     <article className="cities__card place-card">
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href={AppRoute.Main}>
-          <img className="place-card__image" src="img/apartment-03.jpg" width="260" height="200" alt="Place image"/>
-        </a>
+        <Link to={`${AppRoute.Room}/:${offer.id}`}>
+          <img className="place-card__image" src={offer.picture} width="260" height="200" alt="Apartment"/>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;180</b>
+            <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
         </div>
@@ -29,9 +35,9 @@ function AdvertCard():JSX.Element{
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href={AppRoute.Main}>Nice, cozy, warm big bed apartment</a>
+          <Link to={`${AppRoute.Room}/:${offer.id}`}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{offer.accomodation}</p>
       </div>
     </article>
   );
