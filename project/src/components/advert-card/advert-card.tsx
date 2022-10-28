@@ -6,12 +6,28 @@ type AdvertCardProps = {
   offer:Advert;
 }
 
-function AdvertCard({offer}:AdvertCardProps):JSX.Element{
-  return(
-    <article className="cities__card place-card">
+type PremiumMarkProps = {
+  isNeeded:boolean;
+}
+
+function PremiumMark({isNeeded}:PremiumMarkProps):JSX.Element{
+  return isNeeded
+    ? (
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
+    )
+    : (
+      <>
+      </>
+    );
+}
+
+function AdvertCard({offer}:AdvertCardProps):JSX.Element{
+
+  return(
+    <article key={offer.id} className="cities__card place-card">
+      <PremiumMark isNeeded={offer.isPremium}/>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.Room}/:${offer.id}`}>
           <img className="place-card__image" src={offer.picture} width="260" height="200" alt="Apartment"/>

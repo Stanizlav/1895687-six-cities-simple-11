@@ -10,8 +10,3 @@ export enum AuthorisationStatus {
   Unauth = 'UNAUTH',
   Unknown = 'UNKNOWN'
 }
-
-const DEFAULT_CARDS_COUNT = 5;
-const DEFAULT_NEAR_PLACES_COUNT = 3;
-
-export { DEFAULT_CARDS_COUNT, DEFAULT_NEAR_PLACES_COUNT };
