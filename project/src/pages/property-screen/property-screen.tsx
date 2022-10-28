@@ -1,19 +1,22 @@
 import AdvertCard from '../../components/advert-card/advert-card';
 import Logo from '../../components/logo/logo';
-import NavigationBlock from '../../components/navigation-block/navigation-block';
+import Navigation from '../../components/navigation/navigation';
 import ReviewForm from '../../components/review-form/review-form';
-import { DEFAULT_NEAR_PLACES_COUNT } from '../../consts';
+import Advert from '../../types/advert';
 
-const nearPlacesCards: JSX.Element[] = Array.from(Array(DEFAULT_NEAR_PLACES_COUNT),AdvertCard);
+type PropertyScreenProps = {
+  offers: Advert[];
+  cardsCount: number;
+}
 
-function PropertyScreen():JSX.Element{
+function PropertyScreen({offers, cardsCount}:PropertyScreenProps):JSX.Element{
   return(
     <>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <Logo/>
-            <NavigationBlock/>
+            <Navigation/>
           </div>
         </div>
       </header>
@@ -175,7 +178,7 @@ function PropertyScreen():JSX.Element{
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {nearPlacesCards.map((item) => item)}
+              {offers.slice(0, cardsCount).map((offer) => AdvertCard({offer}))}
             </div>
           </section>
         </div>

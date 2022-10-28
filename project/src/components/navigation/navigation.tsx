@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import { AppRoute } from '../../consts';
 
-function NavigationBlock():JSX.Element{
+function Navigation():JSX.Element{
   return(
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -11,13 +12,13 @@ function NavigationBlock():JSX.Element{
           </div>
         </li>
         <li className="header__nav-item">
-          <a className="header__nav-link" href={AppRoute.Login}>
+          <Link className="header__nav-link" to={AppRoute.Login}>
             <span className="header__signout">Sign out</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>
   );
 }
 
-export default NavigationBlock;
+export default Navigation;
