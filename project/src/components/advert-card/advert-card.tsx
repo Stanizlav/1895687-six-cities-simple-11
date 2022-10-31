@@ -1,9 +1,11 @@
+import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../consts';
 import Advert from '../../types/advert';
 
 type AdvertCardProps = {
   offer:Advert;
+  onMouseOver:(id:number)=>void;
 }
 
 type PremiumMarkProps = {
@@ -23,10 +25,17 @@ function PremiumMark({isNeeded}:PremiumMarkProps):JSX.Element{
     );
 }
 
-function AdvertCard({offer}:AdvertCardProps):JSX.Element{
+function AdvertCard({offer, onMouseOver}:AdvertCardProps):JSX.Element{
+
+  const handleMouseOver = (event:MouseEvent) => {
+    if((event.target as Element).closest('article')){
+      event.stopPropagation();
+      onMouseOver(offer.id);
+    }
+  };
 
   return(
-    <article key={offer.id} className="cities__card place-card">
+    <article key={offer.id} className="cities__card place-card" onMouseOver={handleMouseOver}>
       <PremiumMark isNeeded={offer.isPremium}/>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.Room}/:${offer.id}`}>
