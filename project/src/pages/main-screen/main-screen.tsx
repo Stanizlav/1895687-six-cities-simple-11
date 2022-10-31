@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { MouseEvent } from 'react';
 import Logo from '../../components/logo/logo';
 import Navigation from '../../components/navigation/navigation';
 import OffersList from '../../components/offers-list/offers-list';
@@ -30,34 +30,70 @@ function MainScreen({ offersCount, offers, defaultCardsCount }: MainScreenProps)
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
+                <a
+                  className="locations__item-link tabs__item"
+                  href={AppRoute.Main}
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Paris</span>
-                </Link>
+                </a>
               </li>
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
+                <a
+                  className="locations__item-link tabs__item"
+                  href={AppRoute.Main}
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Cologne</span>
-                </Link>
+                </a>
               </li>
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
+                <a
+                  className="locations__item-link tabs__item"
+                  href={AppRoute.Main}
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Brussels</span>
-                </Link>
+                </a>
               </li>
               <li className="locations__item">
-                <Link to={AppRoute.Main} className="locations__item-link tabs__item tabs__item--active">
+                <a
+                  href={AppRoute.Main}
+                  className="locations__item-link tabs__item tabs__item--active"
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Amsterdam</span>
-                </Link>
+                </a>
               </li>
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
+                <a
+                  className="locations__item-link tabs__item"
+                  href={AppRoute.Main}
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Hamburg</span>
-                </Link>
+                </a>
               </li>
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
+                <a
+                  className="locations__item-link tabs__item"
+                  href={AppRoute.Main}
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Dusseldorf</span>
-                </Link>
+                </a>
               </li>
             </ul>
           </section>
