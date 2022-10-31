@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../consts';
+import { AppRoute, PERCENTAGE_MULTIPLAYER } from '../../consts';
 import Advert from '../../types/advert';
 
 type AdvertCardProps = {
@@ -34,8 +34,11 @@ function AdvertCard({offer, onMouseOver}:AdvertCardProps):JSX.Element{
     }
   };
 
+  const ratingPercentage = Math.round(offer.rating) * PERCENTAGE_MULTIPLAYER;
+  const stringRatingPercentage = `${ratingPercentage}%`;
+
   return(
-    <article key={offer.id} className="cities__card place-card" onMouseOver={handleMouseOver}>
+    <article className="cities__card place-card" onMouseOver={handleMouseOver}>
       <PremiumMark isNeeded={offer.isPremium}/>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.Room}/:${offer.id}`}>
@@ -52,7 +55,7 @@ function AdvertCard({offer, onMouseOver}:AdvertCardProps):JSX.Element{
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
             <span style={{
-              width: '80%'
+              width: stringRatingPercentage
             }}
             >
             </span>
