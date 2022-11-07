@@ -5,13 +5,20 @@ export enum AppRoute{
   Other = '*'
 }
 
-export enum AuthorisationStatus {
+export enum AuthorisationStatus{
   Auth = 'AUTH',
   Unauth = 'UNAUTH',
   Unknown = 'UNKNOWN'
 }
 
-const DEFAULT_CARDS_COUNT = 5;
-const DEFAULT_NEAR_PLACES_COUNT = 3;
+export const RatingTitle = {
+  1 : 'terribly',
+  2 : 'badly',
+  3 : 'not bad',
+  4 : 'good',
+  5 : 'perfect'
+} as const;
 
-export { DEFAULT_CARDS_COUNT, DEFAULT_NEAR_PLACES_COUNT };
+const RAITING_MAX = 5;
+
+export {RAITING_MAX};

@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import AdvertCard from '../../components/advert-card/advert-card';
+import { MouseEvent } from 'react';
 import Logo from '../../components/logo/logo';
 import Navigation from '../../components/navigation/navigation';
+import OffersList from '../../components/offers-list/offers-list';
 import { AppRoute } from '../../consts';
 import Advert from '../../types/advert';
 
@@ -30,34 +30,70 @@ function MainScreen({ offersCount, offers, defaultCardsCount }: MainScreenProps)
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
+                <a
+                  className="locations__item-link tabs__item"
+                  href={AppRoute.Main}
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Paris</span>
-                </Link>
+                </a>
               </li>
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
+                <a
+                  className="locations__item-link tabs__item"
+                  href={AppRoute.Main}
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Cologne</span>
-                </Link>
+                </a>
               </li>
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
+                <a
+                  className="locations__item-link tabs__item"
+                  href={AppRoute.Main}
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Brussels</span>
-                </Link>
+                </a>
               </li>
               <li className="locations__item">
-                <Link to={AppRoute.Main} className="locations__item-link tabs__item tabs__item--active">
+                <a
+                  href={AppRoute.Main}
+                  className="locations__item-link tabs__item tabs__item--active"
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Amsterdam</span>
-                </Link>
+                </a>
               </li>
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
+                <a
+                  className="locations__item-link tabs__item"
+                  href={AppRoute.Main}
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Hamburg</span>
-                </Link>
+                </a>
               </li>
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
+                <a
+                  className="locations__item-link tabs__item"
+                  href={AppRoute.Main}
+                  onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                    evt.preventDefault();
+                  }}
+                >
                   <span>Dusseldorf</span>
-                </Link>
+                </a>
               </li>
             </ul>
           </section>
@@ -76,14 +112,14 @@ function MainScreen({ offersCount, offers, defaultCardsCount }: MainScreenProps)
                   </svg>
                 </span>
                 <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={ 0 }>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
+                  <li className="places__option places__option--active" tabIndex={1}>Popular</li>
+                  <li className="places__option" tabIndex={2}>Price: low to high</li>
+                  <li className="places__option" tabIndex={3}>Price: high to low</li>
+                  <li className="places__option" tabIndex={4}>Top rated first</li>
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {offers.slice(0, defaultCardsCount).map((offer) => AdvertCard({offer}))}
+                <OffersList offers={offers} count={defaultCardsCount}/>
               </div>
             </section>
             <div className="cities__right-section">

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { MouseEvent } from 'react';
 import Logo from '../../components/logo/logo';
 import { AppRoute } from '../../consts';
 
@@ -31,9 +31,15 @@ function LoginScreen():JSX.Element{
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Main}>
+              <a
+                className="locations__item-link"
+                href={AppRoute.Main}
+                onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
+                  evt.preventDefault();
+                }}
+              >
                 <span>Amsterdam</span>
-              </Link>
+              </a>
             </div>
           </section>
         </div>
