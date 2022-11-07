@@ -5,12 +5,20 @@ export enum AppRoute{
   Other = '*'
 }
 
-export enum AuthorisationStatus {
+export enum AuthorisationStatus{
   Auth = 'AUTH',
   Unauth = 'UNAUTH',
   Unknown = 'UNKNOWN'
 }
 
-const PERCENTAGE_MULTIPLAYER = 20;
+export const RatingTitle = {
+  1 : 'terribly',
+  2 : 'badly',
+  3 : 'not bad',
+  4 : 'good',
+  5 : 'perfect'
+} as const;
 
-export {PERCENTAGE_MULTIPLAYER};
+const RAITING_MAX = 5;
+
+export {RAITING_MAX};

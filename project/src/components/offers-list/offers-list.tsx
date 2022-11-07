@@ -7,18 +7,14 @@ type OffersListProps = {
   count: number;
 }
 
-type OffersListState = {
-  activeCardId: number;
-}
-
-const INITIAL_STATE: OffersListState = {activeCardId:-Infinity};
+const INITIAL_ACTIVE_CARD_ID = -Infinity;
 
 function OffersList({offers, count}: OffersListProps):JSX.Element{
 
-  const [, setState] = useState(INITIAL_STATE);
+  const [, setActiveCardId] = useState(INITIAL_ACTIVE_CARD_ID);
 
   const handleOffersListMouseOver = (id:number) => {
-    setState({activeCardId:id});
+    setActiveCardId((previousActiveCardId) => id);
     // eslint-disable-next-line no-console
     console.log(`Offer's list's state is changing to: ${id}`);
   };

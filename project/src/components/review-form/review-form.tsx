@@ -1,80 +1,52 @@
 import { ChangeEvent } from 'react';
 import { useState } from 'react';
+import { RAITING_MAX, RatingTitle } from '../../consts';
 
-type ReviewFormState = {
-  comment: string;
+const INITIAL_COMMENT = '';
+const INITIAL_RATING = 0;
+
+type RatingStarProps = {
+  value: number;
   rating: number;
 }
 
-const INITIAL_STATE: ReviewFormState = {
-  comment: '',
-  rating: 0
-};
+function RatingStar({value, rating}:RatingStarProps):JSX.Element{
+  const id = `${value}-stars`;
+  return(
+    <>
+      <input className="form__rating-input visually-hidden" name="rating" value={value} id={id} type="radio" checked={rating === value} readOnly/>
+      <label htmlFor={id} className="reviews__rating-label form__rating-label" title={RatingTitle[value as keyof typeof RatingTitle]}>
+        <svg className="form__star-image" width="37" height="33">
+          <use xlinkHref="#icon-star"></use>
+        </svg>
+      </label>
+    </>
+  );
+}
 
 function ReviewForm():JSX.Element{
 
-  const [state, setState] = useState(INITIAL_STATE);
+  const [comment, setComment] = useState(INITIAL_COMMENT);
+  const [rating, setRating] = useState(INITIAL_RATING);
 
   const handleTextAreaInput = (event:ChangeEvent<HTMLTextAreaElement>)=>{
-    const typedComment:string = event.target.value ? event.target.value : '';
-    setState((previousState:ReviewFormState) => ({
-      ...previousState,
-      comment: typedComment
-    }));
+    const typedComment:string = event.target.value ?? '';
+    setComment((previousComment:string) => typedComment);
   };
 
   const handleRatingChange = (event:ChangeEvent<HTMLInputElement>)=>{
-    if((event.target as Element).matches('input[type=radio]')){
-      event.stopPropagation();
-      const changedRating = Number(event.target.value);
-      setState((previousState)=>({
-        ...previousState,
-        rating: changedRating
-      }));
-    }
+    const changedRating = Number(event.target.value);
+    setRating((previousRating:number) => changedRating);
   };
 
   return(
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating" onChange={handleRatingChange}>
-        <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" checked={state.rating === 5}/>
-        <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" checked={state.rating === 4}/>
-        <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" checked={state.rating === 3}/>
-        <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" checked={state.rating === 2}/>
-        <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" checked={state.rating === 1}/>
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
+        {Array.from(Array(RAITING_MAX),(v,k)=>RAITING_MAX - k).map((item) => <RatingStar key={item} value={item} rating={rating}/>)}
       </div>
       <textarea className="reviews__textarea form__textarea" id="review" name="review" onInput={handleTextAreaInput}
-        placeholder="Tell how was your stay, what you like and what can be improved" value={state.comment}
+        placeholder="Tell how was your stay, what you like and what can be improved" value={comment}
       >
       </textarea>
       <div className="reviews__button-wrapper">
