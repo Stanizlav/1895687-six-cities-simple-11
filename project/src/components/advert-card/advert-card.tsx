@@ -4,6 +4,7 @@ import Advert from '../../types/advert';
 
 type AdvertCardProps = {
   offer:Advert;
+  isForNearPlaces: boolean;
   onMouseOver:(id:number)=>void;
 }
 
@@ -20,18 +21,21 @@ function PremiumMark({isNeeded}:PremiumMarkProps):JSX.Element | null{
     : null;
 }
 
-function AdvertCard({offer, onMouseOver}:AdvertCardProps):JSX.Element{
+function AdvertCard({offer, isForNearPlaces, onMouseOver}:AdvertCardProps):JSX.Element{
   const {accomodation, id, title, isPremium, picture, price, rating} = offer;
 
   const handleMouseOver = () => onMouseOver(id);
 
   const ratingPercentage = Math.round(rating) * PERCENTAGE_MULTIPLAYER;
   const stringRatingPercentage = `${ratingPercentage}%`;
+  const classPrefix = isForNearPlaces ? 'near-places' : 'cities';
+  const articleClassList = `${classPrefix}__card place-card`;
+  const imageWrapperClassList = `${classPrefix}__image-wrapper place-card__image-wrapper`;
 
   return(
-    <article className="cities__card place-card" onMouseOver={handleMouseOver}>
+    <article className={articleClassList} onMouseOver={handleMouseOver}>
       <PremiumMark isNeeded={isPremium}/>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={imageWrapperClassList}>
         <Link to={`${AppRoute.Room}/:${id}`}>
           <img className="place-card__image" src={picture} width="260" height="200" alt="Apartment"/>
         </Link>

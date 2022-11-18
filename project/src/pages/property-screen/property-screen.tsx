@@ -4,7 +4,7 @@ import Map from '../../components/map/map';
 import Navigation from '../../components/navigation/navigation';
 import OffersList from '../../components/offers-list/offers-list';
 import ReviewForm from '../../components/review-form/review-form';
-import { MapClass } from '../../consts';
+import { MapClassList } from '../../consts';
 import { ADRESSES, DEFAULT_CITY } from '../../mocks/consts';
 import Advert from '../../types/advert';
 import Comment from '../../types/comment';
@@ -151,14 +151,12 @@ function PropertyScreen({offers, cardsCount, comments}:PropertyScreenProps):JSX.
               </section>
             </div>
           </div>
-          <Map className={MapClass.Property} city={DEFAULT_CITY} points={ADRESSES.slice(0, cardsCount)}/>
+          <Map className={MapClassList.Property} city={DEFAULT_CITY} points={ADRESSES.slice(0, cardsCount)}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              <OffersList offers={offers} count={cardsCount}/>
-            </div>
+            <OffersList offers={offers} isForNearPlaces count={cardsCount}/>
           </section>
         </div>
       </main>
