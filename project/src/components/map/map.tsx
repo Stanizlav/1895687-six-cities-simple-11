@@ -12,7 +12,7 @@ const MARKER_HALF_SIZE = Math.round(MARKER_SIZE / 2);
 type MapProps = {
   city: City;
   points: Point[];
-  selectedPoint?: Point | undefined;
+  selectedPoint?: Point;
 }
 
 const defaultIcon = new Icon({
