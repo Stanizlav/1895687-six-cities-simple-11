@@ -3,7 +3,7 @@ import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';
 import Navigation from '../../components/navigation/navigation';
 import OffersList from '../../components/offers-list/offers-list';
-import { AppRoute } from '../../consts';
+import { AppRoute, MapClassList } from '../../consts';
 import { DEFAULT_CITY, ADRESSES } from '../../mocks/consts';
 import Advert from '../../types/advert';
 
@@ -120,12 +120,10 @@ function MainScreen({ offersCount, offers, defaultCardsCount }: MainScreenProps)
                   <li className="places__option" tabIndex={4}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={offers} count={defaultCardsCount}/>
-              </div>
+              <OffersList offers={offers} isForNearPlaces={false} count={defaultCardsCount}/>
             </section>
             <div className="cities__right-section">
-              <Map city={DEFAULT_CITY} points={ADRESSES}/>
+              <Map className={MapClassList.Cities} city={DEFAULT_CITY} points={ADRESSES}/>
             </div>
           </div>
         </div>

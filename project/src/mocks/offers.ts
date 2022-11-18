@@ -1,3 +1,4 @@
+import { RAITING_MAX } from '../consts';
 import { Accomodation } from '../types/accomodation';
 import Advert from '../types/advert';
 import { PICTURES, TITLES } from './consts';
@@ -5,14 +6,13 @@ import { PICTURES, TITLES } from './consts';
 const
   OFFERS_COUNT = 4,
   MIN_PRICE = 50,
-  PRICE_AMPLITUDE = 200,
-  MAX_MARK = 5;
+  PRICE_AMPLITUDE = 200;
 
 const generateAnAdvert = (id = 0):Advert => {
   const titleIndex = id % TITLES.length;
   const pictureIndex = id % PICTURES.length;
   const generatedPrice = PRICE_AMPLITUDE * Math.random() + MIN_PRICE;
-  const mark = MAX_MARK * Math.random();
+  const mark = RAITING_MAX * Math.random();
 
   const advert: Advert = {
     id,
@@ -26,4 +26,4 @@ const generateAnAdvert = (id = 0):Advert => {
   return advert;
 };
 
-export const offers: Advert[] = Array.from(Array(OFFERS_COUNT), (item,k)=>generateAnAdvert(k));
+export const offers: Advert[] = Array.from(Array(OFFERS_COUNT), (item,index)=>generateAnAdvert(index));

@@ -1,15 +1,17 @@
 import { useState } from 'react';
+import { OffersListClassList } from '../../consts';
 import Advert from '../../types/advert';
 import AdvertCard from '../advert-card/advert-card';
 
 type OffersListProps = {
   offers: Advert[];
+  isForNearPlaces: boolean;
   count: number;
 }
 
 const INITIAL_ACTIVE_CARD_ID = -Infinity;
 
-function OffersList({offers, count}: OffersListProps):JSX.Element{
+function OffersList({offers, isForNearPlaces, count}: OffersListProps):JSX.Element{
 
   const [, setActiveCardId] = useState(INITIAL_ACTIVE_CARD_ID);
 
@@ -20,11 +22,11 @@ function OffersList({offers, count}: OffersListProps):JSX.Element{
   };
 
   return (
-    <>
+    <div className={isForNearPlaces ? OffersListClassList.NearPlaces : OffersListClassList.Cities}>
       {offers.slice(0, count).map((offer) => (
-        <AdvertCard key={offer.id} offer={offer} onMouseOver={handleOffersListMouseOver}/>)
+        <AdvertCard key={offer.id} offer={offer} isForNearPlaces={isForNearPlaces} onMouseOver={handleOffersListMouseOver}/>)
       )}
-    </>
+    </div>
   );
 }
 
