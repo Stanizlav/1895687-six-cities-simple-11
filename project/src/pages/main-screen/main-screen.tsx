@@ -1,8 +1,10 @@
 import { MouseEvent } from 'react';
 import Logo from '../../components/logo/logo';
+import Map from '../../components/map/map';
 import Navigation from '../../components/navigation/navigation';
 import OffersList from '../../components/offers-list/offers-list';
 import { AppRoute } from '../../consts';
+import { DEFAULT_CITY, ADRESSES } from '../../mocks/consts';
 import Advert from '../../types/advert';
 
 type MainScreenProps = {
@@ -102,7 +104,7 @@ function MainScreen({ offersCount, offers, defaultCardsCount }: MainScreenProps)
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{ offersCount } places to stay in Amsterdam</b>
+              <b className="places__found">{offersCount} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -123,7 +125,7 @@ function MainScreen({ offersCount, offers, defaultCardsCount }: MainScreenProps)
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={DEFAULT_CITY} points={ADRESSES}/>
             </div>
           </div>
         </div>
