@@ -3,7 +3,7 @@ import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';
 import Navigation from '../../components/navigation/navigation';
 import OffersList from '../../components/offers-list/offers-list';
-import { AppRoute } from '../../consts';
+import { AppRoute, MapClass } from '../../consts';
 import { DEFAULT_CITY, ADRESSES } from '../../mocks/consts';
 import Advert from '../../types/advert';
 
@@ -125,7 +125,7 @@ function MainScreen({ offersCount, offers, defaultCardsCount }: MainScreenProps)
               </div>
             </section>
             <div className="cities__right-section">
-              <Map city={DEFAULT_CITY} points={ADRESSES}/>
+              <Map className={MapClass.Cities} city={DEFAULT_CITY} points={ADRESSES}/>
             </div>
           </div>
         </div>

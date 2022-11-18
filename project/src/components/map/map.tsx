@@ -1,5 +1,5 @@
 import { City } from '../../types/city';
-import { Point } from '../../types/point';
+import { Location } from '../../types/location';
 import { useEffect, useRef } from 'react';
 import { Icon, Marker } from 'leaflet';
 import useMap from '../../hooks/useMap';
@@ -11,8 +11,9 @@ const MARKER_HALF_SIZE = Math.round(MARKER_SIZE / 2);
 
 type MapProps = {
   city: City;
-  points: Point[];
-  selectedPoint?: Point;
+  points: Location[];
+  selectedPoint?: Location;
+  className: string;
 }
 
 const defaultIcon = new Icon({
@@ -27,7 +28,7 @@ const currentIcon = new Icon({
   iconAnchor: [MARKER_HALF_SIZE, MARKER_SIZE]
 });
 
-function Map({city, points, selectedPoint}: MapProps):JSX.Element{
+function Map({city, points, selectedPoint, className}: MapProps):JSX.Element{
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -35,8 +36,8 @@ function Map({city, points, selectedPoint}: MapProps):JSX.Element{
   useEffect(() => {
     if(map){
       points.forEach((point) => {
-        new Marker({lat:point.lat, lng: point.lng},{
-          icon: (selectedPoint !== undefined && point.lat === selectedPoint.lat && point.lng === selectedPoint.lng)
+        new Marker({lat:point.latitude, lng: point.longitude},{
+          icon: (selectedPoint !== undefined && point.latitude === selectedPoint.latitude && point.longitude === selectedPoint.longitude)
             ? currentIcon
             : defaultIcon
         }).addTo(map);
@@ -44,7 +45,7 @@ function Map({city, points, selectedPoint}: MapProps):JSX.Element{
     }
   }, [map, points, selectedPoint]);
 
-  return <section className="cities__map map" ref={mapRef}></section>;
+  return <section className={className} ref={mapRef}></section>;
 }
 
 export default Map;

@@ -1,5 +1,5 @@
 import { City } from '../types/city';
-import { Point } from '../types/point';
+import { Location } from '../types/location';
 
 const TITLES = [
   'Wood and stone place',
@@ -14,18 +14,31 @@ const PICTURES = [
   'apartment-03'
 ];
 
-const ADRESSES: Point[] = [
-  {lat: 52.3909553943508, lng: 4.85309666406198},
-  {lat: 52.3609553943508, lng: 4.85309666406198},
-  {lat: 52.3909553943508, lng: 4.929309666406198},
-  {lat: 52.3809553943508, lng: 4.939309666406198}
+const AVATARS = [
+  'img/avatar-max.jpg',
+  'img/avatar-angelina.jpg'
+];
+
+const COMMENTS = [
+  'A quiet cozy and picturesque apartment that hides behind a river by the unique lightness of Amsterdam.',
+  'The building is green and from 18th century.',
+  'It\'s OK',
+];
+
+const ADRESSES: Location[] = [
+  {latitude: 52.3909553943508, longitude: 4.85309666406198},
+  {latitude: 52.3609553943508, longitude: 4.85309666406198},
+  {latitude: 52.3909553943508, longitude: 4.929309666406198},
+  {latitude: 52.3809553943508, longitude: 4.939309666406198}
 ];
 
 const DEFAULT_CITY : City = {
-  title: 'Amsterdam',
-  lat: 52.3909553943508,
-  lng: 4.85309666406198,
-  zoom: 11
+  name: 'Amsterdam',
+  location: {
+    latitude: 52.3909553943508,
+    longitude: 4.85309666406198,
+    zoom: 11
+  }
 };
 
-export {DEFAULT_CITY, TITLES, PICTURES, ADRESSES};
+export {DEFAULT_CITY, TITLES, PICTURES, ADRESSES, COMMENTS, AVATARS};

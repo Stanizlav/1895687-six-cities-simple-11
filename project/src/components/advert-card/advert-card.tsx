@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, RAITING_MAX } from '../../consts';
+import { AppRoute, PERCENTAGE_MULTIPLAYER } from '../../consts';
 import Advert from '../../types/advert';
 
 type AdvertCardProps = {
@@ -24,9 +24,8 @@ function AdvertCard({offer, onMouseOver}:AdvertCardProps):JSX.Element{
   const {accomodation, id, title, isPremium, picture, price, rating} = offer;
 
   const handleMouseOver = () => onMouseOver(id);
-  const percentageMultiplayer = 100 / RAITING_MAX;
 
-  const ratingPercentage = Math.round(rating) * percentageMultiplayer;
+  const ratingPercentage = Math.round(rating) * PERCENTAGE_MULTIPLAYER;
   const stringRatingPercentage = `${ratingPercentage}%`;
 
   return(
