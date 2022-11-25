@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
 import { AppRoute, PERCENTAGE_MULTIPLAYER } from '../../consts';
+import { useAppDispatch } from '../../hooks/store-hooks';
+import { getRidOfSelectedPoint } from '../../store/actions';
 import Advert from '../../types/advert';
 
 type AdvertCardProps = {
   offer:Advert;
   isForNearPlaces: boolean;
   onMouseOver:(offer:Advert)=>void;
+  onMouseOut:()=>void;
 }
 
 type PremiumMarkProps = {
@@ -21,7 +24,7 @@ function PremiumMark({isNeeded}:PremiumMarkProps):JSX.Element | null{
     : null;
 }
 
-function AdvertCard({offer, isForNearPlaces, onMouseOver}:AdvertCardProps):JSX.Element{
+function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut}:AdvertCardProps):JSX.Element{
   const {accomodation, id, title, isPremium, previewImage, price, rating} = offer;
 
   const handleMouseOver = () => onMouseOver(offer);
@@ -32,11 +35,16 @@ function AdvertCard({offer, isForNearPlaces, onMouseOver}:AdvertCardProps):JSX.E
   const articleClassList = `${classPrefix}__card place-card`;
   const imageWrapperClassList = `${classPrefix}__image-wrapper place-card__image-wrapper`;
 
+  const dispatch = useAppDispatch();
+  const handleLinkClick = ()=>{
+    dispatch(getRidOfSelectedPoint());
+  };
+
   return(
-    <article className={articleClassList} onMouseOver={handleMouseOver}>
+    <article className={articleClassList} onMouseOver={handleMouseOver} onMouseOut={onMouseOut}>
       <PremiumMark isNeeded={isPremium}/>
       <div className={imageWrapperClassList}>
-        <Link to={`${AppRoute.Room}/:${id}`}>
+        <Link to={`${AppRoute.Room}/:${id}`} onClick={handleLinkClick}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Apartment"/>
         </Link>
       </div>
@@ -58,7 +66,7 @@ function AdvertCard({offer, isForNearPlaces, onMouseOver}:AdvertCardProps):JSX.E
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Room}/:${id}`}>{title}</Link>
+          <Link to={`${AppRoute.Room}/:${id}`} onClick={handleLinkClick}>{title}</Link>
         </h2>
         <p className="place-card__type">{accomodation}</p>
       </div>

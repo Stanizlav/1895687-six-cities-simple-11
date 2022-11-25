@@ -1,25 +1,36 @@
+import { useEffect } from 'react';
 import CitiesList from '../../components/cities-list/cities-list';
 import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';
 import Navigation from '../../components/navigation/navigation';
 import OffersList from '../../components/offers-list/offers-list';
+import SortForm from '../../components/sort-form/sort-form';
 import { MapClassList } from '../../consts';
-import { useAppSelector } from '../../hooks/store-hooks';
-import { City } from '../../types/city';
-import { cities } from '../../utils/cities';
-import { filterOffers } from '../../utils/filter-offers';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
+import { fillOffersListUp } from '../../store/actions';
+import Advert from '../../types/advert';
+import { cities, DEFAULT_CITY } from '../../utils/cities';
 
 type MainScreenProps = {
   defaultCardsCount: number;
+  offers: Advert[];
 }
 
 
-function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
-  const cityName = useAppSelector((state)=>state.chosenCity);
-  const city = cities.find((element) => element.name === cityName) as City;
-  const offers = useAppSelector((state)=>filterOffers(state.offers, cityName));
-  const points = offers.map((item) => item.location);
-  const offersCount = offers.length;
+function MainScreen({ defaultCardsCount, offers}: MainScreenProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  useEffect(()=>{
+    dispatch(fillOffersListUp({offers}));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+
+  const {chosenCity} = useAppSelector((state)=>state);
+  const city = cities.find((element) => element.name === chosenCity) ?? DEFAULT_CITY ;
+  const {formatedOffers} = useAppSelector((state)=>state);
+  const offersCount = formatedOffers.length;
+  const offersToShow = formatedOffers.slice(0, defaultCardsCount);
+  const points = offersToShow.map((item) => item.location);
+
   return (
     <>
       <header className="header">
@@ -40,23 +51,9 @@ function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersCount} place{offersCount > 1 ? 's' : ''} to stay in {cityName}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={1}>Popular</li>
-                  <li className="places__option" tabIndex={2}>Price: low to high</li>
-                  <li className="places__option" tabIndex={3}>Price: high to low</li>
-                  <li className="places__option" tabIndex={4}>Top rated first</li>
-                </ul>
-              </form>
-              <OffersList offers={offers} isForNearPlaces={false} count={defaultCardsCount}/>
+              <b className="places__found">{offersCount} place{offersCount > 1 ? 's' : ''} to stay in {chosenCity}</b>
+              <SortForm/>
+              <OffersList offers={offersToShow} isForNearPlaces={false}/>
             </section>
             <div className="cities__right-section">
               <Map className={MapClassList.Cities} city={city} points={points}/>

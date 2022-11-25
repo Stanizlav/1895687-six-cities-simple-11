@@ -3,6 +3,15 @@ import { City } from '../types/city';
 
 const COMMON_ZOOM = 11;
 
+export const DEFAULT_CITY = {
+  name: CitiesName.Paris,
+  location: {
+    latitude: 48.5009553943508,
+    longitude: 2.20009666406198,
+    zoom: COMMON_ZOOM
+  }
+};
+
 export const cities: City[] = [
   {
     name: CitiesName.Amsterdam,
@@ -20,14 +29,7 @@ export const cities: City[] = [
       zoom: COMMON_ZOOM
     }
   },
-  {
-    name: CitiesName.Paris,
-    location: {
-      latitude: 48.5009553943508,
-      longitude: 2.20009666406198,
-      zoom: COMMON_ZOOM
-    }
-  },
+  DEFAULT_CITY,
   {
     name: CitiesName.Hamburg,
     location: {

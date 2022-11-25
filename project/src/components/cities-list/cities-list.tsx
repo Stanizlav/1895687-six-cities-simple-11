@@ -1,7 +1,7 @@
 import { cities } from '../../utils/cities';
 import CityItem from './city-item';
 
-export default function CitiesList():JSX.Element{
+function CitiesList():JSX.Element{
   return(
     <section className="locations container">
       <ul className="locations__list tabs__list">
@@ -10,3 +10,5 @@ export default function CitiesList():JSX.Element{
     </section>
   );
 }
+
+export default CitiesList;
