@@ -6,10 +6,8 @@ import OffersList from '../../components/offers-list/offers-list';
 import ReviewForm from '../../components/review-form/review-form';
 import { MapClassList } from '../../consts';
 import { useAppSelector } from '../../hooks/store-hooks';
-import { City } from '../../types/city';
 import Comment from '../../types/comment';
-import { cities } from '../../utils/cities';
-import { filterOffers } from '../../utils/filter-offers';
+import { cities, DEFAULT_CITY } from '../../utils/cities';
 
 type PropertyScreenProps = {
   cardsCount: number;
@@ -17,11 +15,11 @@ type PropertyScreenProps = {
 }
 
 function PropertyScreen({cardsCount, comments}:PropertyScreenProps):JSX.Element{
-  const cityName = useAppSelector((state)=>state.chosenCity);
-  const city = cities.find((element) => element.name === cityName) as City;
-  const offers = useAppSelector((state)=>filterOffers(state.offers, cityName))
-    .slice(0, cardsCount);
-  const points = offers.map((item) => item.location);
+  const {chosenCity} = useAppSelector((state)=>state);
+  const city = cities.find((element) => element.name === chosenCity) ?? DEFAULT_CITY;
+  const {formatedOffers} = useAppSelector((state)=>state);
+  const nearbyOffers = formatedOffers.slice(0, cardsCount);
+  const points = nearbyOffers.map((item) => item.location);
 
   return(
     <>
@@ -163,7 +161,7 @@ function PropertyScreen({cardsCount, comments}:PropertyScreenProps):JSX.Element{
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={offers} isForNearPlaces/>
+            <OffersList offers={nearbyOffers} isForNearPlaces/>
           </section>
         </div>
       </main>

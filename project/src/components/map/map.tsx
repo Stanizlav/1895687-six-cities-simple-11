@@ -1,7 +1,7 @@
 import { City } from '../../types/city';
 import { Location } from '../../types/location';
 import { useEffect, useRef } from 'react';
-import { Icon, Marker } from 'leaflet';
+import { Icon, LayerGroup, Marker } from 'leaflet';
 import useMap from '../../hooks/useMap';
 import { MapMarkerUrl } from '../../consts';
 import 'leaflet/dist/leaflet.css';
@@ -34,16 +34,19 @@ function Map({city, points, className}: MapProps):JSX.Element{
   const selectedPoint = useAppSelector((state) => state.selectedPoint);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+  const layerGroupRef = useRef(new LayerGroup());
 
   useEffect(() => {
     if(map){
+      layerGroupRef.current.clearLayers();
       points.forEach((point) => {
         new Marker(getLatLng(point),{
           icon: (selectedPoint !== undefined && point.latitude === selectedPoint.latitude && point.longitude === selectedPoint.longitude)
             ? currentIcon
             : defaultIcon
-        }).addTo(map);
+        }).addTo(layerGroupRef.current);
       });
+      layerGroupRef.current.addTo(map);
       map.flyTo(getLatLng(city.location));
     }
   }, [map, points, city, selectedPoint]);

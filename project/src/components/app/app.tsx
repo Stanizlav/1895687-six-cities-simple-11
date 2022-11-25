@@ -1,11 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute } from '../../consts';
-import { useAppDispatch } from '../../hooks/store-hooks';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import MainScreen from '../../pages/main-screen/main-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
-import { fillOffersListUp } from '../../store/actions';
 import Advert from '../../types/advert';
 import Comment from '../../types/comment';
 
@@ -17,12 +15,11 @@ type AppProps = {
 }
 
 function App({ offers, comments, defaultCardsCount, nearPlacesCardsCount}: AppProps): JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(fillOffersListUp({offers}));
+
   return(
     <BrowserRouter>
       <Routes>
-        <Route path = {AppRoute.Main} element = {<MainScreen defaultCardsCount={defaultCardsCount}/>}/>
+        <Route path = {AppRoute.Main} element = {<MainScreen offers={offers} defaultCardsCount={defaultCardsCount}/>}/>
         <Route path = {AppRoute.Login} element = {<LoginScreen/>}/>
         <Route path = {`${AppRoute.Room}/:id`} element = {<PropertyScreen cardsCount={nearPlacesCardsCount} comments={comments}/>}/>
         <Route path = {AppRoute.Other} element = {<NotFoundScreen/>}/>
