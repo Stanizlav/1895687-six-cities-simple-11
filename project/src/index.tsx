@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import { offers } from './mocks/offers';
 import { comments } from './mocks/comments';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 const Settings = {
-  OffersCount: 127,
   offers,
   comments,
   defaultCardsCount: 5,
@@ -18,6 +19,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App offersCount={Settings.OffersCount} offers={Settings.offers} comments={Settings.comments} defaultCardsCount={Settings.defaultCardsCount} nearPlacesCardsCount={Settings.nearPlacesCardsCount}/>
+    <Provider store={store}>
+      <App offers={Settings.offers} comments={Settings.comments} defaultCardsCount={Settings.defaultCardsCount} nearPlacesCardsCount={Settings.nearPlacesCardsCount}/>
+    </Provider>
   </React.StrictMode>,
 );

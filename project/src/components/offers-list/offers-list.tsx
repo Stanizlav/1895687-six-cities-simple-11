@@ -15,10 +15,11 @@ function OffersList({offers, isForNearPlaces, count}: OffersListProps):JSX.Eleme
 
   const [, setActiveCardId] = useState(INITIAL_ACTIVE_CARD_ID);
 
-  const handleOffersListMouseOver = (id:number) => {
-    setActiveCardId((previousActiveCardId) => id);
+  const handleOffersListMouseOver = (offer:Advert) => {
+    setActiveCardId((previousActiveCardId) => offer.id);
     // eslint-disable-next-line no-console
-    console.log(`Offer's list's state is changing to: ${id}`);
+    console.log(`Offer's list's state is changing to: ${offer.id}`);
+    //console.log(offer);
   };
 
   return (
