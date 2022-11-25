@@ -9,8 +9,6 @@ function VisualisedComment({commentary}:VisualisedCommentProps):JSX.Element{
   const {user, date, rating, comment} = commentary;
   const {avatarUrl, name} = user;
 
-  const showingDate = date;
-  const formatedDate = date;
   const ratingPercentage = Math.round(rating) * PERCENTAGE_MULTIPLAYER;
   const stringRatingPercentage = `${ratingPercentage}%`;
 
@@ -38,7 +36,7 @@ function VisualisedComment({commentary}:VisualisedCommentProps):JSX.Element{
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime={formatedDate}>{showingDate}</time>
+        <time className="reviews__time" dateTime={date}>{date}</time>
       </div>
     </>
   );

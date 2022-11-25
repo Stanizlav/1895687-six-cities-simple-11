@@ -1,23 +1,36 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersListUp, setAdvertActive } from './actions';
+import { changeCity, fillOffersListUp, getRidOfSelectedPoint, selectPoint, setSortType } from './actions';
 import Advert from '../types/advert';
 import { CitiesName } from '../types/cities-name';
+import { SortType } from '../types/sort-type';
+import { Location } from '../types/location';
+
+const imaginaryPoint:Location = {latitude:-Infinity, longitude: -Infinity};
 
 const initialState = {
-  activeCardId: -Infinity,
+  selectedPoint: imaginaryPoint,
+  sortType: SortType.Popular,
   chosenCity: CitiesName.Paris,
   offers: [] as Advert[]
 };
 
 const reducer = createReducer(initialState, (builder)=>{
   builder
-    .addCase(setAdvertActive, (state, action)=>{
-      const { activeCardId } = action.payload;
-      state.activeCardId = activeCardId;
+    .addCase(selectPoint, (state, action)=>{
+      const { point } = action.payload;
+      state.selectedPoint = point;
+    })
+    .addCase(getRidOfSelectedPoint, (state)=>{
+      state.selectedPoint = imaginaryPoint;
     })
     .addCase(changeCity, (state, action)=>{
       const { chosenCity } = action.payload;
       state.chosenCity = chosenCity;
+      state.sortType = SortType.Popular;
+    })
+    .addCase(setSortType,(state, action) => {
+      const {sortType} = action.payload;
+      state.sortType = sortType;
     })
     .addCase(fillOffersListUp, (state, action)=>{
       const { offers } = action.payload;

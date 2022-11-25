@@ -9,7 +9,7 @@ type CityItemProps = {
   cityName: CitiesName;
 }
 
-export default function CityItem({cityName}:CityItemProps):JSX.Element{
+function CityItem({cityName}:CityItemProps):JSX.Element{
   const isActive = useAppSelector((state) => state.chosenCity === cityName);
   const dispatch = useAppDispatch();
 
@@ -34,3 +34,6 @@ export default function CityItem({cityName}:CityItemProps):JSX.Element{
     </li>
   );
 }
+
+export default CityItem;
+
