@@ -5,6 +5,7 @@ import { Icon, Marker } from 'leaflet';
 import useMap from '../../hooks/useMap';
 import { MapMarkerUrl } from '../../consts';
 import 'leaflet/dist/leaflet.css';
+import { getLatLng } from '../../utils/convert-location';
 
 const MARKER_SIZE = 40;
 const MARKER_HALF_SIZE = Math.round(MARKER_SIZE / 2);
@@ -36,14 +37,15 @@ function Map({city, points, selectedPoint, className}: MapProps):JSX.Element{
   useEffect(() => {
     if(map){
       points.forEach((point) => {
-        new Marker({lat:point.latitude, lng: point.longitude},{
+        new Marker(getLatLng(point),{
           icon: (selectedPoint !== undefined && point.latitude === selectedPoint.latitude && point.longitude === selectedPoint.longitude)
             ? currentIcon
             : defaultIcon
         }).addTo(map);
       });
+      map.flyTo(getLatLng(city.location));
     }
-  }, [map, points, selectedPoint]);
+  }, [map, points, city, selectedPoint]);
 
   return <section className={className} ref={mapRef}></section>;
 }

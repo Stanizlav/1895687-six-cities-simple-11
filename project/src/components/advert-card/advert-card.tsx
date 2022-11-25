@@ -5,7 +5,7 @@ import Advert from '../../types/advert';
 type AdvertCardProps = {
   offer:Advert;
   isForNearPlaces: boolean;
-  onMouseOver:(id:number)=>void;
+  onMouseOver:(offer:Advert)=>void;
 }
 
 type PremiumMarkProps = {
@@ -22,9 +22,9 @@ function PremiumMark({isNeeded}:PremiumMarkProps):JSX.Element | null{
 }
 
 function AdvertCard({offer, isForNearPlaces, onMouseOver}:AdvertCardProps):JSX.Element{
-  const {accomodation, id, title, isPremium, picture, price, rating} = offer;
+  const {accomodation, id, title, isPremium, previewImage, price, rating} = offer;
 
-  const handleMouseOver = () => onMouseOver(id);
+  const handleMouseOver = () => onMouseOver(offer);
 
   const ratingPercentage = Math.round(rating) * PERCENTAGE_MULTIPLAYER;
   const stringRatingPercentage = `${ratingPercentage}%`;
@@ -37,7 +37,7 @@ function AdvertCard({offer, isForNearPlaces, onMouseOver}:AdvertCardProps):JSX.E
       <PremiumMark isNeeded={isPremium}/>
       <div className={imageWrapperClassList}>
         <Link to={`${AppRoute.Room}/:${id}`}>
-          <img className="place-card__image" src={picture} width="260" height="200" alt="Apartment"/>
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Apartment"/>
         </Link>
       </div>
       <div className="place-card__info">
@@ -58,7 +58,7 @@ function AdvertCard({offer, isForNearPlaces, onMouseOver}:AdvertCardProps):JSX.E
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Room}/:${offer.id}`}>{title}</Link>
+          <Link to={`${AppRoute.Room}/:${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{accomodation}</p>
       </div>

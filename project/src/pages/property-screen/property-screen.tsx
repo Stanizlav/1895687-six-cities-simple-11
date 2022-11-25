@@ -5,17 +5,23 @@ import Navigation from '../../components/navigation/navigation';
 import OffersList from '../../components/offers-list/offers-list';
 import ReviewForm from '../../components/review-form/review-form';
 import { MapClassList } from '../../consts';
-import { ADRESSES, DEFAULT_CITY } from '../../mocks/consts';
-import Advert from '../../types/advert';
+import { useAppSelector } from '../../hooks/store-hooks';
+import { City } from '../../types/city';
 import Comment from '../../types/comment';
+import { cities } from '../../utils/cities';
+import { filterOffers } from '../../utils/filter-offers';
 
 type PropertyScreenProps = {
-  offers: Advert[];
   cardsCount: number;
   comments: Comment[];
 }
 
-function PropertyScreen({offers, cardsCount, comments}:PropertyScreenProps):JSX.Element{
+function PropertyScreen({cardsCount, comments}:PropertyScreenProps):JSX.Element{
+  const cityName = useAppSelector((state)=>state.chosenCity);
+  const city = cities.find((element) => element.name === cityName) as City;
+  const offers = useAppSelector((state)=>filterOffers(state.offers, cityName));
+  const points = offers.map((item) => item.location);
+
   return(
     <>
       <header className="header">
@@ -151,7 +157,7 @@ function PropertyScreen({offers, cardsCount, comments}:PropertyScreenProps):JSX.
               </section>
             </div>
           </div>
-          <Map className={MapClassList.Property} city={DEFAULT_CITY} points={ADRESSES.slice(0, cardsCount)}/>
+          <Map className={MapClassList.Property} city={city} points={points.slice(0, cardsCount)}/>
         </section>
         <div className="container">
           <section className="near-places places">
