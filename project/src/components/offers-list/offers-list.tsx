@@ -7,10 +7,9 @@ import AdvertCard from '../advert-card/advert-card';
 type OffersListProps = {
   offers: Advert[];
   isForNearPlaces: boolean;
-  count: number;
 }
 
-function OffersList({offers, isForNearPlaces, count}: OffersListProps):JSX.Element{
+function OffersList({offers, isForNearPlaces}: OffersListProps):JSX.Element{
   const dispatch = useAppDispatch();
 
   const handleOffersListMouseOver = (offer:Advert) => {
@@ -23,7 +22,7 @@ function OffersList({offers, isForNearPlaces, count}: OffersListProps):JSX.Eleme
 
   return (
     <div className={isForNearPlaces ? OffersListClassList.NearPlaces : OffersListClassList.Cities}>
-      {offers.slice(0, count).map((offer) => (
+      {offers.map((offer) => (
         <AdvertCard
           key={offer.id}
           offer={offer}

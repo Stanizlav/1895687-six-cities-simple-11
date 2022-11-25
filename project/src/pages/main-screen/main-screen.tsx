@@ -21,7 +21,8 @@ function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
   const sortType = useAppSelector((state)=>state.sortType);
   const city = cities.find((element) => element.name === cityName) as City;
   const offers = useAppSelector((state)=>filterOffers(state.offers, cityName));
-  const sortedOffers = sortOffers[sortType](offers);
+  const sortedOffers = sortOffers[sortType](offers)
+    .slice(0, defaultCardsCount);
   const points = sortedOffers.map((item) => item.location);
   const offersCount = offers.length;
   return (
@@ -46,7 +47,7 @@ function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offersCount} place{offersCount > 1 ? 's' : ''} to stay in {cityName}</b>
               <SortForm/>
-              <OffersList offers={sortedOffers} isForNearPlaces={false} count={defaultCardsCount}/>
+              <OffersList offers={sortedOffers} isForNearPlaces={false}/>
             </section>
             <div className="cities__right-section">
               <Map className={MapClassList.Cities} city={city} points={points}/>

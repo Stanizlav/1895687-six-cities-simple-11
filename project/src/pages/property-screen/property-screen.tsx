@@ -19,7 +19,8 @@ type PropertyScreenProps = {
 function PropertyScreen({cardsCount, comments}:PropertyScreenProps):JSX.Element{
   const cityName = useAppSelector((state)=>state.chosenCity);
   const city = cities.find((element) => element.name === cityName) as City;
-  const offers = useAppSelector((state)=>filterOffers(state.offers, cityName));
+  const offers = useAppSelector((state)=>filterOffers(state.offers, cityName))
+    .slice(0, cardsCount);
   const points = offers.map((item) => item.location);
 
   return(
@@ -157,12 +158,12 @@ function PropertyScreen({cardsCount, comments}:PropertyScreenProps):JSX.Element{
               </section>
             </div>
           </div>
-          <Map className={MapClassList.Property} city={city} points={points.slice(0, cardsCount)}/>
+          <Map className={MapClassList.Property} city={city} points={points}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={offers} isForNearPlaces count={cardsCount}/>
+            <OffersList offers={offers} isForNearPlaces/>
           </section>
         </div>
       </main>
