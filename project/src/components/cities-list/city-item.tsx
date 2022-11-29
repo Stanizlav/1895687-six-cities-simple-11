@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute} from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { changeCity } from '../../store/actions';
-import { CitiesName } from '../../types/cities-name';
+import CitiesName from '../../types/cities-name';
 
 type CityItemProps = {
   cityName: CitiesName;

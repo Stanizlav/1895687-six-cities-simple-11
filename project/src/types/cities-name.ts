@@ -1,4 +1,4 @@
-export enum CitiesName{
+enum CitiesName{
   Amsterdam = 'Amsterdam',
   Brussels = 'Brussels',
   Cologne = 'Cologne',
@@ -6,3 +6,5 @@ export enum CitiesName{
   Hamburg = 'Hamburg',
   Paris = 'Paris'
 }
+
+export default CitiesName;

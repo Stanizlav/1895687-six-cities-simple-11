@@ -1,11 +1,11 @@
-import { City } from '../../types/city';
-import { Location } from '../../types/location';
+import City from '../../types/city';
+import Location from '../../types/location';
 import { useEffect, useRef } from 'react';
 import { Icon, LayerGroup, Marker } from 'leaflet';
 import useMap from '../../hooks/useMap';
 import { MapMarkerUrl } from '../../consts';
 import 'leaflet/dist/leaflet.css';
-import { getLatLng } from '../../utils/convert-location';
+import { arePointsEqual, getLatLng } from '../../utils/location-utils';
 import { useAppSelector } from '../../hooks/store-hooks';
 
 const MARKER_SIZE = 40;
@@ -31,7 +31,7 @@ const currentIcon = new Icon({
 
 function Map({city, points, className}: MapProps):JSX.Element{
 
-  const selectedPoint = useAppSelector((state) => state.selectedPoint);
+  const {selectedPoint} = useAppSelector((state) => state);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   const layerGroupRef = useRef(new LayerGroup());
@@ -41,7 +41,7 @@ function Map({city, points, className}: MapProps):JSX.Element{
       layerGroupRef.current.clearLayers();
       points.forEach((point) => {
         new Marker(getLatLng(point),{
-          icon: (selectedPoint !== undefined && point.latitude === selectedPoint.latitude && point.longitude === selectedPoint.longitude)
+          icon: (selectedPoint !== undefined && arePointsEqual(point, selectedPoint))
             ? currentIcon
             : defaultIcon
         }).addTo(layerGroupRef.current);
