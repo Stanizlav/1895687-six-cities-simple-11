@@ -5,6 +5,7 @@ import CitiesName from '../types/cities-name';
 import Comment from '../types/comment';
 import Location from '../types/location';
 import SortType from '../types/sort-type';
+import User from '../types/user';
 
 export const selectPoint = createAction<Location>('offers/select');
 
@@ -26,4 +27,6 @@ export const ceaseLoading = createAction('loading/cease');
 
 export const startLoading = createAction('loading/start');
 
-export const setAuthorisationStatus = createAction<AuthorisationStatus>('user/setAuthorisation');
+export const setAuthorisationStatus = createAction<AuthorisationStatus>('user/set-authorisation');
+
+export const setUser = createAction<User | null>('user/set');
