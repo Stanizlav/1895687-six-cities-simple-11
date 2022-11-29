@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { setSortType } from '../../store/actions';
-import { SortType } from '../../types/sort-type';
+import SortType from '../../types/sort-type';
 import SortListItem from './sort-list-item';
 
 function SortForm():JSX.Element{
@@ -16,7 +16,7 @@ function SortForm():JSX.Element{
 
   const handleSortMenuItemClick = (newSortType:SortType) => {
     setActivity(false);
-    dispatch(setSortType({sortType: newSortType}));
+    dispatch(setSortType(newSortType));
   };
 
   const sorters = Object.values(SortType);

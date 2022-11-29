@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersListUp, getRidOfSelectedPoint, selectPoint, setSortType } from './actions';
+import { changeCity, fillOffersListUp, fillOffersNearbyListUp, getRidOfSelectedPoint, selectPoint, setSortType, setConnectionUnsustainable, fillCommentsUp, ceaseLoading, startLoading } from './actions';
 import Advert from '../types/advert';
-import { CitiesName } from '../types/cities-name';
-import { SortType } from '../types/sort-type';
-import { Location } from '../types/location';
-import { sortOffers } from '../utils/sort-offers';
-import { filterOffers } from '../utils/filter-offers';
+import CitiesName from '../types/cities-name';
+import SortType from '../types/sort-type';
+import Location from '../types/location';
+import sortOffers from '../utils/sort-offers';
+import filterOffers from '../utils/filter-offers';
+import Comment from '../types/comment';
 
 const imaginaryPoint:Location = {latitude:-Infinity, longitude: -Infinity};
 
@@ -15,6 +16,10 @@ type StateType = {
   chosenCity: CitiesName;
   offers: Advert[];
   formatedOffers: Advert[];
+  offersNearby: Advert[];
+  comments: Comment[];
+  isLoading: boolean;
+  isConnectionUnsustainable: boolean;
 }
 
 const initialState: StateType = {
@@ -22,7 +27,11 @@ const initialState: StateType = {
   sortType: SortType.Popular,
   chosenCity: CitiesName.Paris,
   offers: [],
-  formatedOffers: []
+  formatedOffers: [],
+  offersNearby: [],
+  comments: [],
+  isLoading: false,
+  isConnectionUnsustainable: false
 };
 
 const getFormatedOffers = (state:StateType):Advert[] =>
@@ -31,27 +40,38 @@ const getFormatedOffers = (state:StateType):Advert[] =>
 const reducer = createReducer(initialState, (builder)=>{
   builder
     .addCase(selectPoint, (state, action)=>{
-      const { point } = action.payload;
-      state.selectedPoint = point;
+      state.selectedPoint = action.payload;
     })
     .addCase(getRidOfSelectedPoint, (state)=>{
       state.selectedPoint = imaginaryPoint;
     })
     .addCase(changeCity, (state, action)=>{
-      const { chosenCity } = action.payload;
-      state.chosenCity = chosenCity;
+      state.chosenCity = action.payload;
       state.sortType = SortType.Popular;
       state.formatedOffers = getFormatedOffers(state);
     })
     .addCase(setSortType,(state, action) => {
-      const {sortType} = action.payload;
-      state.sortType = sortType;
+      state.sortType = action.payload;
       state.formatedOffers = getFormatedOffers(state);
     })
     .addCase(fillOffersListUp, (state, action)=>{
-      const { offers } = action.payload;
-      state.offers = offers;
+      state.offers = action.payload;
       state.formatedOffers = getFormatedOffers(state);
+    })
+    .addCase(fillOffersNearbyListUp, (state, action)=>{
+      state.offersNearby = action.payload;
+    })
+    .addCase(setConnectionUnsustainable, (state)=>{
+      state.isConnectionUnsustainable = true;
+    })
+    .addCase(fillCommentsUp, (state, action)=>{
+      state.comments = action.payload;
+    })
+    .addCase(ceaseLoading, (state)=>{
+      state.isLoading = false;
+    })
+    .addCase(startLoading, (state)=>{
+      state.isLoading = true;
     });
 });
 

@@ -6,17 +6,19 @@ import AdvertCard from '../advert-card/advert-card';
 
 type OffersListProps = {
   offers: Advert[];
-  isForNearPlaces: boolean;
+  isForNearPlaces?: boolean;
 }
 
-function OffersList({offers, isForNearPlaces}: OffersListProps):JSX.Element{
+function OffersList({offers, isForNearPlaces = false}: OffersListProps):JSX.Element{
   const dispatch = useAppDispatch();
 
   const handleOffersListMouseOver = (offer:Advert) => {
-    dispatch(selectPoint({point: offer.location}));
+    if (isForNearPlaces) {return;}
+    dispatch(selectPoint(offer.location));
   };
 
   const handleOffersListMouseOut = () => {
+    if (isForNearPlaces) {return;}
     dispatch(getRidOfSelectedPoint());
   };
 

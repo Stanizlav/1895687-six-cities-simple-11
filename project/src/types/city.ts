@@ -1,7 +1,9 @@
-import { CitiesName } from './cities-name';
-import { Location } from './location';
+import CitiesName from './cities-name';
+import Location from './location';
 
-export type City = {
+type City = {
   name: CitiesName;
   location: Location;
 }
+
+export default City;
