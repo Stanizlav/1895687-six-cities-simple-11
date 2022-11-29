@@ -1,11 +1,10 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, setConnectionUnsustainable, startLoading } from '../store/actions';
+import AdditionalURL from '../types/additional-url';
 import Advert from '../types/advert';
 import Comment from '../types/comment';
 import { AppDispatch, State} from '../types/state';
-
-const OFFERS_URL = '/hotels';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
@@ -13,55 +12,38 @@ type ThunkApiConfig = {
   extra: AxiosInstance;
 }
 
+const downloadOnTemplate = async<PayloadType>(dispatch:AppDispatch, api:AxiosInstance, url: string, action: ActionCreatorWithPayload<PayloadType>, previousData:PayloadType) => {
+  dispatch(startLoading());
+  let currentData: PayloadType = previousData;
+  try{
+    const {data} = await api.get<PayloadType>(url);
+    currentData = data;
+  }
+  catch{
+    dispatch(setConnectionUnsustainable());
+  }
+  finally{
+    dispatch(action(currentData));
+    dispatch(ceaseLoading());
+  }
+};
+
 export const getOffers = createAsyncThunk<void, void, ThunkApiConfig>('offers/get',
   async(_args, {dispatch, getState:state, extra:api}) => {
-    dispatch(startLoading());
-    let {offers} = state();
-    try{
-      const {data} = await api.get<Advert[]>(OFFERS_URL);
-      offers = [...data];
-    }
-    catch{
-      dispatch(setConnectionUnsustainable());
-    }
-    finally{
-      dispatch(fillOffersListUp(offers));
-      dispatch(ceaseLoading());
-    }
+    const {offers} = state();
+    await downloadOnTemplate<Advert[]>(dispatch, api, AdditionalURL.Offers, fillOffersListUp, offers);
   });
 
 export const getOffersNearby = createAsyncThunk<void, number, ThunkApiConfig>('offers-nearby/get',
   async(id, {dispatch, getState:state, extra:api}) => {
-    dispatch(startLoading());
-    const offersNearbyUrl = `/hotels/${id}/nearby`;
-    let {offersNearby} = state();
-    try{
-      const {data} = await api.get<Advert[]>(offersNearbyUrl);
-      offersNearby = [...data];
-    }
-    catch{
-      dispatch(setConnectionUnsustainable());
-    }
-    finally{
-      dispatch(fillOffersNearbyListUp(offersNearby));
-      dispatch(ceaseLoading());
-    }
+    const offersNearbyUrl = `${AdditionalURL.OffersNearbyPrefix}${id}${AdditionalURL.OffersNearbyPostfix}`;
+    const {offersNearby} = state();
+    await downloadOnTemplate<Advert[]>(dispatch, api, offersNearbyUrl, fillOffersNearbyListUp, offersNearby);
   });
 
 export const getComments = createAsyncThunk<void, number, ThunkApiConfig>('comments/get',
-  async(id, {dispatch, getState:state, extra:api}) => {
-    dispatch(startLoading());
-    const commentsUrl = `/comments/${id}`;
-    let {comments} = state();
-    try{
-      const {data} = await api.get<Comment[]>(commentsUrl);
-      comments = [...data];
-    }
-    catch{
-      dispatch(setConnectionUnsustainable());
-    }
-    finally{
-      dispatch(fillCommentsUp(comments));
-      dispatch(ceaseLoading());
-    }
+  async(id, {dispatch, getState:state, extra:api})=>{
+    const commentsUrl = `${AdditionalURL.CommentsPrefix}${id}`;
+    const {comments} = state();
+    await downloadOnTemplate<Comment[]>(dispatch, api, commentsUrl, fillCommentsUp, comments);
   });
