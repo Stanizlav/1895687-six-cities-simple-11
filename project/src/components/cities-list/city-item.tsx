@@ -18,7 +18,7 @@ function CityItem({cityName}:CityItemProps):JSX.Element{
     if (isActive){
       return;
     }
-    dispatch(changeCity({chosenCity: cityName}));
+    dispatch(changeCity(cityName));
   };
   const classList = `locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`;
 

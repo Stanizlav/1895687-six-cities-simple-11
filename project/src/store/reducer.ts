@@ -30,7 +30,7 @@ const initialState: StateType = {
   formatedOffers: [],
   offersNearby: [],
   comments: [],
-  isLoading: true,
+  isLoading: false,
   isConnectionUnsustainable: false
 };
 
@@ -40,38 +40,32 @@ const getFormatedOffers = (state:StateType):Advert[] =>
 const reducer = createReducer(initialState, (builder)=>{
   builder
     .addCase(selectPoint, (state, action)=>{
-      const { point } = action.payload;
-      state.selectedPoint = point;
+      state.selectedPoint = action.payload;
     })
     .addCase(getRidOfSelectedPoint, (state)=>{
       state.selectedPoint = imaginaryPoint;
     })
     .addCase(changeCity, (state, action)=>{
-      const { chosenCity } = action.payload;
-      state.chosenCity = chosenCity;
+      state.chosenCity = action.payload;
       state.sortType = SortType.Popular;
       state.formatedOffers = getFormatedOffers(state);
     })
     .addCase(setSortType,(state, action) => {
-      const {sortType} = action.payload;
-      state.sortType = sortType;
+      state.sortType = action.payload;
       state.formatedOffers = getFormatedOffers(state);
     })
     .addCase(fillOffersListUp, (state, action)=>{
-      const { offers } = action.payload;
-      state.offers = offers;
+      state.offers = action.payload;
       state.formatedOffers = getFormatedOffers(state);
     })
     .addCase(fillOffersNearbyListUp, (state, action)=>{
-      const {offers} = action.payload;
-      state.offersNearby = offers;
+      state.offersNearby = action.payload;
     })
     .addCase(setConnectionUnsustainable, (state)=>{
       state.isConnectionUnsustainable = true;
     })
     .addCase(fillCommentsUp, (state, action)=>{
-      const {comments} = action.payload;
-      state.comments = comments;
+      state.comments = action.payload;
     })
     .addCase(ceaseLoading, (state)=>{
       state.isLoading = false;

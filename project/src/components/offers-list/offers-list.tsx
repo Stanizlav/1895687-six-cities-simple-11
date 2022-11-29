@@ -14,7 +14,7 @@ function OffersList({offers, isForNearPlaces = false}: OffersListProps):JSX.Elem
 
   const handleOffersListMouseOver = (offer:Advert) => {
     if (isForNearPlaces) {return;}
-    dispatch(selectPoint({point: offer.location}));
+    dispatch(selectPoint(offer.location));
   };
 
   const handleOffersListMouseOut = () => {

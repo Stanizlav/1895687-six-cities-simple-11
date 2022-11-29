@@ -16,7 +16,7 @@ function SortForm():JSX.Element{
 
   const handleSortMenuItemClick = (newSortType:SortType) => {
     setActivity(false);
-    dispatch(setSortType({sortType: newSortType}));
+    dispatch(setSortType(newSortType));
   };
 
   const sorters = Object.values(SortType);

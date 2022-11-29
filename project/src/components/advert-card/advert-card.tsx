@@ -38,7 +38,7 @@ function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut}:AdvertCard
 
   const dispatch = useAppDispatch();
   const handleLinkClick = ()=>{
-    dispatch(selectPoint({point: offer.location}));
+    dispatch(selectPoint(offer.location));
     dispatch(getComments(id));
     dispatch(getOffersNearby(id));
   };

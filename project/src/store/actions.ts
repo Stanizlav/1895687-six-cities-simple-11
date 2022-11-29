@@ -5,21 +5,21 @@ import Comment from '../types/comment';
 import Location from '../types/location';
 import SortType from '../types/sort-type';
 
-export const selectPoint = createAction<{point: Location}>('offers/select');
+export const selectPoint = createAction<Location>('offers/select');
 
 export const getRidOfSelectedPoint = createAction('offers/get-rid-of-selected');
 
-export const setSortType = createAction<{sortType: SortType}>('offers/set-sort');
+export const setSortType = createAction<SortType>('offers/set-sort');
 
-export const changeCity = createAction<{chosenCity: CitiesName}>('city/change');
+export const changeCity = createAction<CitiesName>('city/change');
 
-export const fillOffersListUp = createAction<{offers: Advert[]}>('offers/fill-up');
+export const fillOffersListUp = createAction<Advert[]>('offers/fill-up');
 
-export const fillOffersNearbyListUp = createAction<{offers: Advert[]}>('offers-nearby/fill-up');
+export const fillOffersNearbyListUp = createAction<Advert[]>('offers-nearby/fill-up');
 
 export const setConnectionUnsustainable = createAction('connection/set-unsustainable');
 
-export const fillCommentsUp = createAction<{comments: Comment[]}>('comments/fill-up');
+export const fillCommentsUp = createAction<Comment[]>('comments/fill-up');
 
 export const ceaseLoading = createAction('loading/cease');
 
