@@ -1,16 +1,3 @@
-export enum AppRoute{
-  Main = '/',
-  Login = '/login',
-  Room = '/offer',
-  Other = '*'
-}
-
-export enum AuthorisationStatus{
-  Auth = 'AUTH',
-  Unauth = 'UNAUTH',
-  Unknown = 'UNKNOWN'
-}
-
 export enum MapMarkerUrl{
   Default = 'img/pin.svg',
   Current = 'img/pin-active.svg'

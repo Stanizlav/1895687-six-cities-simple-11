@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 import Logo from '../../components/logo/logo';
-import { AppRoute } from '../../consts';
+import AppRoute from '../../types/app-route';
 
 function LoginScreen():JSX.Element{
   return(
