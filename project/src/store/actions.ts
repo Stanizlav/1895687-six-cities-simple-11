@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import Advert from '../types/advert';
+import AuthorisationStatus from '../types/authorisation-status';
 import CitiesName from '../types/cities-name';
 import Comment from '../types/comment';
 import Location from '../types/location';
@@ -24,3 +25,5 @@ export const fillCommentsUp = createAction<Comment[]>('comments/fill-up');
 export const ceaseLoading = createAction('loading/cease');
 
 export const startLoading = createAction('loading/start');
+
+export const setAuthorisationStatus = createAction<AuthorisationStatus>('user/setAuthorisation');

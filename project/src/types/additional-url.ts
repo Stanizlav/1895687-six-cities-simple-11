@@ -2,7 +2,8 @@ enum AdditionalURL{
   Offers = '/hotels',
   OffersNearbyPrefix = '/hotels/',
   OffersNearbyPostfix = '/nearby',
-  CommentsPrefix = '/comments/'
+  CommentsPrefix = '/comments/',
+  Login = '/login'
 }
 
 export default AdditionalURL;

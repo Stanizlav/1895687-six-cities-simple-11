@@ -1,9 +1,11 @@
 import { createAsyncThunk, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, setConnectionUnsustainable, startLoading } from '../store/actions';
+import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, setAuthorisationStatus, setConnectionUnsustainable, startLoading } from '../store/actions';
 import AdditionalURL from '../types/additional-url';
 import Advert from '../types/advert';
+import AuthorisationStatus from '../types/authorisation-status';
 import Comment from '../types/comment';
+// import User from '../types/user';
 import { AppDispatch, State} from '../types/state';
 
 type ThunkApiConfig = {
@@ -46,4 +48,15 @@ export const getComments = createAsyncThunk<void, number, ThunkApiConfig>('comme
     const commentsUrl = `${AdditionalURL.CommentsPrefix}${id}`;
     const {comments} = state();
     await downloadOnTemplate<Comment[]>(dispatch, api, commentsUrl, fillCommentsUp, comments);
+  });
+
+export const checkAuthorisation = createAsyncThunk<void, void, ThunkApiConfig>('user/check-authorisation',
+  async(_args, {dispatch, extra:api})=>{
+    try{
+      await api.get(AdditionalURL.Login);
+      dispatch(setAuthorisationStatus(AuthorisationStatus.Auth));
+    }
+    catch{
+      dispatch(setAuthorisationStatus(AuthorisationStatus.Unauth));
+    }
   });

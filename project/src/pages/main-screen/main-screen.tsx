@@ -8,7 +8,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import SortForm from '../../components/sort-form/sort-form';
 import { MapClassList } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { getOffers } from '../../store/thunk-actions';
+import { checkAuthorisation, getOffers } from '../../store/thunk-actions';
 import { cities, DEFAULT_CITY } from '../../utils/cities';
 
 type MainScreenProps = {
@@ -19,6 +19,7 @@ type MainScreenProps = {
 function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
   const dispatch = useAppDispatch();
   useEffect(()=>{
+    dispatch(checkAuthorisation());
     dispatch(getOffers());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
