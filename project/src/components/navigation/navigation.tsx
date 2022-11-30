@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/store-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
+import { logOut } from '../../store/thunk-actions';
 import AppRoute from '../../types/app-route';
 import AuthorisationStatus from '../../types/authorisation-status';
 
@@ -7,8 +8,15 @@ function Navigation():JSX.Element{
   const {authorisationStatus} = useAppSelector((state)=>state);
   const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
   const {user} = useAppSelector((state)=>state);
+  const dispatch = useAppDispatch();
   const {avatarUrl, email} = user ?? {avatarUrl:'', email:''};
   const linkText = isAuthorised ? 'Sign out' : 'Sign in';
+
+  const handleLinkClick = () => {
+    if (isAuthorised){
+      dispatch(logOut());
+    }
+  };
 
   return(
     <nav className="header__nav">
@@ -24,7 +32,7 @@ function Navigation():JSX.Element{
           </li>
           : null }
         <li className="header__nav-item">
-          <Link className="header__nav-link" to={AppRoute.Login}>
+          <Link className="header__nav-link" onClick={handleLinkClick} to={AppRoute.Login}>
             <span className="header__signout">{linkText}</span>
           </Link>
         </li>

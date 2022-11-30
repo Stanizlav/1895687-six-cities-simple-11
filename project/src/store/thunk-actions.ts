@@ -1,8 +1,10 @@
 import { createAsyncThunk, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
+import { removeToken, setToken } from '../services/token';
 import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, setAuthorisationStatus, setConnectionUnsustainable, setUser, startLoading } from '../store/actions';
 import AdditionalURL from '../types/additional-url';
 import Advert from '../types/advert';
+import AuthData from '../types/auth-data';
 import AuthorisationStatus from '../types/authorisation-status';
 import Comment from '../types/comment';
 import { AppDispatch, State} from '../types/state';
@@ -60,4 +62,21 @@ export const checkAuthorisation = createAsyncThunk<void, void, ThunkApiConfig>('
     catch{
       dispatch(setAuthorisationStatus(AuthorisationStatus.Unauth));
     }
+  });
+
+export const logIn = createAsyncThunk<void, AuthData, ThunkApiConfig>('user/log-in',
+  async(body, {dispatch, extra:api})=>{
+    const {data} = await api.post<User>(AdditionalURL.Login, body);
+    const {token} = data;
+    setToken(token);
+    dispatch(setAuthorisationStatus(AuthorisationStatus.Auth));
+    dispatch(setUser(data));
+  });
+
+export const logOut = createAsyncThunk<void, void, ThunkApiConfig>('user/log-out',
+  async(_args, {dispatch, extra:api})=>{
+    await api.delete(AdditionalURL.Logout);
+    removeToken();
+    dispatch(setAuthorisationStatus(AuthorisationStatus.Unauth));
+    dispatch(setUser(null));
   });
