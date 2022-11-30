@@ -1,10 +1,15 @@
 import { createAsyncThunk, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, setConnectionUnsustainable, startLoading } from '../store/actions';
+import { removeToken, setToken } from '../services/token';
+import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, redirectToRoute, setAuthorisationStatus, setConnectionUnsustainable, setUser, startLoading } from '../store/actions';
 import AdditionalURL from '../types/additional-url';
 import Advert from '../types/advert';
+import AppRoute from '../types/app-route';
+import AuthData from '../types/auth-data';
+import AuthorisationStatus from '../types/authorisation-status';
 import Comment from '../types/comment';
 import { AppDispatch, State} from '../types/state';
+import User from '../types/user';
 
 type ThunkApiConfig = {
   dispatch: AppDispatch;
@@ -46,4 +51,34 @@ export const getComments = createAsyncThunk<void, number, ThunkApiConfig>('comme
     const commentsUrl = `${AdditionalURL.CommentsPrefix}${id}`;
     const {comments} = state();
     await downloadOnTemplate<Comment[]>(dispatch, api, commentsUrl, fillCommentsUp, comments);
+  });
+
+export const checkAuthorisation = createAsyncThunk<void, void, ThunkApiConfig>('user/check-authorisation',
+  async(_args, {dispatch, extra:api})=>{
+    try{
+      const {data} = await api.get<User>(AdditionalURL.Login);
+      dispatch(setAuthorisationStatus(AuthorisationStatus.Auth));
+      dispatch(setUser(data));
+    }
+    catch{
+      dispatch(setAuthorisationStatus(AuthorisationStatus.Unauth));
+    }
+  });
+
+export const logIn = createAsyncThunk<void, AuthData, ThunkApiConfig>('user/log-in',
+  async(body, {dispatch, extra:api})=>{
+    const {data} = await api.post<User>(AdditionalURL.Login, body);
+    const {token} = data;
+    setToken(token);
+    dispatch(setAuthorisationStatus(AuthorisationStatus.Auth));
+    dispatch(setUser(data));
+    dispatch(redirectToRoute(AppRoute.Main));
+  });
+
+export const logOut = createAsyncThunk<void, void, ThunkApiConfig>('user/log-out',
+  async(_args, {dispatch, extra:api})=>{
+    await api.delete(AdditionalURL.Logout);
+    removeToken();
+    dispatch(setAuthorisationStatus(AuthorisationStatus.Unauth));
+    dispatch(setUser(null));
   });

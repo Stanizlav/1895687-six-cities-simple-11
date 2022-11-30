@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, PERCENTAGE_MULTIPLAYER } from '../../consts';
+import { PERCENTAGE_MULTIPLAYER } from '../../consts';
 import { useAppDispatch } from '../../hooks/store-hooks';
 import { selectPoint } from '../../store/actions';
 import { getComments, getOffersNearby } from '../../store/thunk-actions';
 import Advert from '../../types/advert';
+import AppRoute from '../../types/app-route';
 
 type AdvertCardProps = {
   offer:Advert;

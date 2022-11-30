@@ -1,8 +1,8 @@
 import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute} from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { changeCity } from '../../store/actions';
+import AppRoute from '../../types/app-route';
 import CitiesName from '../../types/cities-name';
 
 type CityItemProps = {
