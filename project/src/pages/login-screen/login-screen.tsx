@@ -64,7 +64,7 @@ function LoginScreen():JSX.Element{
                     evt.preventDefault();
                   }}
                 >
-                  <span className="locations__item-link">{chosenCity}</span>
+                  <span>{chosenCity}</span>
                 </Link>
               </div>
             </section>
