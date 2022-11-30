@@ -1,9 +1,10 @@
 import { createAsyncThunk, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { removeToken, setToken } from '../services/token';
-import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, setAuthorisationStatus, setConnectionUnsustainable, setUser, startLoading } from '../store/actions';
+import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, redirectToRoute, setAuthorisationStatus, setConnectionUnsustainable, setUser, startLoading } from '../store/actions';
 import AdditionalURL from '../types/additional-url';
 import Advert from '../types/advert';
+import AppRoute from '../types/app-route';
 import AuthData from '../types/auth-data';
 import AuthorisationStatus from '../types/authorisation-status';
 import Comment from '../types/comment';
@@ -71,6 +72,7 @@ export const logIn = createAsyncThunk<void, AuthData, ThunkApiConfig>('user/log-
     setToken(token);
     dispatch(setAuthorisationStatus(AuthorisationStatus.Auth));
     dispatch(setUser(data));
+    dispatch(redirectToRoute(AppRoute.Main));
   });
 
 export const logOut = createAsyncThunk<void, void, ThunkApiConfig>('user/log-out',

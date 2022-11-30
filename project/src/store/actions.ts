@@ -1,5 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
+import { REDIRECT_ACTION_TYPE } from '../consts';
 import Advert from '../types/advert';
+import AppRoute from '../types/app-route';
 import AuthorisationStatus from '../types/authorisation-status';
 import CitiesName from '../types/cities-name';
 import Comment from '../types/comment';
@@ -30,3 +32,5 @@ export const startLoading = createAction('loading/start');
 export const setAuthorisationStatus = createAction<AuthorisationStatus>('user/set-authorisation');
 
 export const setUser = createAction<User | null>('user/set');
+
+export const redirectToRoute = createAction<AppRoute>(REDIRECT_ACTION_TYPE);
