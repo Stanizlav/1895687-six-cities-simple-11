@@ -1,7 +1,7 @@
 import { createAsyncThunk, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { removeToken, setToken } from '../services/token';
-import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, redirectToRoute, setAuthorisationStatus, setConnectionUnsustainable, setUser, startLoading } from '../store/actions';
+import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, redirectToRoute, setAuthorisationStatus, setConnectionUnsustainable, setTheOffer, setUser, startLoading } from '../store/actions';
 import AdditionalURL from '../types/additional-url';
 import Advert from '../types/advert';
 import AppRoute from '../types/app-route';
@@ -37,6 +37,12 @@ export const getOffers = createAsyncThunk<void, void, ThunkApiConfig>('offers/ge
   async(_args, {dispatch, getState:state, extra:api}) => {
     const {offers} = state();
     await downloadOnTemplate<Advert[]>(dispatch, api, AdditionalURL.Offers, fillOffersListUp, offers);
+  });
+
+export const getTheOffer = createAsyncThunk<void, number, ThunkApiConfig>('offers/get-required-one',
+  async(id,{dispatch, extra:api})=>{
+    const theOfferUrl = `${AdditionalURL.Offers}/${id}`;
+    await downloadOnTemplate<Advert|null>(dispatch, api, theOfferUrl, setTheOffer, null);
   });
 
 export const getOffersNearby = createAsyncThunk<void, number, ThunkApiConfig>('offers-nearby/get',

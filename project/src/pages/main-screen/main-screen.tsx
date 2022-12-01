@@ -18,11 +18,6 @@ type MainScreenProps = {
 
 function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
   const dispatch = useAppDispatch();
-  useEffect(()=>{
-    dispatch(getOffers());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
-
   const {isLoading} = useAppSelector((state)=>state);
   const {chosenCity} = useAppSelector((state)=>state);
   const city = cities.find((element) => element.name === chosenCity) ?? DEFAULT_CITY ;
@@ -30,6 +25,15 @@ function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
   const offersCount = formatedOffers.length;
   const offersToShow = formatedOffers.slice(0, defaultCardsCount);
   const points = offersToShow.map((item) => item.location);
+
+  useEffect(()=>{
+    dispatch(getOffers());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+
+  if(isLoading){
+    return <LoadingSpinner/>;
+  }
 
   return (
     <>
@@ -41,27 +45,25 @@ function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
           </div>
         </div>
       </header>
-      {!isLoading ?
-        <main className="page__main page__main--index">
-          <h1 className="visually-hidden">Cities</h1>
-          <div className="tabs">
-            <CitiesList/>
-          </div>
-          <div className="cities">
-            <div className="cities__places-container container">
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offersCount} place{offersCount > 1 ? 's' : ''} to stay in {chosenCity}</b>
-                <SortForm/>
-                <OffersList offers={offersToShow}/>
-              </section>
-              <div className="cities__right-section">
-                <Map className={MapClassList.Cities} city={city} points={points}/>
-              </div>
+      <main className="page__main page__main--index">
+        <h1 className="visually-hidden">Cities</h1>
+        <div className="tabs">
+          <CitiesList/>
+        </div>
+        <div className="cities">
+          <div className="cities__places-container container">
+            <section className="cities__places places">
+              <h2 className="visually-hidden">Places</h2>
+              <b className="places__found">{offersCount} place{offersCount > 1 ? 's' : ''} to stay in {chosenCity}</b>
+              <SortForm/>
+              <OffersList offers={offersToShow}/>
+            </section>
+            <div className="cities__right-section">
+              <Map className={MapClassList.Cities} city={city} points={points}/>
             </div>
           </div>
-        </main>
-        : <LoadingSpinner/>}
+        </div>
+      </main>
     </>
   );
 }

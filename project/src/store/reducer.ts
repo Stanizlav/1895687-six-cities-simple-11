@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersListUp, fillOffersNearbyListUp, getRidOfSelectedPoint, selectPoint, setSortType, setConnectionUnsustainable, fillCommentsUp, ceaseLoading, startLoading, setAuthorisationStatus, setUser } from './actions';
+import { changeCity, fillOffersListUp, fillOffersNearbyListUp, getRidOfSelectedPoint, selectPoint, setSortType, setConnectionUnsustainable, fillCommentsUp, ceaseLoading, startLoading, setAuthorisationStatus, setUser, setTheOffer } from './actions';
 import Advert from '../types/advert';
 import CitiesName from '../types/cities-name';
 import SortType from '../types/sort-type';
@@ -18,12 +18,13 @@ type StateType = {
   chosenCity: CitiesName;
   offers: Advert[];
   formatedOffers: Advert[];
+  offer: Advert|null;
   offersNearby: Advert[];
   comments: Comment[];
   isLoading: boolean;
   isConnectionUnsustainable: boolean;
   authorisationStatus: AuthorisationStatus;
-  user: User | null;
+  user: User|null;
 }
 
 const initialState: StateType = {
@@ -32,6 +33,7 @@ const initialState: StateType = {
   chosenCity: CitiesName.Paris,
   offers: [],
   formatedOffers: [],
+  offer: null,
   offersNearby: [],
   comments: [],
   isLoading: false,
@@ -84,6 +86,9 @@ const reducer = createReducer(initialState, (builder)=>{
     })
     .addCase(setUser, (state, action)=>{
       state.user = action.payload;
+    })
+    .addCase(setTheOffer, (state, action)=> {
+      state.offer = action.payload;
     });
 });
 

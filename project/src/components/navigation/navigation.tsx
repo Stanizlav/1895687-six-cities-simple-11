@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { logOut } from '../../store/thunk-actions';
 import AppRoute from '../../types/app-route';
@@ -12,8 +13,9 @@ function Navigation():JSX.Element{
   const {avatarUrl, email} = user ?? {avatarUrl:'', email:''};
   const linkText = isAuthorised ? 'Sign out' : 'Sign in';
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (evt:MouseEvent<HTMLAnchorElement>) => {
     if (isAuthorised){
+      evt.preventDefault();
       dispatch(logOut());
     }
   };

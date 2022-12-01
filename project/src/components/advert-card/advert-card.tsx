@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { PERCENTAGE_MULTIPLAYER } from '../../consts';
 import { useAppDispatch } from '../../hooks/store-hooks';
 import { selectPoint } from '../../store/actions';
-import { getComments, getOffersNearby } from '../../store/thunk-actions';
 import Advert from '../../types/advert';
 import AppRoute from '../../types/app-route';
 
@@ -40,15 +39,13 @@ function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut}:AdvertCard
   const dispatch = useAppDispatch();
   const handleLinkClick = ()=>{
     dispatch(selectPoint(offer.location));
-    dispatch(getComments(id));
-    dispatch(getOffersNearby(id));
   };
 
   return(
     <article className={articleClassList} onMouseOver={handleMouseOver} onMouseOut={onMouseOut}>
       <PremiumMark isNeeded={isPremium}/>
       <div className={imageWrapperClassList}>
-        <Link to={`${AppRoute.Room}/:${id}`} onClick={handleLinkClick}>
+        <Link to={`${AppRoute.Room}/${id}`} onClick={handleLinkClick}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Apartment"/>
         </Link>
       </div>
@@ -70,7 +67,7 @@ function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut}:AdvertCard
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Room}/:${id}`} onClick={handleLinkClick}>{title}</Link>
+          <Link to={`${AppRoute.Room}/${id}`} onClick={handleLinkClick}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

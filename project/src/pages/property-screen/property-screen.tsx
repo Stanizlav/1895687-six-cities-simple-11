@@ -1,24 +1,49 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import CommentsList from '../../components/comments-list/comments-list';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';
 import Navigation from '../../components/navigation/navigation';
 import OffersList from '../../components/offers-list/offers-list';
 import ReviewForm from '../../components/review-form/review-form';
 import { MapClassList } from '../../consts';
-import { useAppSelector } from '../../hooks/store-hooks';
-import { cities, DEFAULT_CITY } from '../../utils/cities';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
+import { getComments, getOffersNearby, getTheOffer } from '../../store/thunk-actions';
+import AuthorisationStatus from '../../types/authorisation-status';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type PropertyScreenProps = {
   cardsCount: number;
 }
 
 function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
-  const {chosenCity} = useAppSelector((state)=>state);
+  const dispatch = useAppDispatch();
+  const {authorisationStatus} = useAppSelector((state)=>state);
+  const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
   const {selectedPoint} = useAppSelector((state)=>state);
-  const city = cities.find((element) => element.name === chosenCity) ?? DEFAULT_CITY;
+  const {isLoading} = useAppSelector((state)=>state);
+  const {offer} = useAppSelector((state)=>state);
   const offersNearby = useAppSelector((state)=>state.offersNearby).slice(0,cardsCount);
   const points = offersNearby.map((item) => item.location).concat(selectedPoint);
   const {comments} = useAppSelector((state)=>state);
+  const params = useParams();
+  const id = Number(params.id);
+
+  useEffect(()=>{
+    if(isNaN(id)){ return; }
+    dispatch(getTheOffer(id));
+    dispatch(getComments(id));
+    dispatch(getOffersNearby(id));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[id]);
+
+  if(isLoading){
+    return <LoadingSpinner/>;
+  }
+
+  if (offer === null || isNaN(id)) {return <NotFoundScreen/>;}
+  const {city} = offer;
 
   return(
     <>
@@ -151,7 +176,7 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
                 <CommentsList comments={comments}/>
-                <ReviewForm/>
+                {isAuthorised ? <ReviewForm/> : null}
               </section>
             </div>
           </div>

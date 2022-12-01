@@ -2,7 +2,7 @@ import City from '../../types/city';
 import Location from '../../types/location';
 import { useEffect, useRef } from 'react';
 import { Icon, LayerGroup, Marker } from 'leaflet';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 import { MapMarkerUrl } from '../../consts';
 import 'leaflet/dist/leaflet.css';
 import { arePointsEqual, getLatLng } from '../../utils/location-utils';
