@@ -18,17 +18,14 @@ type MainScreenProps = {
 
 function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const {isLoading} = useAppSelector((state)=>state);
-  const {chosenCity} = useAppSelector((state)=>state);
+  const {isLoading, chosenCity, formatedOffers} = useAppSelector((state)=>state);
   const city = cities.find((element) => element.name === chosenCity) ?? DEFAULT_CITY ;
-  const {formatedOffers} = useAppSelector((state)=>state);
   const offersCount = formatedOffers.length;
   const offersToShow = formatedOffers.slice(0, defaultCardsCount);
   const points = offersToShow.map((item) => item.location);
 
   useEffect(()=>{
     dispatch(getOffers());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   if(isLoading){

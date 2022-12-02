@@ -14,12 +14,16 @@ function OffersList({offers, isForNearPlaces = false}: OffersListProps):JSX.Elem
   const classList = isForNearPlaces ? OffersListClassList.NearPlaces : OffersListClassList.Cities;
 
   const handleOffersListMouseOver = (offer:Advert) => {
-    if (isForNearPlaces) {return;}
+    if (isForNearPlaces) {
+      return;
+    }
     dispatch(selectPoint(offer.location));
   };
 
   const handleOffersListMouseOut = () => {
-    if (isForNearPlaces) {return;}
+    if (isForNearPlaces) {
+      return;
+    }
     dispatch(getRidOfSelectedPoint());
   };
 

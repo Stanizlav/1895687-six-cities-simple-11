@@ -23,26 +23,28 @@ type PropertyScreenProps = {
 
 function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
   const dispatch = useAppDispatch();
-  const {authorisationStatus} = useAppSelector((state)=>state);
+  const {authorisationStatus, isLoading, offer, comments} = useAppSelector((state)=>state);
   const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
-  const {isLoading} = useAppSelector((state)=>state);
-  const {offer} = useAppSelector((state)=>state);
   const offersNearby = useAppSelector((state)=>state.offersNearby).slice(0,cardsCount);
-  const {comments} = useAppSelector((state)=>state);
   const params = useParams();
   const offerId = Number(params.id);
 
   useEffect(()=>{
-    if(isNaN(offerId)){ return; }
+    if(isNaN(offerId)){
+      return;
+    }
     dispatch(getTheOffer(offerId));
     dispatch(getComments(offerId));
     dispatch(getOffersNearby(offerId));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[offerId]);
 
-  if(isLoading) {return <LoadingSpinner/>;}
+  if(isLoading) {
+    return <LoadingSpinner/>;
+  }
 
-  if (offer === null || isNaN(offerId)) {return <NotFoundScreen/>;}
+  if (offer === null || isNaN(offerId)) {
+    return <NotFoundScreen/>;
+  }
 
   const {city, location, id, images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
   dispatch(selectPoint(location));
