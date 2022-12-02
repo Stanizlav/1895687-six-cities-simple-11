@@ -1,34 +1,17 @@
 import { ChangeEvent, FormEvent } from 'react';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { RAITING_MAX, RatingTitle } from '../../consts';
+import { RAITING_MAX } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { setSending } from '../../store/actions';
 import { makeComment } from '../../store/thunk-actions';
 import NewCommentData from '../../types/new-comment-data';
+import RatingStar from './rating-star';
 
 const INITIAL_COMMENT = '';
 const INITIAL_RATING = 0;
 const MINIMAL_COMMENT_SIZE = 50;
 
-type RatingStarProps = {
-  value: number;
-  rating: number;
-}
-
-function RatingStar({value, rating}:RatingStarProps):JSX.Element{
-  const id = `${value}-stars`;
-  return(
-    <>
-      <input className="form__rating-input visually-hidden" name="rating" value={value} id={id} type="radio" checked={rating === value} readOnly/>
-      <label htmlFor={id} className="reviews__rating-label form__rating-label" title={RatingTitle[value as keyof typeof RatingTitle]}>
-        <svg className="form__star-image" width="37" height="33">
-          <use xlinkHref="#icon-star"></use>
-        </svg>
-      </label>
-    </>
-  );
-}
 
 type ReviewFormProps = {
   hotelId:number;
@@ -60,6 +43,11 @@ function ReviewForm({hotelId}:ReviewFormProps):JSX.Element{
 
   const handleFormSubmit = (evt:FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+    if(rating === 0){
+      const message = `You should assess the accomodation from 1 to ${RAITING_MAX} before sending the review`;
+      toast.warn(message);
+      return;
+    }
     if(comment.length < MINIMAL_COMMENT_SIZE){
       const message = `The comment must be at least ${MINIMAL_COMMENT_SIZE} caracters`;
       toast.warn(message);

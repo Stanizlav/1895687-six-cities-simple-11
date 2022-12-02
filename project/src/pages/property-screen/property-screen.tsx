@@ -6,8 +6,11 @@ import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';
 import Navigation from '../../components/navigation/navigation';
 import OffersList from '../../components/offers-list/offers-list';
+import PropertyGallery from '../../components/property-gallery/property-gallery';
+import PropertyGoodsList from '../../components/property-goods-list/property-goods-list';
+import PropertyHost from '../../components/property-host/property-host';
 import ReviewForm from '../../components/review-form/review-form';
-import { MapClassList } from '../../consts';
+import { MapClassList, PERCENTAGE_MULTIPLAYER } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { selectPoint } from '../../store/actions';
 import { getComments, getOffersNearby, getTheOffer } from '../../store/thunk-actions';
@@ -37,15 +40,15 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[offerId]);
 
-  if(isLoading){
-    return <LoadingSpinner/>;
-  }
+  if(isLoading) {return <LoadingSpinner/>;}
 
   if (offer === null || isNaN(offerId)) {return <NotFoundScreen/>;}
 
-  const {city, location, id} = offer;
+  const {city, location, id, images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
   dispatch(selectPoint(location));
   const points = offersNearby.map((item) => item.location).concat(location);
+  const ratingPercentage = Math.round(rating) * PERCENTAGE_MULTIPLAYER;
+  const stringRatingPercentage = `${ratingPercentage}%`;
 
   return(
     <>
@@ -60,119 +63,46 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
 
       <main className="page__main page__main--property">
         <section className="property">
-          <div className="property__gallery-container container">
-            <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Apartment"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Apartment"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Apartment"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Apartment"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Apartment"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Apartment"/>
-              </div>
-            </div>
-          </div>
+          <PropertyGallery images={images}/>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
+              {isPremium ?
+                <div className="property__mark">
+                  <span>Premium</span>
+                </div>
+                : null}
               <div className="property__name-wrapper">
-                <h1 className="property__name">
-                  Beautiful &amp; luxurious studio at great location
-                </h1>
+                <h1 className="property__name">{title}</h1>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
                   <span style={{
-                    width: '80%'
+                    width: stringRatingPercentage
                   }}
                   >
                   </span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
+                <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
-                <li className="property__feature property__feature--entire">
-                  Apartment
-                </li>
-                <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
-                </li>
-                <li className="property__feature property__feature--adults">
-                  Max 4 adults
-                </li>
+                <li className="property__feature property__feature--entire">{type}</li>
+                <li className="property__feature property__feature--bedrooms">{bedrooms} Bedrooms</li>
+                <li className="property__feature property__feature--adults">Max {maxAdults} adults</li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
+                <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="property__inside-item">
-                    Towels
-                  </li>
-                  <li className="property__inside-item">
-                    Heating
-                  </li>
-                  <li className="property__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                    Fridge
-                  </li>
-                </ul>
+                <PropertyGoodsList goods={goods}/>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
-                <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
-                  </div>
-                  <span className="property__user-name">
-                    Angelina
-                  </span>
-                  <span className="property__user-status">
-                    Pro
-                  </span>
-                </div>
+                <PropertyHost host={host}/>
                 <div className="property__description">
-                  <p className="property__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
-                  <p className="property__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p>
+                  <p className="property__text">{description}</p>
                 </div>
               </div>
               <section className="property__reviews reviews">
