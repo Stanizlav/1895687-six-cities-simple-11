@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersListUp, fillOffersNearbyListUp, getRidOfSelectedPoint, selectPoint, setSortType, setConnectionUnsustainable, fillCommentsUp, ceaseLoading, startLoading, setAuthorisationStatus, setUser, setTheOffer } from './actions';
+import { changeCity, fillOffersListUp, fillOffersNearbyListUp, getRidOfSelectedPoint, selectPoint, setSortType, setConnectionUnsustainable, fillCommentsUp, ceaseLoading, startLoading, setAuthorisationStatus, setUser, setTheOffer, setSending } from './actions';
 import Advert from '../types/advert';
 import CitiesName from '../types/cities-name';
 import SortType from '../types/sort-type';
@@ -25,6 +25,7 @@ type StateType = {
   isConnectionUnsustainable: boolean;
   authorisationStatus: AuthorisationStatus;
   user: User|null;
+  isSending: boolean;
 }
 
 const initialState: StateType = {
@@ -39,7 +40,8 @@ const initialState: StateType = {
   isLoading: false,
   isConnectionUnsustainable: false,
   authorisationStatus : AuthorisationStatus.Unknown,
-  user: null
+  user: null,
+  isSending: false
 };
 
 const getFormatedOffers = (state:StateType):Advert[] =>
@@ -89,6 +91,9 @@ const reducer = createReducer(initialState, (builder)=>{
     })
     .addCase(setTheOffer, (state, action)=> {
       state.offer = action.payload;
+    })
+    .addCase(setSending, (state, action)=>{
+      state.isSending = action.payload;
     });
 });
 

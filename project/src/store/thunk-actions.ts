@@ -1,13 +1,14 @@
 import { createAsyncThunk, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { removeToken, setToken } from '../services/token';
-import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, redirectToRoute, setAuthorisationStatus, setConnectionUnsustainable, setTheOffer, setUser, startLoading } from '../store/actions';
+import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, redirectToRoute, setAuthorisationStatus, setConnectionUnsustainable, setSending, setTheOffer, setUser, startLoading } from '../store/actions';
 import AdditionalURL from '../types/additional-url';
 import Advert from '../types/advert';
 import AppRoute from '../types/app-route';
 import AuthData from '../types/auth-data';
 import AuthorisationStatus from '../types/authorisation-status';
 import Comment from '../types/comment';
+import NewCommentData from '../types/new-comment-data';
 import { AppDispatch, State} from '../types/state';
 import User from '../types/user';
 
@@ -45,7 +46,7 @@ export const getTheOffer = createAsyncThunk<void, number, ThunkApiConfig>('offer
     await downloadOnTemplate<Advert|null>(dispatch, api, theOfferUrl, setTheOffer, null);
   });
 
-export const getOffersNearby = createAsyncThunk<void, number, ThunkApiConfig>('offers-nearby/get',
+export const getOffersNearby = createAsyncThunk<void, number, ThunkApiConfig>('offers/get-nearby',
   async(id, {dispatch, getState:state, extra:api}) => {
     const offersNearbyUrl = `${AdditionalURL.OffersNearbyPrefix}${id}${AdditionalURL.OffersNearbyPostfix}`;
     const {offersNearby} = state();
@@ -72,8 +73,8 @@ export const checkAuthorisation = createAsyncThunk<void, void, ThunkApiConfig>('
   });
 
 export const logIn = createAsyncThunk<void, AuthData, ThunkApiConfig>('user/log-in',
-  async(body, {dispatch, extra:api})=>{
-    const {data} = await api.post<User>(AdditionalURL.Login, body);
+  async(authData, {dispatch, extra:api})=>{
+    const {data} = await api.post<User>(AdditionalURL.Login, authData);
     const {token} = data;
     setToken(token);
     dispatch(setAuthorisationStatus(AuthorisationStatus.Auth));
@@ -87,4 +88,13 @@ export const logOut = createAsyncThunk<void, void, ThunkApiConfig>('user/log-out
     removeToken();
     dispatch(setAuthorisationStatus(AuthorisationStatus.Unauth));
     dispatch(setUser(null));
+  });
+
+
+export const makeComment = createAsyncThunk<void, {hotelId:number; newComment:NewCommentData}, ThunkApiConfig>('comments/make',
+  async({hotelId, newComment}, {dispatch, extra:api})=>{
+    const makingCommentUrl = `${AdditionalURL.CommentsPrefix}${hotelId}`;
+    const {data} = await api.post<Comment[]>(makingCommentUrl, newComment);
+    dispatch(fillCommentsUp(data));
+    dispatch(setSending(false));
   });

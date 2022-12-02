@@ -36,3 +36,5 @@ export const setAuthorisationStatus = createAction<AuthorisationStatus>('user/se
 export const setUser = createAction<User|null>('user/set');
 
 export const redirectToRoute = createAction<AppRoute>(REDIRECT_ACTION_TYPE);
+
+export const setSending = createAction<boolean>('application/set-sending');
