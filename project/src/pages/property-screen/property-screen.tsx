@@ -10,7 +10,7 @@ import PropertyGallery from '../../components/property-gallery/property-gallery'
 import PropertyGoodsList from '../../components/property-goods-list/property-goods-list';
 import PropertyHost from '../../components/property-host/property-host';
 import ReviewForm from '../../components/review-form/review-form';
-import { MapClassList, PERCENTAGE_MULTIPLAYER } from '../../consts';
+import StarsRating from '../../components/stars-rating/stars-rating';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { selectPoint } from '../../store/actions';
 import { getComments, getOffersNearby, getTheOffer } from '../../store/thunk-actions';
@@ -23,9 +23,9 @@ type PropertyScreenProps = {
 
 function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
   const dispatch = useAppDispatch();
-  const {authorisationStatus, isLoading, offer, comments} = useAppSelector((state)=>state);
+  const {authorisationStatus, isLoading, offer, comments, offersNearby} = useAppSelector((state)=>state);
   const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
-  const offersNearby = useAppSelector((state)=>state.offersNearby).slice(0,cardsCount);
+  const offersAround = offersNearby.slice(0,cardsCount);
   const params = useParams();
   const offerId = Number(params.id);
 
@@ -36,7 +36,7 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
     dispatch(getTheOffer(offerId));
     dispatch(getComments(offerId));
     dispatch(getOffersNearby(offerId));
-  },[offerId]);
+  },[dispatch, offerId]);
 
   if(isLoading) {
     return <LoadingSpinner/>;
@@ -49,8 +49,6 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
   const {city, location, id, images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
   dispatch(selectPoint(location));
   const points = offersNearby.map((item) => item.location).concat(location);
-  const ratingPercentage = Math.round(rating) * PERCENTAGE_MULTIPLAYER;
-  const stringRatingPercentage = `${ratingPercentage}%`;
 
   return(
     <>
@@ -77,14 +75,7 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
                 <h1 className="property__name">{title}</h1>
               </div>
               <div className="property__rating rating">
-                <div className="property__stars rating__stars">
-                  <span style={{
-                    width: stringRatingPercentage
-                  }}
-                  >
-                  </span>
-                  <span className="visually-hidden">Rating</span>
-                </div>
+                <StarsRating rating={rating} className="property__stars"/>
                 <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
@@ -114,12 +105,12 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
               </section>
             </div>
           </div>
-          <Map className={MapClassList.Property} city={city} points={points}/>
+          <Map className="property__map" city={city} points={points}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={offersNearby} isForNearPlaces/>
+            <OffersList offers={offersAround} isForNearPlaces/>
           </section>
         </div>
       </main>

@@ -6,7 +6,6 @@ import Map from '../../components/map/map';
 import Navigation from '../../components/navigation/navigation';
 import OffersList from '../../components/offers-list/offers-list';
 import SortForm from '../../components/sort-form/sort-form';
-import { MapClassList } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { getOffers } from '../../store/thunk-actions';
 import { cities, DEFAULT_CITY } from '../../utils/cities';
@@ -26,7 +25,7 @@ function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
 
   useEffect(()=>{
     dispatch(getOffers());
-  },[]);
+  },[dispatch]);
 
   if(isLoading){
     return <LoadingSpinner/>;
@@ -56,7 +55,7 @@ function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
               <OffersList offers={offersToShow}/>
             </section>
             <div className="cities__right-section">
-              <Map className={MapClassList.Cities} city={city} points={points}/>
+              <Map className="cities__map" city={city} points={points}/>
             </div>
           </div>
         </div>

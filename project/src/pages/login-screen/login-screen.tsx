@@ -8,8 +8,7 @@ import AuthData from '../../types/auth-data';
 import AuthorisationStatus from '../../types/authorisation-status';
 
 function LoginScreen():JSX.Element{
-  const {authorisationStatus} = useAppSelector((state) => state);
-  const {chosenCity} = useAppSelector((state)=>state);
+  const {authorisationStatus, chosenCity} = useAppSelector((state)=>state);
   const dispatch = useAppDispatch();
   const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
 
