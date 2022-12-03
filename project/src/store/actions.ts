@@ -19,6 +19,8 @@ export const changeCity = createAction<CitiesName>('city/change');
 
 export const fillOffersListUp = createAction<Advert[]>('offers/fill-up');
 
+export const saveOffer = createAction<Advert|null>('offers/save-offer');
+
 export const fillOffersNearbyListUp = createAction<Advert[]>('offers-nearby/fill-up');
 
 export const setConnectionUnsustainable = createAction('connection/set-unsustainable');
@@ -31,6 +33,8 @@ export const startLoading = createAction('loading/start');
 
 export const setAuthorisationStatus = createAction<AuthorisationStatus>('user/set-authorisation');
 
-export const setUser = createAction<User | null>('user/set');
+export const setUser = createAction<User|null>('user/set');
 
 export const redirectToRoute = createAction<AppRoute>(REDIRECT_ACTION_TYPE);
+
+export const setSending = createAction<boolean>('application/set-sending');

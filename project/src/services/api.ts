@@ -24,7 +24,6 @@ export const createAPI = ():AxiosInstance => {
     (error:AxiosError<{error:string}>)=>{
       if(error.response){
         const message = error.response.data.error;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         toast.warn(message);
       }
       throw error;

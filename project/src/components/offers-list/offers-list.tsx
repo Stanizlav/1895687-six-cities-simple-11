@@ -11,19 +11,24 @@ type OffersListProps = {
 
 function OffersList({offers, isForNearPlaces = false}: OffersListProps):JSX.Element{
   const dispatch = useAppDispatch();
+  const classList = isForNearPlaces ? OffersListClassList.NearPlaces : OffersListClassList.Cities;
 
   const handleOffersListMouseOver = (offer:Advert) => {
-    if (isForNearPlaces) {return;}
+    if (isForNearPlaces) {
+      return;
+    }
     dispatch(selectPoint(offer.location));
   };
 
   const handleOffersListMouseOut = () => {
-    if (isForNearPlaces) {return;}
+    if (isForNearPlaces) {
+      return;
+    }
     dispatch(getRidOfSelectedPoint());
   };
 
   return (
-    <div className={isForNearPlaces ? OffersListClassList.NearPlaces : OffersListClassList.Cities}>
+    <div className={classList}>
       {offers.map((offer) => (
         <AdvertCard
           key={offer.id}

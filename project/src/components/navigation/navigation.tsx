@@ -1,19 +1,20 @@
 import { Link } from 'react-router-dom';
+import { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { logOut } from '../../store/thunk-actions';
 import AppRoute from '../../types/app-route';
 import AuthorisationStatus from '../../types/authorisation-status';
 
 function Navigation():JSX.Element{
-  const {authorisationStatus} = useAppSelector((state)=>state);
+  const {authorisationStatus, user} = useAppSelector((state)=>state);
   const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
-  const {user} = useAppSelector((state)=>state);
   const dispatch = useAppDispatch();
   const {avatarUrl, email} = user ?? {avatarUrl:'', email:''};
   const linkText = isAuthorised ? 'Sign out' : 'Sign in';
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (evt:MouseEvent<HTMLAnchorElement>) => {
     if (isAuthorised){
+      evt.preventDefault();
       dispatch(logOut());
     }
   };

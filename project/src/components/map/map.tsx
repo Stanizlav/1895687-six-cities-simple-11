@@ -14,7 +14,7 @@ const MARKER_HALF_SIZE = Math.round(MARKER_SIZE / 2);
 type MapProps = {
   city: City;
   points: Location[];
-  className: string;
+  className?: string;
 }
 
 const defaultIcon = new Icon({
@@ -29,12 +29,13 @@ const currentIcon = new Icon({
   iconAnchor: [MARKER_HALF_SIZE, MARKER_SIZE]
 });
 
-function Map({city, points, className}: MapProps):JSX.Element{
+function Map({city, points, className = ''}: MapProps):JSX.Element{
 
-  const {selectedPoint} = useAppSelector((state) => state);
+  const {selectedPoint} = useAppSelector((state)=>state);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   const layerGroupRef = useRef(new LayerGroup());
+  const classList = `${className} map`;
 
   useEffect(() => {
     if(map){
@@ -51,7 +52,7 @@ function Map({city, points, className}: MapProps):JSX.Element{
     }
   }, [map, points, city, selectedPoint]);
 
-  return <section className={className} ref={mapRef}></section>;
+  return <section className={classList} ref={mapRef}></section>;
 }
 
 export default Map;

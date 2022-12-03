@@ -1,19 +1,16 @@
 import { MouseEvent, FormEvent, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { redirectToRoute } from '../../store/actions';
 import { logIn } from '../../store/thunk-actions';
 import AppRoute from '../../types/app-route';
 import AuthData from '../../types/auth-data';
 import AuthorisationStatus from '../../types/authorisation-status';
 
 function LoginScreen():JSX.Element{
-  const {authorisationStatus} = useAppSelector((state) => state);
-  const {chosenCity} = useAppSelector((state)=>state);
+  const {authorisationStatus, chosenCity} = useAppSelector((state)=>state);
   const dispatch = useAppDispatch();
   const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
-  if(isAuthorised) {dispatch(redirectToRoute(AppRoute.Main));}
 
   const emailRef = useRef<HTMLInputElement|null>(null);
   const passwordRef = useRef<HTMLInputElement|null>(null);
@@ -27,6 +24,10 @@ function LoginScreen():JSX.Element{
       dispatch(logIn(data));
     }
   };
+
+  if(isAuthorised){
+    return <Navigate to={AppRoute.Main}/>;
+  }
 
   return(
     <>

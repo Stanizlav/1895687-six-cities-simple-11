@@ -3,11 +3,6 @@ export enum MapMarkerUrl{
   Current = 'img/pin-active.svg'
 }
 
-export enum MapClassList{
-  Cities = 'cities__map map',
-  Property = 'property__map map'
-}
-
 export enum OffersListClassList{
   Cities = 'cities__places-list places__list tabs__content',
   NearPlaces = 'near-places__list places__list'
