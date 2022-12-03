@@ -19,7 +19,7 @@ export const changeCity = createAction<CitiesName>('city/change');
 
 export const fillOffersListUp = createAction<Advert[]>('offers/fill-up');
 
-export const setTheOffer = createAction<Advert|null>('offers/set-the-offer');
+export const saveOffer = createAction<Advert|null>('offers/save-offer');
 
 export const fillOffersNearbyListUp = createAction<Advert[]>('offers-nearby/fill-up');
 
