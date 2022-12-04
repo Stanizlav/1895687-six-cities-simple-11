@@ -1,15 +1,13 @@
-import { ChangeEvent, FormEvent, useState, useEffect, useRef } from 'react';
+import { ChangeEvent, FormEvent, useState, useEffect, useRef, useCallback } from 'react';
 import { toast } from 'react-toastify';
-import { RAITING_MAX } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { setSending } from '../../store/actions';
 import { makeComment } from '../../store/thunk-actions';
 import NewCommentData from '../../types/new-comment-data';
-import RatingStar from './rating-star';
+import RatingInput from './rating-input';
 
 const INITIAL_RATING = 0;
 const MINIMAL_COMMENT_SIZE = 50;
-
 
 type ReviewFormProps = {
   hotelId:number;
@@ -31,15 +29,15 @@ function ReviewForm({hotelId}:ReviewFormProps):JSX.Element{
     }
   },[isSending]);
 
-  const handleRatingChange = (event:ChangeEvent<HTMLInputElement>)=>{
-    const changedRating = Number(event.target.value);
+  const handleRatingChange = useCallback((evt:ChangeEvent<HTMLInputElement>)=>{
+    const changedRating = Number(evt.target.value);
     setRating(changedRating);
-  };
+  },[]);
 
   const handleFormSubmit = (evt:FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if(!rating){
-      const message = `You should assess the accomodation from 1 to ${RAITING_MAX} before sending the review`;
+      const message = 'You should assess the accomodation before sending the review';
       toast.warn(message);
       return;
     }
@@ -58,9 +56,7 @@ function ReviewForm({hotelId}:ReviewFormProps):JSX.Element{
   return(
     <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <div className="reviews__rating-form form__rating" onChange={handleRatingChange}>
-        {Array.from(Array(RAITING_MAX),(v,k)=>RAITING_MAX - k).map((item) => <RatingStar key={item} value={item} rating={rating}/>)}
-      </div>
+      <RatingInput rating={rating} onChange={handleRatingChange}/>
       <textarea className="reviews__textarea form__textarea" id="review" name="review" ref={commentRef}
         placeholder="Tell how was your stay, what you like and what can be improved"
       >

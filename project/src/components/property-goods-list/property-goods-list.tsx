@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 type PropertyGoodsProps = {
   goods: string[];
 }
@@ -10,4 +12,4 @@ function PropertyGoodsList({goods}:PropertyGoodsProps):JSX.Element{
   );
 }
 
-export default PropertyGoodsList;
+export default memo(PropertyGoodsList);

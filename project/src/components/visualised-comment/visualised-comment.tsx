@@ -1,5 +1,6 @@
-import { PERCENTAGE_MULTIPLAYER } from '../../consts';
 import Comment from '../../types/comment';
+import StarsRating from '../stars-rating/stars-rating';
+import { memo } from 'react';
 
 type VisualisedCommentProps = {
   commentary: Comment;
@@ -8,9 +9,6 @@ type VisualisedCommentProps = {
 function VisualisedComment({commentary}:VisualisedCommentProps):JSX.Element{
   const {user, date, rating, comment} = commentary;
   const {avatarUrl, name} = user;
-
-  const ratingPercentage = Math.round(rating) * PERCENTAGE_MULTIPLAYER;
-  const stringRatingPercentage = `${ratingPercentage}%`;
 
   return(
     <>
@@ -24,14 +22,7 @@ function VisualisedComment({commentary}:VisualisedCommentProps):JSX.Element{
       </div>
       <div className="reviews__info">
         <div className="reviews__rating rating">
-          <div className="reviews__stars rating__stars">
-            <span style={{
-              width: stringRatingPercentage
-            }}
-            >
-            </span>
-            <span className="visually-hidden">Rating</span>
-          </div>
+          <StarsRating rating={rating} className="reviews__stars"/>
         </div>
         <p className="reviews__text">
           {comment}
@@ -42,4 +33,4 @@ function VisualisedComment({commentary}:VisualisedCommentProps):JSX.Element{
   );
 }
 
-export default VisualisedComment;
+export default memo(VisualisedComment, (previous, current) => previous.commentary.id === current.commentary.id);
