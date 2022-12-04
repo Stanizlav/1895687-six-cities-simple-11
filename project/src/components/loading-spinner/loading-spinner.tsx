@@ -7,7 +7,7 @@ function LoadingSpinner():JSX.Element | null{
     top: '50%',
     left: '50%',
   };
-  return <CircleLoader cssOverride={override} color="green" size="150" />;
+  return <CircleLoader cssOverride={override} color="green" size="150px" />;
 }
 
 export default LoadingSpinner;

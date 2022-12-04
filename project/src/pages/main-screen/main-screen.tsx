@@ -17,7 +17,10 @@ type MainScreenProps = {
 
 function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const {isLoading, chosenCity, formatedOffers} = useAppSelector((state)=>state);
+  const
+    isLoading = useAppSelector((state)=>state.isLoading),
+    chosenCity = useAppSelector((state)=>state.chosenCity),
+    formatedOffers = useAppSelector((state)=>state.formatedOffers);
   const city = cities.find((element) => element.name === chosenCity) ?? DEFAULT_CITY ;
   const offersCount = formatedOffers.length;
   const offersToShow = formatedOffers.slice(0, defaultCardsCount);

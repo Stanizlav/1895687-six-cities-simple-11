@@ -23,9 +23,14 @@ type PropertyScreenProps = {
 
 function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
   const dispatch = useAppDispatch();
-  const {authorisationStatus, isLoading, offer, comments, offersNearby} = useAppSelector((state)=>state);
+  const
+    authorisationStatus = useAppSelector((state)=>state.authorisationStatus),
+    isLoading = useAppSelector((state)=>state.isLoading),
+    offer = useAppSelector((state)=>state.offer),
+    comments = useAppSelector((state)=>state.comments),
+    offersNearby = useAppSelector((state)=>state.offersNearby);
   const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
-  const offersAround = offersNearby.slice(0,cardsCount);
+  const offersToShow = offersNearby.slice(0,cardsCount);
   const params = useParams();
   const offerId = Number(params.id);
 
@@ -42,13 +47,13 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
     return <LoadingSpinner/>;
   }
 
-  if (offer === null || isNaN(offerId)) {
+  if (offer === null || isNaN(offerId) || offer.id !== offerId) {
     return <NotFoundScreen/>;
   }
 
   const {city, location, id, images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
   dispatch(selectPoint(location));
-  const points = offersNearby.map((item) => item.location).concat(location);
+  const points = offersToShow.map((item) => item.location).concat(location);
 
   return(
     <>
@@ -60,7 +65,6 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
           </div>
         </div>
       </header>
-
       <main className="page__main page__main--property">
         <section className="property">
           <PropertyGallery images={images}/>
@@ -110,7 +114,7 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={offersAround} isForNearPlaces/>
+            <OffersList offers={offersToShow} isForNearPlaces/>
           </section>
         </div>
       </main>

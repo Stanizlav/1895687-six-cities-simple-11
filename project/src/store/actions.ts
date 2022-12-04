@@ -23,8 +23,6 @@ export const saveOffer = createAction<Advert|null>('offers/save-offer');
 
 export const fillOffersNearbyListUp = createAction<Advert[]>('offers-nearby/fill-up');
 
-export const setConnectionUnsustainable = createAction('connection/set-unsustainable');
-
 export const fillCommentsUp = createAction<Comment[]>('comments/fill-up');
 
 export const ceaseLoading = createAction('loading/cease');

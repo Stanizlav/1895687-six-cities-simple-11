@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import AppRoute from '../../types/app-route';
 
@@ -11,4 +12,4 @@ function Logo():JSX.Element{
   );
 }
 
-export default Logo;
+export default memo(Logo);

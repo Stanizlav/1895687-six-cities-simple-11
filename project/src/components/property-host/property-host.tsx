@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Person from '../../types/person';
 
 type PropertyHostProps = {
@@ -20,4 +22,4 @@ function PropertyHost({host}:PropertyHostProps):JSX.Element{
   );
 }
 
-export default PropertyHost;
+export default memo(PropertyHost, (previous, current)=> previous.host.id === current.host.id);

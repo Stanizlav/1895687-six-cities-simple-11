@@ -1,16 +1,19 @@
 import { Link } from 'react-router-dom';
-import { MouseEvent } from 'react';
+import { MouseEvent, memo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { logOut } from '../../store/thunk-actions';
 import AppRoute from '../../types/app-route';
 import AuthorisationStatus from '../../types/authorisation-status';
 
 function Navigation():JSX.Element{
-  const {authorisationStatus, user} = useAppSelector((state)=>state);
+  const
+    authorisationStatus = useAppSelector((state)=>state.authorisationStatus),
+    user = useAppSelector((state)=>state.user);
   const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
   const dispatch = useAppDispatch();
   const {avatarUrl, email} = user ?? {avatarUrl:'', email:''};
   const linkText = isAuthorised ? 'Sign out' : 'Sign in';
+  const linkClassList = isAuthorised ? 'header__signout' : 'header__login';
 
   const handleLinkClick = (evt:MouseEvent<HTMLAnchorElement>) => {
     if (isAuthorised){
@@ -34,7 +37,7 @@ function Navigation():JSX.Element{
           : null }
         <li className="header__nav-item">
           <Link className="header__nav-link" onClick={handleLinkClick} to={AppRoute.Login}>
-            <span className="header__signout">{linkText}</span>
+            <span className={linkClassList}>{linkText}</span>
           </Link>
         </li>
       </ul>
@@ -42,4 +45,4 @@ function Navigation():JSX.Element{
   );
 }
 
-export default Navigation;
+export default memo(Navigation);

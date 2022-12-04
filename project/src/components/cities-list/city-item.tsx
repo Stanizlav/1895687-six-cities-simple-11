@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { changeCity } from '../../store/actions';
@@ -35,5 +35,5 @@ function CityItem({cityName}:CityItemProps):JSX.Element{
   );
 }
 
-export default CityItem;
+export default memo(CityItem);
 

@@ -31,7 +31,7 @@ const currentIcon = new Icon({
 
 function Map({city, points, className = ''}: MapProps):JSX.Element{
 
-  const {selectedPoint} = useAppSelector((state)=>state);
+  const selectedPoint = useAppSelector((state)=>state.selectedPoint);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   const layerGroupRef = useRef(new LayerGroup());

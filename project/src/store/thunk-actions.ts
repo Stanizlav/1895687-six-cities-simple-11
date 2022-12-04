@@ -1,7 +1,7 @@
 import { createAsyncThunk, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { removeToken, setToken } from '../services/token';
-import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, redirectToRoute, saveOffer, setAuthorisationStatus, setConnectionUnsustainable, setSending, setUser, startLoading } from '../store/actions';
+import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, redirectToRoute, saveOffer, setAuthorisationStatus, setSending, setUser, startLoading } from '../store/actions';
 import AdditionalURL from '../types/additional-url';
 import Advert from '../types/advert';
 import AppRoute from '../types/app-route';
@@ -18,46 +18,38 @@ type ThunkApiConfig = {
   extra: AxiosInstance;
 }
 
-const downloadOnTemplate = async<PayloadType>(dispatch:AppDispatch, api:AxiosInstance, url: string, action: ActionCreatorWithPayload<PayloadType>, previousData:PayloadType) => {
+const downloadOnTemplate = async<PayloadType>(dispatch:AppDispatch, api:AxiosInstance, url: string, action: ActionCreatorWithPayload<PayloadType>) => {
   dispatch(startLoading());
-  let currentData: PayloadType = previousData;
   try{
     const {data} = await api.get<PayloadType>(url);
-    currentData = data;
-  }
-  catch{
-    dispatch(setConnectionUnsustainable());
+    dispatch(action(data));
   }
   finally{
-    dispatch(action(currentData));
     dispatch(ceaseLoading());
   }
 };
 
 export const getOffers = createAsyncThunk<void, void, ThunkApiConfig>('offers/get',
-  async(_args, {dispatch, getState:state, extra:api}) => {
-    const {offers} = state();
-    await downloadOnTemplate<Advert[]>(dispatch, api, AdditionalURL.Offers, fillOffersListUp, offers);
+  async(_args, {dispatch, extra:api}) => {
+    await downloadOnTemplate<Advert[]>(dispatch, api, AdditionalURL.Offers, fillOffersListUp);
   });
 
 export const getTheOffer = createAsyncThunk<void, number, ThunkApiConfig>('offers/get-required-one',
   async(id,{dispatch, extra:api})=>{
     const theOfferUrl = `${AdditionalURL.Offers}/${id}`;
-    await downloadOnTemplate<Advert|null>(dispatch, api, theOfferUrl, saveOffer, null);
+    await downloadOnTemplate<Advert|null>(dispatch, api, theOfferUrl, saveOffer);
   });
 
 export const getOffersNearby = createAsyncThunk<void, number, ThunkApiConfig>('offers/get-nearby',
-  async(id, {dispatch, getState:state, extra:api}) => {
+  async(id, {dispatch, extra:api}) => {
     const offersNearbyUrl = `${AdditionalURL.OffersNearbyPrefix}${id}${AdditionalURL.OffersNearbyPostfix}`;
-    const {offersNearby} = state();
-    await downloadOnTemplate<Advert[]>(dispatch, api, offersNearbyUrl, fillOffersNearbyListUp, offersNearby);
+    await downloadOnTemplate<Advert[]>(dispatch, api, offersNearbyUrl, fillOffersNearbyListUp);
   });
 
 export const getComments = createAsyncThunk<void, number, ThunkApiConfig>('comments/get',
-  async(id, {dispatch, getState:state, extra:api})=>{
+  async(id, {dispatch, extra:api})=>{
     const commentsUrl = `${AdditionalURL.CommentsPrefix}${id}`;
-    const {comments} = state();
-    await downloadOnTemplate<Comment[]>(dispatch, api, commentsUrl, fillCommentsUp, comments);
+    await downloadOnTemplate<Comment[]>(dispatch, api, commentsUrl, fillCommentsUp);
   });
 
 export const checkAuthorisation = createAsyncThunk<void, void, ThunkApiConfig>('user/check-authorisation',

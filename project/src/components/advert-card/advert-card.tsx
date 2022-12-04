@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import Advert from '../../types/advert';
 import AppRoute from '../../types/app-route';
@@ -59,4 +60,4 @@ function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut}:AdvertCard
   );
 }
 
-export default AdvertCard;
+export default memo(AdvertCard, (previous, current) => previous.offer.id === current.offer.id);

@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersListUp, fillOffersNearbyListUp, getRidOfSelectedPoint, selectPoint, setSortType, setConnectionUnsustainable, fillCommentsUp, ceaseLoading, startLoading, setAuthorisationStatus, setUser, setSending, saveOffer } from './actions';
+import { changeCity, fillOffersListUp, fillOffersNearbyListUp, getRidOfSelectedPoint, selectPoint, setSortType, fillCommentsUp, ceaseLoading, startLoading, setAuthorisationStatus, setUser, setSending, saveOffer } from './actions';
 import Advert from '../types/advert';
 import CitiesName from '../types/cities-name';
 import SortType from '../types/sort-type';
@@ -70,9 +70,6 @@ const reducer = createReducer(initialState, (builder)=>{
     })
     .addCase(fillOffersNearbyListUp, (state, action)=>{
       state.offersNearby = action.payload;
-    })
-    .addCase(setConnectionUnsustainable, (state)=>{
-      state.isConnectionUnsustainable = true;
     })
     .addCase(fillCommentsUp, (state, action)=>{
       state.comments = action.payload;
