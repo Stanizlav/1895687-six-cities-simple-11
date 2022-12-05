@@ -25,7 +25,6 @@ export type ApplicationProcess = {
   selectedPoint: Location;
   sortType: SortType;
   chosenCity: CitiesName;
-  // formatedOffers: Advert[];
 }
 
 export type State = ReturnType<typeof store.getState>;

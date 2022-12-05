@@ -10,11 +10,14 @@ export const getSortType = (state:State) => state[NameSpace.Application].sortTyp
 
 export const getChosenCity = (state:State) => state[NameSpace.Application].chosenCity;
 
-export const getFormatedOffers = createSelector(
+export const getOffersData = createSelector(
   (state:State) => ({
     offers: state[NameSpace.Data].offers,
-    sortType: state[NameSpace.Application].sortType,
-    chosenCity: state[NameSpace.Application].chosenCity
+    sortType: getSortType(state),
+    chosenCity: getChosenCity(state)
   }),
-  ({offers, sortType, chosenCity}) => sortOffers[sortType](filterOffers(offers, chosenCity))
+  ({offers, sortType, chosenCity}) => ({
+    offers: sortOffers[sortType](filterOffers(offers, chosenCity)),
+    chosenCity
+  })
 );

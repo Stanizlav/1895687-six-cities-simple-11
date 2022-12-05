@@ -12,7 +12,7 @@ import PropertyHost from '../../components/property-host/property-host';
 import ReviewForm from '../../components/review-form/review-form';
 import StarsRating from '../../components/stars-rating/stars-rating';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { getComments, getOffersNearby, getTheOffer, isDataLoading } from '../../store/application-data/selectors';
+import { getTheOfferData } from '../../store/application-data/selectors';
 import { selectPoint } from '../../store/application-process/application-process';
 import { fetchTheOffer } from '../../store/thunk-actions';
 import { isStatusAuthorised } from '../../store/user-process/selectors';
@@ -24,13 +24,9 @@ type PropertyScreenProps = {
 
 function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
   const dispatch = useAppDispatch();
-  const
-    isAuthorised = useAppSelector(isStatusAuthorised),
-    isLoading = useAppSelector(isDataLoading),
-    offer = useAppSelector(getTheOffer),
-    comments = useAppSelector(getComments),
-    offersNearby = useAppSelector(getOffersNearby);
-  const offersToShow = offersNearby.slice(0,cardsCount);
+  const isAuthorised = useAppSelector(isStatusAuthorised);
+  const {isLoading, offer, comments, offersNearby} = useAppSelector(getTheOfferData);
+
   const params = useParams();
   const offerId = Number(params.id);
 
@@ -51,6 +47,7 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
 
   const {city, location, id, images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
   dispatch(selectPoint(location));
+  const offersToShow = offersNearby.slice(0,cardsCount);
   const points = offersToShow.map((item) => item.location).concat(location);
 
   return(

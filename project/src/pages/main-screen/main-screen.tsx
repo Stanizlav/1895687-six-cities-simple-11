@@ -8,7 +8,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import SortForm from '../../components/sort-form/sort-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { isDataLoading } from '../../store/application-data/selectors';
-import { getChosenCity, getFormatedOffers } from '../../store/application-process/selectors';
+import { getOffersData } from '../../store/application-process/selectors';
 import { fetchOffers } from '../../store/thunk-actions';
 import { cities, DEFAULT_CITY } from '../../utils/cities';
 
@@ -19,13 +19,11 @@ type MainScreenProps = {
 
 function MainScreen({ defaultCardsCount }: MainScreenProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const
-    isLoading = useAppSelector(isDataLoading),
-    chosenCity = useAppSelector(getChosenCity),
-    formatedOffers = useAppSelector(getFormatedOffers);
+  const isLoading = useAppSelector(isDataLoading);
+  const {chosenCity, offers} = useAppSelector(getOffersData);
   const city = cities.find((element) => element.name === chosenCity) ?? DEFAULT_CITY ;
-  const offersCount = formatedOffers.length;
-  const offersToShow = formatedOffers.slice(0, defaultCardsCount);
+  const offersCount = offers.length;
+  const offersToShow = offers.slice(0, defaultCardsCount);
   const points = offersToShow.map((item) => item.location);
 
   useEffect(()=>{
