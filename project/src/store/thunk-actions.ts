@@ -23,25 +23,28 @@ export const fetchOffers = createAsyncThunk<Advert[], void, ThunkApiConfig>('dat
     return data;
   });
 
-export const fetchTheOffer = createAsyncThunk<Advert, number, ThunkApiConfig>('data/fetchTheOffer',
+type OfferData = {
+  offer: Advert;
+  offersNearby: Advert[];
+  comments: Comment[];
+}
+
+export const fetchTheOffer = createAsyncThunk<OfferData, number, ThunkApiConfig>('data/fetchTheOffer',
   async(id,{extra:api})=>{
     const theOfferUrl = `${AdditionalURL.Offers}/${id}`;
-    const {data} = await api.get<Advert>(theOfferUrl);
-    return data;
-  });
+    const offerResponse = await api.get<Advert>(theOfferUrl);
 
-export const fetchOffersNearby = createAsyncThunk<Advert[], number, ThunkApiConfig>('data/fetchOffersNearby',
-  async(id, {extra:api})=>{
     const offersNearbyUrl = `${AdditionalURL.OffersNearbyPrefix}${id}${AdditionalURL.OffersNearbyPostfix}`;
-    const {data} = await api.get<Advert[]>(offersNearbyUrl);
-    return data;
-  });
+    const offersNearbyResponse = await api.get<Advert[]>(offersNearbyUrl);
 
-export const fetchComments = createAsyncThunk<Comment[], number, ThunkApiConfig>('data/fetchComments',
-  async(id, {extra:api})=>{
     const commentsUrl = `${AdditionalURL.CommentsPrefix}${id}`;
-    const {data} = await api.get<Comment[]>(commentsUrl);
-    return data;
+    const commentsResponse = await api.get<Comment[]>(commentsUrl);
+
+    return ({
+      offer: offerResponse.data,
+      offersNearby: offersNearbyResponse.data,
+      comments: commentsResponse.data
+    });
   });
 
 export const sendComment = createAsyncThunk<Comment[], {hotelId:number; newComment:NewCommentData}, ThunkApiConfig>('data/sendComment',

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useAppSelector } from '../../hooks/store-hooks';
 import { getChosenCity } from '../../store/application-process/selectors';
 import { cities } from '../../utils/cities';
@@ -16,4 +17,4 @@ function CitiesList():JSX.Element{
   );
 }
 
-export default CitiesList;
+export default memo(CitiesList);

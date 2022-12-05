@@ -14,7 +14,7 @@ import StarsRating from '../../components/stars-rating/stars-rating';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { getComments, getOffersNearby, getTheOffer, isDataLoading } from '../../store/application-data/selectors';
 import { selectPoint } from '../../store/application-process/application-process';
-import { fetchComments, fetchOffersNearby, fetchTheOffer } from '../../store/thunk-actions';
+import { fetchTheOffer } from '../../store/thunk-actions';
 import { isStatusAuthorised } from '../../store/user-process/selectors';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
@@ -39,8 +39,6 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
       return;
     }
     dispatch(fetchTheOffer(offerId));
-    dispatch(fetchComments(offerId));
-    dispatch(fetchOffersNearby(offerId));
   },[dispatch, offerId]);
 
   if(isLoading) {
