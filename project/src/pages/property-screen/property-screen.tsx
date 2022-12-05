@@ -12,9 +12,10 @@ import PropertyHost from '../../components/property-host/property-host';
 import ReviewForm from '../../components/review-form/review-form';
 import StarsRating from '../../components/stars-rating/stars-rating';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { selectPoint } from '../../store/actions';
-import { getComments, getOffersNearby, getTheOffer } from '../../store/thunk-actions';
-import AuthorisationStatus from '../../types/authorisation-status';
+import { getComments, getOffersNearby, getTheOffer, isDataLoading } from '../../store/application-data/selectors';
+import { selectPoint } from '../../store/application-process/application-process';
+import { fetchComments, fetchOffersNearby, fetchTheOffer } from '../../store/thunk-actions';
+import { isStatusAuthorised } from '../../store/user-process/selectors';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type PropertyScreenProps = {
@@ -24,12 +25,11 @@ type PropertyScreenProps = {
 function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
   const dispatch = useAppDispatch();
   const
-    authorisationStatus = useAppSelector((state)=>state.authorisationStatus),
-    isLoading = useAppSelector((state)=>state.isLoading),
-    offer = useAppSelector((state)=>state.offer),
-    comments = useAppSelector((state)=>state.comments),
-    offersNearby = useAppSelector((state)=>state.offersNearby);
-  const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
+    isAuthorised = useAppSelector(isStatusAuthorised),
+    isLoading = useAppSelector(isDataLoading),
+    offer = useAppSelector(getTheOffer),
+    comments = useAppSelector(getComments),
+    offersNearby = useAppSelector(getOffersNearby);
   const offersToShow = offersNearby.slice(0,cardsCount);
   const params = useParams();
   const offerId = Number(params.id);
@@ -38,9 +38,9 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
     if(isNaN(offerId)){
       return;
     }
-    dispatch(getTheOffer(offerId));
-    dispatch(getComments(offerId));
-    dispatch(getOffersNearby(offerId));
+    dispatch(fetchTheOffer(offerId));
+    dispatch(fetchComments(offerId));
+    dispatch(fetchOffersNearby(offerId));
   },[dispatch, offerId]);
 
   if(isLoading) {

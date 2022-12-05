@@ -1,11 +1,12 @@
 import { useState, memo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { setSortType } from '../../store/actions';
+import { chooseSortType } from '../../store/application-process/application-process';
+import { getSortType } from '../../store/application-process/selectors';
 import SortType from '../../types/sort-type';
 import SortListItem from './sort-list-item';
 
 function SortForm():JSX.Element{
-  const sortType = useAppSelector((state)=>state.sortType);
+  const sortType = useAppSelector(getSortType);
   const dispatch = useAppDispatch();
   const [isActive, setActivity] = useState(false);
   const classList = `places__options places__options--custom${ isActive ? ' places__options--opened' : ''}`;
@@ -19,7 +20,7 @@ function SortForm():JSX.Element{
     if(newSortType === sortType){
       return;
     }
-    dispatch(setSortType(newSortType));
+    dispatch(chooseSortType(newSortType));
   };
 
   const sorters = Object.values(SortType);

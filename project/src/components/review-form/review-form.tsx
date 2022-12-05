@@ -1,8 +1,8 @@
 import { ChangeEvent, FormEvent, useState, useEffect, useRef, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { setSending } from '../../store/actions';
-import { makeComment } from '../../store/thunk-actions';
+import { isDataSending } from '../../store/application-data/selectors';
+import { sendComment } from '../../store/thunk-actions';
 import NewCommentData from '../../types/new-comment-data';
 import RatingInput from './rating-input';
 
@@ -18,7 +18,7 @@ function ReviewForm({hotelId}:ReviewFormProps):JSX.Element{
   const commentRef = useRef<HTMLTextAreaElement|null>(null);
   const [rating, setRating] = useState(INITIAL_RATING);
 
-  const isSending = useAppSelector((state)=>state.isSending);
+  const isSending = useAppSelector(isDataSending);
 
   useEffect(()=>{
     if(!isSending){
@@ -49,8 +49,7 @@ function ReviewForm({hotelId}:ReviewFormProps):JSX.Element{
       return;
     }
     const newComment: NewCommentData = {comment, rating};
-    dispatch(setSending(true));
-    dispatch(makeComment({hotelId, newComment}));
+    dispatch(sendComment({hotelId, newComment}));
   };
 
   return(

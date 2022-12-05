@@ -1,16 +1,16 @@
 import { MouseEvent, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { changeCity } from '../../store/actions';
+import { useAppDispatch } from '../../hooks/store-hooks';
+import { changeCity } from '../../store/application-process/application-process';
 import AppRoute from '../../types/app-route';
 import CitiesName from '../../types/cities-name';
 
 type CityItemProps = {
   cityName: CitiesName;
+  isActive: boolean;
 }
 
-function CityItem({cityName}:CityItemProps):JSX.Element{
-  const isActive = useAppSelector((state) => state.chosenCity === cityName);
+function CityItem({cityName, isActive}:CityItemProps):JSX.Element{
   const dispatch = useAppDispatch();
 
   const handleLinkClick = (event:MouseEvent<HTMLAnchorElement>)=>{

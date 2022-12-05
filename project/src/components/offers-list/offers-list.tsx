@@ -1,6 +1,6 @@
 import { OffersListClassList } from '../../consts';
 import { useAppDispatch } from '../../hooks/store-hooks';
-import { getRidOfSelectedPoint, selectPoint } from '../../store/actions';
+import { getRidOfSelectedPoint, selectPoint } from '../../store/application-process/application-process';
 import Advert from '../../types/advert';
 import AdvertCard from '../advert-card/advert-card';
 

@@ -7,6 +7,7 @@ import { MapMarkerUrl } from '../../consts';
 import 'leaflet/dist/leaflet.css';
 import { arePointsEqual, getLatLng } from '../../utils/location-utils';
 import { useAppSelector } from '../../hooks/store-hooks';
+import { getSelectedPoint } from '../../store/application-process/selectors';
 
 const MARKER_SIZE = 40;
 const MARKER_HALF_SIZE = Math.round(MARKER_SIZE / 2);
@@ -31,7 +32,7 @@ const currentIcon = new Icon({
 
 function Map({city, points, className = ''}: MapProps):JSX.Element{
 
-  const selectedPoint = useAppSelector((state)=>state.selectedPoint);
+  const selectedPoint = useAppSelector(getSelectedPoint);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   const layerGroupRef = useRef(new LayerGroup());

@@ -3,13 +3,11 @@ import { MouseEvent, memo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { logOut } from '../../store/thunk-actions';
 import AppRoute from '../../types/app-route';
-import AuthorisationStatus from '../../types/authorisation-status';
+import { isStatusAuthorised, getUser } from '../../store/user-process/selectors';
 
 function Navigation():JSX.Element{
-  const
-    authorisationStatus = useAppSelector((state)=>state.authorisationStatus),
-    user = useAppSelector((state)=>state.user);
-  const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
+  const user = useAppSelector(getUser);
+  const isAuthorised = useAppSelector(isStatusAuthorised);
   const dispatch = useAppDispatch();
   const {avatarUrl, email} = user ?? {avatarUrl:'', email:''};
   const linkText = isAuthorised ? 'Sign out' : 'Sign in';
