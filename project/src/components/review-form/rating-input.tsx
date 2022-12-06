@@ -1,4 +1,4 @@
-import { ChangeEvent, memo } from 'react';
+import { ChangeEvent } from 'react';
 import { RAITING_MAX } from '../../consts';
 import RatingStar from './rating-star';
 
@@ -15,4 +15,4 @@ function RatingInput({rating, onChange}:RatingInputProps):JSX.Element{
   );
 }
 
-export default memo(RatingInput);
+export default RatingInput;
