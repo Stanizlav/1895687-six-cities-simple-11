@@ -7,8 +7,9 @@ import StarsRating from '../stars-rating/stars-rating';
 type AdvertCardProps = {
   offer:Advert;
   isForNearPlaces: boolean;
-  onMouseOver:(offer:Advert)=>void;
-  onMouseOut:()=>void;
+  onMouseOver?:(offer:Advert)=>void;
+  onMouseOut?:()=>void;
+  onClick?:()=>void;
 }
 
 type PremiumMarkProps = {
@@ -24,17 +25,22 @@ function PremiumMark({isNeeded}:PremiumMarkProps):JSX.Element | null{
     : null;
 }
 
-function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut}:AdvertCardProps):JSX.Element{
+function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut, onClick}:AdvertCardProps):JSX.Element{
   const {type, id, title, isPremium, previewImage, price, rating} = offer;
 
-  const handleMouseOver = () => onMouseOver(offer);
+  const handleMouseOver = onMouseOver ? () => onMouseOver(offer) : undefined;
 
   const classPrefix = isForNearPlaces ? 'near-places' : 'cities';
   const articleClassList = `${classPrefix}__card place-card`;
   const imageWrapperClassList = `${classPrefix}__image-wrapper place-card__image-wrapper`;
 
   return(
-    <article className={articleClassList} onMouseOver={handleMouseOver} onMouseOut={onMouseOut}>
+    <article
+      className={articleClassList}
+      onMouseOver={handleMouseOver}
+      onMouseOut={onMouseOut}
+      onClick={onClick}
+    >
       <PremiumMark isNeeded={isPremium}/>
       <div className={imageWrapperClassList}>
         <Link to={`${AppRoute.Room}/${id}`}>

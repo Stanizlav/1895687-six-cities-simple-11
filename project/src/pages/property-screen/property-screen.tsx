@@ -13,7 +13,6 @@ import ReviewForm from '../../components/review-form/review-form';
 import StarsRating from '../../components/stars-rating/stars-rating';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { getTheOfferData } from '../../store/application-data/selectors';
-import { selectPoint } from '../../store/application-process/application-process';
 import { fetchTheOffer } from '../../store/thunk-actions';
 import { isStatusAuthorised } from '../../store/user-process/selectors';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
@@ -26,7 +25,6 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
   const dispatch = useAppDispatch();
   const isAuthorised = useAppSelector(isStatusAuthorised);
   const {isLoading, offer, comments, offersNearby} = useAppSelector(getTheOfferData);
-
   const params = useParams();
   const offerId = Number(params.id);
 
@@ -46,7 +44,6 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
   }
 
   const {city, location, id, images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
-  dispatch(selectPoint(location));
   const offersToShow = offersNearby.slice(0,cardsCount);
   const points = offersToShow.map((item) => item.location).concat(location);
 
@@ -104,7 +101,7 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
               </section>
             </div>
           </div>
-          <Map className="property__map" city={city} points={points}/>
+          <Map className="property__map" city={city} points={points} standingOutPoint={location}/>
         </section>
         <div className="container">
           <section className="near-places places">

@@ -13,17 +13,15 @@ function OffersList({offers, isForNearPlaces = false}: OffersListProps):JSX.Elem
   const dispatch = useAppDispatch();
   const classList = isForNearPlaces ? OffersListClassList.NearPlaces : OffersListClassList.Cities;
 
-  const handleOffersListMouseOver = (offer:Advert) => {
-    if (isForNearPlaces) {
-      return;
-    }
+  const handleOfferMouseOver = (offer:Advert) => {
     dispatch(selectPoint(offer.location));
   };
 
-  const handleOffersListMouseOut = () => {
-    if (isForNearPlaces) {
-      return;
-    }
+  const handleOfferMouseOut = () => {
+    dispatch(getRidOfSelectedPoint());
+  };
+
+  const handleOfferClick = () => {
     dispatch(getRidOfSelectedPoint());
   };
 
@@ -34,8 +32,9 @@ function OffersList({offers, isForNearPlaces = false}: OffersListProps):JSX.Elem
           key={offer.id}
           offer={offer}
           isForNearPlaces={isForNearPlaces}
-          onMouseOver={handleOffersListMouseOver}
-          onMouseOut={handleOffersListMouseOut}
+          onMouseOver={isForNearPlaces ? undefined : handleOfferMouseOver}
+          onMouseOut={isForNearPlaces ? undefined : handleOfferMouseOut}
+          onClick={isForNearPlaces ? undefined : handleOfferClick}
         />)
       )}
     </div>

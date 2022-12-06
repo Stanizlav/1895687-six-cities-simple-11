@@ -36,9 +36,10 @@ const applicationData = createSlice({
         state.isLoading = false;
       })
       .addCase(fetchTheOffer.fulfilled, (state, action)=>{
-        state.offer = action.payload.offer;
-        state.offersNearby = action.payload.offersNearby;
-        state.comments = action.payload.comments;
+        const {offer, offersNearby, comments} = action.payload;
+        state.offer = offer;
+        state.offersNearby = offersNearby;
+        state.comments = comments;
         state.isLoading = false;
       })
       .addCase(sendComment.pending, (state)=>{
