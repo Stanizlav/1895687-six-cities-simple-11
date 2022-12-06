@@ -12,9 +12,9 @@ import PropertyHost from '../../components/property-host/property-host';
 import ReviewForm from '../../components/review-form/review-form';
 import StarsRating from '../../components/stars-rating/stars-rating';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { selectPoint } from '../../store/actions';
-import { getComments, getOffersNearby, getTheOffer } from '../../store/thunk-actions';
-import AuthorisationStatus from '../../types/authorisation-status';
+import { getTheOfferData } from '../../store/application-data/selectors';
+import { fetchTheOffer } from '../../store/thunk-actions';
+import { isStatusAuthorised } from '../../store/user-process/selectors';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type PropertyScreenProps = {
@@ -23,9 +23,8 @@ type PropertyScreenProps = {
 
 function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
   const dispatch = useAppDispatch();
-  const {authorisationStatus, isLoading, offer, comments, offersNearby} = useAppSelector((state)=>state);
-  const isAuthorised = authorisationStatus === AuthorisationStatus.Auth;
-  const offersAround = offersNearby.slice(0,cardsCount);
+  const isAuthorised = useAppSelector(isStatusAuthorised);
+  const {isLoading, offer, comments, offersNearby} = useAppSelector(getTheOfferData);
   const params = useParams();
   const offerId = Number(params.id);
 
@@ -33,22 +32,20 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
     if(isNaN(offerId)){
       return;
     }
-    dispatch(getTheOffer(offerId));
-    dispatch(getComments(offerId));
-    dispatch(getOffersNearby(offerId));
+    dispatch(fetchTheOffer(offerId));
   },[dispatch, offerId]);
 
   if(isLoading) {
     return <LoadingSpinner/>;
   }
 
-  if (offer === null || isNaN(offerId)) {
+  if (offer === null || isNaN(offerId) || offer.id !== offerId) {
     return <NotFoundScreen/>;
   }
 
   const {city, location, id, images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
-  dispatch(selectPoint(location));
-  const points = offersNearby.map((item) => item.location).concat(location);
+  const offersToShow = offersNearby.slice(0,cardsCount);
+  const points = offersToShow.map((item) => item.location).concat(location);
 
   return(
     <>
@@ -60,7 +57,6 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
           </div>
         </div>
       </header>
-
       <main className="page__main page__main--property">
         <section className="property">
           <PropertyGallery images={images}/>
@@ -105,12 +101,12 @@ function PropertyScreen({cardsCount}:PropertyScreenProps):JSX.Element{
               </section>
             </div>
           </div>
-          <Map className="property__map" city={city} points={points}/>
+          <Map className="property__map" city={city} points={points} standingOutPoint={location}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={offersAround} isForNearPlaces/>
+            <OffersList offers={offersToShow} isForNearPlaces/>
           </section>
         </div>
       </main>

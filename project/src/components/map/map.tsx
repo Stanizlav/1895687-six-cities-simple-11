@@ -7,15 +7,10 @@ import { MapMarkerUrl } from '../../consts';
 import 'leaflet/dist/leaflet.css';
 import { arePointsEqual, getLatLng } from '../../utils/location-utils';
 import { useAppSelector } from '../../hooks/store-hooks';
+import { getSelectedPoint } from '../../store/application-process/selectors';
 
 const MARKER_SIZE = 40;
 const MARKER_HALF_SIZE = Math.round(MARKER_SIZE / 2);
-
-type MapProps = {
-  city: City;
-  points: Location[];
-  className?: string;
-}
 
 const defaultIcon = new Icon({
   iconUrl: MapMarkerUrl.Default,
@@ -29,9 +24,17 @@ const currentIcon = new Icon({
   iconAnchor: [MARKER_HALF_SIZE, MARKER_SIZE]
 });
 
-function Map({city, points, className = ''}: MapProps):JSX.Element{
+type MapProps = {
+  city: City;
+  points: Location[];
+  className?: string;
+  standingOutPoint?: Location;
+}
 
-  const {selectedPoint} = useAppSelector((state)=>state);
+function Map({city, points, className = '', standingOutPoint}: MapProps):JSX.Element{
+
+  const selectedPoint = useAppSelector(getSelectedPoint);
+  const highlightedPoint = standingOutPoint ?? selectedPoint;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   const layerGroupRef = useRef(new LayerGroup());
@@ -42,7 +45,7 @@ function Map({city, points, className = ''}: MapProps):JSX.Element{
       layerGroupRef.current.clearLayers();
       points.forEach((point) => {
         new Marker(getLatLng(point),{
-          icon: (selectedPoint !== undefined && arePointsEqual(point, selectedPoint))
+          icon: (arePointsEqual(point, highlightedPoint))
             ? currentIcon
             : defaultIcon
         }).addTo(layerGroupRef.current);
@@ -50,7 +53,7 @@ function Map({city, points, className = ''}: MapProps):JSX.Element{
       layerGroupRef.current.addTo(map);
       map.flyTo(getLatLng(city.location));
     }
-  }, [map, points, city, selectedPoint]);
+  }, [map, points, city, highlightedPoint]);
 
   return <section className={classList} ref={mapRef}></section>;
 }

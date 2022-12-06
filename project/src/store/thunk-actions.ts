@@ -1,12 +1,11 @@
-import { createAsyncThunk, ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { removeToken, setToken } from '../services/token';
-import { ceaseLoading, fillCommentsUp, fillOffersListUp, fillOffersNearbyListUp, redirectToRoute, saveOffer, setAuthorisationStatus, setConnectionUnsustainable, setSending, setUser, startLoading } from '../store/actions';
+import { removeToken, saveToken } from '../services/token';
+import { redirectToRoute } from '../store/actions';
 import AdditionalURL from '../types/additional-url';
 import Advert from '../types/advert';
 import AppRoute from '../types/app-route';
 import AuthData from '../types/auth-data';
-import AuthorisationStatus from '../types/authorisation-status';
 import Comment from '../types/comment';
 import NewCommentData from '../types/new-comment-data';
 import { AppDispatch, State} from '../types/state';
@@ -18,83 +17,60 @@ type ThunkApiConfig = {
   extra: AxiosInstance;
 }
 
-const downloadOnTemplate = async<PayloadType>(dispatch:AppDispatch, api:AxiosInstance, url: string, action: ActionCreatorWithPayload<PayloadType>, previousData:PayloadType) => {
-  dispatch(startLoading());
-  let currentData: PayloadType = previousData;
-  try{
-    const {data} = await api.get<PayloadType>(url);
-    currentData = data;
-  }
-  catch{
-    dispatch(setConnectionUnsustainable());
-  }
-  finally{
-    dispatch(action(currentData));
-    dispatch(ceaseLoading());
-  }
-};
-
-export const getOffers = createAsyncThunk<void, void, ThunkApiConfig>('offers/get',
-  async(_args, {dispatch, getState:state, extra:api}) => {
-    const {offers} = state();
-    await downloadOnTemplate<Advert[]>(dispatch, api, AdditionalURL.Offers, fillOffersListUp, offers);
+export const fetchOffers = createAsyncThunk<Advert[], void, ThunkApiConfig>('data/fetchOffers',
+  async(_args, {extra:api})=>{
+    const {data} = await api.get<Advert[]>(AdditionalURL.Offers);
+    return data;
   });
 
-export const getTheOffer = createAsyncThunk<void, number, ThunkApiConfig>('offers/get-required-one',
-  async(id,{dispatch, extra:api})=>{
+type OfferData = {
+  offer: Advert;
+  offersNearby: Advert[];
+  comments: Comment[];
+}
+
+export const fetchTheOffer = createAsyncThunk<OfferData, number, ThunkApiConfig>('data/fetchTheOffer',
+  async(id,{extra:api})=>{
     const theOfferUrl = `${AdditionalURL.Offers}/${id}`;
-    await downloadOnTemplate<Advert|null>(dispatch, api, theOfferUrl, saveOffer, null);
-  });
+    const offerResponse = await api.get<Advert>(theOfferUrl);
 
-export const getOffersNearby = createAsyncThunk<void, number, ThunkApiConfig>('offers/get-nearby',
-  async(id, {dispatch, getState:state, extra:api}) => {
     const offersNearbyUrl = `${AdditionalURL.OffersNearbyPrefix}${id}${AdditionalURL.OffersNearbyPostfix}`;
-    const {offersNearby} = state();
-    await downloadOnTemplate<Advert[]>(dispatch, api, offersNearbyUrl, fillOffersNearbyListUp, offersNearby);
-  });
+    const offersNearbyResponse = await api.get<Advert[]>(offersNearbyUrl);
 
-export const getComments = createAsyncThunk<void, number, ThunkApiConfig>('comments/get',
-  async(id, {dispatch, getState:state, extra:api})=>{
     const commentsUrl = `${AdditionalURL.CommentsPrefix}${id}`;
-    const {comments} = state();
-    await downloadOnTemplate<Comment[]>(dispatch, api, commentsUrl, fillCommentsUp, comments);
+    const commentsResponse = await api.get<Comment[]>(commentsUrl);
+
+    return ({
+      offer: offerResponse.data,
+      offersNearby: offersNearbyResponse.data,
+      comments: commentsResponse.data
+    });
   });
 
-export const checkAuthorisation = createAsyncThunk<void, void, ThunkApiConfig>('user/check-authorisation',
-  async(_args, {dispatch, extra:api})=>{
-    try{
-      const {data} = await api.get<User>(AdditionalURL.Login);
-      dispatch(setAuthorisationStatus(AuthorisationStatus.Auth));
-      dispatch(setUser(data));
-    }
-    catch{
-      dispatch(setAuthorisationStatus(AuthorisationStatus.Unauth));
-    }
-  });
-
-export const logIn = createAsyncThunk<void, AuthData, ThunkApiConfig>('user/log-in',
-  async(authData, {dispatch, extra:api})=>{
-    const {data} = await api.post<User>(AdditionalURL.Login, authData);
-    const {token} = data;
-    setToken(token);
-    dispatch(setAuthorisationStatus(AuthorisationStatus.Auth));
-    dispatch(setUser(data));
-    dispatch(redirectToRoute(AppRoute.Main));
-  });
-
-export const logOut = createAsyncThunk<void, void, ThunkApiConfig>('user/log-out',
-  async(_args, {dispatch, extra:api})=>{
-    await api.delete(AdditionalURL.Logout);
-    removeToken();
-    dispatch(setAuthorisationStatus(AuthorisationStatus.Unauth));
-    dispatch(setUser(null));
-  });
-
-
-export const makeComment = createAsyncThunk<void, {hotelId:number; newComment:NewCommentData}, ThunkApiConfig>('comments/make',
+export const sendComment = createAsyncThunk<Comment[], {hotelId:number; newComment:NewCommentData}, ThunkApiConfig>('data/sendComment',
   async({hotelId, newComment}, {dispatch, extra:api})=>{
     const makingCommentUrl = `${AdditionalURL.CommentsPrefix}${hotelId}`;
     const {data} = await api.post<Comment[]>(makingCommentUrl, newComment);
-    dispatch(fillCommentsUp(data));
-    dispatch(setSending(false));
+    return data;
+  });
+
+export const checkAuthorisation = createAsyncThunk<User, void, ThunkApiConfig>('user/checkAuthorisation',
+  async(_args, {extra:api})=>{
+    const {data} = await api.get<User>(AdditionalURL.Login);
+    return data;
+  });
+
+export const logIn = createAsyncThunk<User, AuthData, ThunkApiConfig>('user/logIn',
+  async(authData, {dispatch, extra:api})=>{
+    const {data} = await api.post<User>(AdditionalURL.Login, authData);
+    const {token} = data;
+    saveToken(token);
+    dispatch(redirectToRoute(AppRoute.Main));
+    return data;
+  });
+
+export const logOut = createAsyncThunk<void, void, ThunkApiConfig>('user/logOut',
+  async(_args, {extra:api})=>{
+    await api.delete(AdditionalURL.Logout);
+    removeToken();
   });

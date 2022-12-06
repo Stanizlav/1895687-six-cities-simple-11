@@ -16,7 +16,7 @@ export const RatingTitle = {
   5 : 'perfect'
 } as const;
 
-export const REDIRECT_ACTION_TYPE = 'application/redirect-to-route';
+export const REDIRECT_ACTION_TYPE = 'application/redirectToRoute';
 
 export const RAITING_MAX = 5;
 export const PERCENTAGE_MULTIPLAYER = 100 / RAITING_MAX;
