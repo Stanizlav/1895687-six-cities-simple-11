@@ -12,6 +12,8 @@ type CompleteOfferProps = {
 
 function CompleteOffer({offer}:CompleteOfferProps):JSX.Element{
   const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
+  const bedroomsAnnotation = `${bedrooms} Bedroom${bedrooms > 1 ? 's' : ''}`;
+  const capacityAnnotation = `Max ${maxAdults} adult${maxAdults > 1 ? 's' : ''}`;
 
   return(
     <>
@@ -28,8 +30,8 @@ function CompleteOffer({offer}:CompleteOfferProps):JSX.Element{
           </div>
           <ul className="property__features">
             <li className="property__feature property__feature--entire">{type}</li>
-            <li className="property__feature property__feature--bedrooms">{bedrooms} Bedrooms</li>
-            <li className="property__feature property__feature--adults">Max {maxAdults} adults</li>
+            <li className="property__feature property__feature--bedrooms">{bedroomsAnnotation}</li>
+            <li className="property__feature property__feature--adults">{capacityAnnotation}</li>
           </ul>
           <div className="property__price">
             <b className="property__price-value">&euro;{price}</b>
