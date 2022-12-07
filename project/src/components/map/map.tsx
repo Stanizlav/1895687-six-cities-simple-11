@@ -41,18 +41,21 @@ function Map({city, points, className = '', standingOutPoint}: MapProps):JSX.Ele
   const classList = `${className} map`;
 
   useEffect(() => {
+    const layerGroup = layerGroupRef.current;
     if(map){
-      layerGroupRef.current.clearLayers();
       points.forEach((point) => {
         new Marker(getLatLng(point),{
           icon: (arePointsEqual(point, highlightedPoint))
             ? currentIcon
             : defaultIcon
-        }).addTo(layerGroupRef.current);
+        }).addTo(layerGroup);
       });
-      layerGroupRef.current.addTo(map);
+      layerGroup.addTo(map);
       map.flyTo(getLatLng(city.location));
     }
+    return ()=>{
+      layerGroup.clearLayers();
+    };
   }, [map, points, city, highlightedPoint]);
 
   return <section className={classList} ref={mapRef}></section>;
