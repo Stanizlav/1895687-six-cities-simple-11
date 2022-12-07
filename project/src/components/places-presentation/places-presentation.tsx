@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useAppSelector } from '../../hooks/store-hooks';
 import { getOffersData } from '../../store/application-process/selectors';
 import { cities, DEFAULT_CITY } from '../../utils/cities';
@@ -13,15 +14,22 @@ type PlacesPresentationProps = {
 function PlacesPresentation({maxCountToShow}: PlacesPresentationProps):JSX.Element{
 
   const {chosenCity, offers} = useAppSelector(getOffersData);
+  const city = useMemo(
+    () => cities.find((element) => element.name === chosenCity) ?? DEFAULT_CITY,
+    [chosenCity]
+  );
+
   const offersCount = offers.length;
+  const offersCountMessage = useMemo(
+    () => `${offersCount} place${offersCount > 1 ? 's' : ''} to stay in ${chosenCity}`,
+    [chosenCity, offersCount]
+  );
 
   if(!offersCount){
     return <NoPlacesPresentation cityName={chosenCity}/>;
   }
 
-  const offersCountMessage = `${offersCount} place${offersCount > 1 ? 's' : ''} to stay in ${chosenCity}`;
   const offersToShow = offers.slice(0, maxCountToShow);
-  const city = cities.find((element) => element.name === chosenCity) ?? DEFAULT_CITY ;
   const points = offersToShow.map((item) => item.location);
 
   return(
