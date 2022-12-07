@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import Advert from '../../types/advert';
 import AppRoute from '../../types/app-route';
+import PremiumMark from '../premium-mark/premium-mark';
 import StarsRating from '../stars-rating/stars-rating';
 
 type AdvertCardProps = {
@@ -28,11 +29,7 @@ function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut, onClick}:A
       onMouseOut={onMouseOut}
       onClick={onClick}
     >
-      {isPremium ?
-        <div className="place-card__mark">
-          <span>Premium</span>
-        </div>
-        : null}
+      <PremiumMark isPremium={isPremium} className="place-card__mark"/>
       <div className={imageWrapperClassList}>
         <Link to={`${AppRoute.Room}/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Apartment"/>

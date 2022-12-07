@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import Advert from '../../types/advert';
+import PremiumMark from '../premium-mark/premium-mark';
 import PropertyGallery from '../property-gallery/property-gallery';
 import PropertyGoodsList from '../property-goods-list/property-goods-list';
 import PropertyHost from '../property-host/property-host';
@@ -17,11 +18,7 @@ function CompleteOffer({offer}:CompleteOfferProps):JSX.Element{
       <PropertyGallery images={images}/>
       <div className="property__container container">
         <div className="property__wrapper">
-          {isPremium ?
-            <div className="property__mark">
-              <span>Premium</span>
-            </div>
-            : null}
+          <PremiumMark isPremium={isPremium} className="property__mark"/>
           <div className="property__name-wrapper">
             <h1 className="property__name">{title}</h1>
           </div>
