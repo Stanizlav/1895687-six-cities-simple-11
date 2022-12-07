@@ -12,19 +12,6 @@ type AdvertCardProps = {
   onClick?:()=>void;
 }
 
-type PremiumMarkProps = {
-  isNeeded:boolean;
-}
-
-function PremiumMark({isNeeded}:PremiumMarkProps):JSX.Element | null{
-  return isNeeded
-    ?
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>
-    : null;
-}
-
 function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut, onClick}:AdvertCardProps):JSX.Element{
   const {type, id, title, isPremium, previewImage, price, rating} = offer;
 
@@ -41,7 +28,11 @@ function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut, onClick}:A
       onMouseOut={onMouseOut}
       onClick={onClick}
     >
-      <PremiumMark isNeeded={isPremium}/>
+      {isPremium ?
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+        : null}
       <div className={imageWrapperClassList}>
         <Link to={`${AppRoute.Room}/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Apartment"/>
