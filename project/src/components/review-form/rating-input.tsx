@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useMemo } from 'react';
 import { RAITING_MAX } from '../../consts';
 import RatingStar from './rating-star';
 
@@ -8,9 +8,11 @@ type RatingInputProps = {
 }
 
 function RatingInput({rating, onChange}:RatingInputProps):JSX.Element{
+  const ratingValues = useMemo(()=>Array.from(Array(RAITING_MAX), (element, index)=>RAITING_MAX - index), []);
+
   return(
     <div className="reviews__rating-form form__rating" onChange={onChange}>
-      {Array.from(Array(RAITING_MAX),(v,k)=>RAITING_MAX - k).map((item) => <RatingStar key={item} value={item} rating={rating}/>)}
+      {ratingValues.map((item) => <RatingStar key={item} value={item} rating={rating}/>)}
     </div>
   );
 }

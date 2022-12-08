@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState, useEffect, useRef, useCallback } from 'react';
+import { ChangeEvent, FormEvent, useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { isDataSending } from '../../store/application-data/selectors';
@@ -29,10 +29,10 @@ function ReviewForm({hotelId}:ReviewFormProps):JSX.Element{
     }
   },[isSending]);
 
-  const handleRatingChange = useCallback((evt:ChangeEvent<HTMLInputElement>)=>{
+  const handleRatingChange = (evt:ChangeEvent<HTMLInputElement>)=>{
     const changedRating = Number(evt.target.value);
     setRating(changedRating);
-  },[]);
+  };
 
   const handleFormSubmit = (evt:FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
