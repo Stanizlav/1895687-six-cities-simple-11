@@ -7,7 +7,7 @@ import { ApplicationProcess } from '../../types/state';
 
 const imaginaryPoint:Location = {latitude:-Infinity, longitude: -Infinity};
 
-const initialState:ApplicationProcess = {
+export const initialState:ApplicationProcess = {
   selectedPoint: imaginaryPoint,
   sortType: SortType.Popular,
   chosenCity: CitiesName.Paris
