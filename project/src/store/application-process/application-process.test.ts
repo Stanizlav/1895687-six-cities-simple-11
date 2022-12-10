@@ -2,8 +2,9 @@ import CitiesName from '../../types/cities-name';
 import SortType from '../../types/sort-type';
 import { ApplicationProcess } from '../../types/state';
 import { generateLocation } from '../../utils/mocks';
-import { applicationProcess, changeCity, chooseSortType, getRidOfSelectedPoint, initialState, selectPoint } from './application-process';
+import { applicationProcess, changeCity, chooseSortType, getRidOfSelectedPoint, selectPoint } from './application-process';
 
+const initialState = applicationProcess.getInitialState();
 
 const previousPoint = generateLocation();
 const previousSortType = SortType.Popular;
@@ -40,7 +41,7 @@ describe('Reducer: applicationProcess', () => {
       .toEqual({...previousState, sortType: newSortType});
   });
 
-  it('should chenge the chosen City',()=>{
+  it('should change the chosen City',()=>{
     expect(applicationProcess.reducer(previousState, changeCity(newChosenCity)))
       .toEqual({...previousState, chosenCity: newChosenCity});
   });

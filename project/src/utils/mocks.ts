@@ -1,5 +1,15 @@
+import Advert from '../types/advert';
 import Location from '../types/location';
+import { name, internet, commerce, date } from 'faker';
+import { cities } from '../consts/cities';
+import Accomodation from '../types/accomodation';
+import { RAITING_MAX } from '../consts/consts';
+import Person from '../types/person';
+import Comment from '../types/comment';
 
+const MAX_ID = 356;
+const MAX_PRICE = 2000;
+const MIN_RATING = 1;
 const MINIMAL_LATITUDE = -90;
 const LATITUDE_RANGE = 180;
 const MINIMAL_LONGITUDE = -180;
@@ -15,3 +25,70 @@ export const generateDifferentLocation = (location:Location):Location => ({
   ...location,
   longitude: -location.longitude
 });
+
+const generatePerson = ():Person=>{
+  const random = Math.random();
+  return{
+    avatarUrl: internet.avatar(),
+    id: Math.floor(MAX_ID * random),
+    isPro: random > 0.5,
+    name: name.firstName()
+  };
+};
+
+export const generateOffer = ():Advert => {
+  const types = Object.values(Accomodation);
+  const random = Math.random();
+  const id = Math.floor(MAX_ID * random);
+  const title = commerce.productName();
+  const cityIndex = Math.floor(cities.length * random);
+  const city = cities[cityIndex];
+  const location = generateLocation();
+  const previewImage = internet.avatar();
+  const isPremium = random > 0.5;
+  const price = Math.floor(MAX_PRICE * random);
+  const typeIndex = Math.floor(types.length * random);
+  const type = types[typeIndex];
+  const rating = MIN_RATING + Math.floor((RAITING_MAX - MIN_RATING + 1) * random);
+  const bedrooms = rating;
+  const description = commerce.productDescription();
+  const goods:string[] = [];
+  const host = generatePerson();
+  const images:string[] = [];
+  const maxAdults = bedrooms;
+
+  return {
+    id,
+    title,
+    city,
+    location,
+    previewImage,
+    isPremium,
+    price,
+    type,
+    rating,
+    bedrooms,
+    description,
+    goods,
+    host,
+    images,
+    maxAdults
+  };
+};
+
+export const generateOffers = (count:number):Advert[] => Array.from({length: count}, generateOffer);
+
+export const generateComment = ():Comment => {
+  const random = Math.random();
+  const id = Math.floor(MAX_ID * random);
+  const rating = MIN_RATING + Math.floor((RAITING_MAX - MIN_RATING + 1) * random);
+  return{
+    comment: commerce.productDescription(),
+    date: date.past().toString(),
+    id,
+    rating,
+    user: generatePerson()
+  };
+};
+
+export const generateComments = (count:number):Comment[] => Array.from({length:count}, generateComment);
