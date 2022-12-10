@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useAppSelector } from '../../hooks/store-hooks';
 import { getChosenCity } from '../../store/application-process/selectors';
-import { cities } from '../../utils/cities';
+import { cities } from '../../consts/cities';
 import CityItem from './city-item';
 
 function CitiesList():JSX.Element{

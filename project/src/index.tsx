@@ -6,6 +6,8 @@ import { store } from './store/store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { checkAuthorisation } from './store/thunk-actions';
+import HistoryRouter from './components/history-router/history-router';
+import browserHistory from './services/browser-history';
 
 const Settings = {
   defaultCardsCount: 5,
@@ -21,8 +23,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <App defaultCardsCount={Settings.defaultCardsCount} nearPlacesCardsCount={Settings.nearPlacesCardsCount}/>
+      <HistoryRouter history={browserHistory}>
+        <ToastContainer />
+        <App defaultCardsCount={Settings.defaultCardsCount} nearPlacesCardsCount={Settings.nearPlacesCardsCount}/>
+      </HistoryRouter>
     </Provider>
   </React.StrictMode>,
 );
