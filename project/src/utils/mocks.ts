@@ -6,6 +6,7 @@ import Accomodation from '../types/accomodation';
 import { RAITING_MAX } from '../consts/consts';
 import Person from '../types/person';
 import Comment from '../types/comment';
+import User from '../types/user';
 
 const MAX_ID = 356;
 const MAX_PRICE = 2000;
@@ -26,13 +27,22 @@ export const generateDifferentLocation = (location:Location):Location => ({
   longitude: -location.longitude
 });
 
-const generatePerson = ():Person=>{
+const generatePerson = ():Person => {
   const random = Math.random();
   return{
     avatarUrl: internet.avatar(),
     id: Math.floor(MAX_ID * random),
     isPro: random > 0.5,
     name: name.firstName()
+  };
+};
+
+export const generateUser = ():User => {
+  const person = generatePerson();
+  return{
+    ...person,
+    email: internet.email(),
+    token: internet.password()
   };
 };
 

@@ -26,22 +26,22 @@ describe('Reducer: applicationProcess', () => {
       .toEqual(initialState);
   });
 
-  it('should change the selected point',()=>{
+  it('with the "selectPoint" action should change the selected point',()=>{
     expect(applicationProcess.reducer(previousState, selectPoint(newPoint)))
       .toEqual({...previousState, selectedPoint:newPoint});
   });
 
-  it('should get rid of the selected point',()=>{
+  it('with the "getRidOfSelectedPoint" action should get rid of the selected point',()=>{
     expect(applicationProcess.reducer(previousState, getRidOfSelectedPoint()))
       .toEqual({...previousState, selectedPoint:noPoint});
   });
 
-  it('should change the sort type',()=>{
+  it('with the "chooseSortType" action should change the sort type',()=>{
     expect(applicationProcess.reducer(previousState, chooseSortType(newSortType)))
       .toEqual({...previousState, sortType: newSortType});
   });
 
-  it('should change the chosen City',()=>{
+  it('with the "changeCity" action should change the chosen City',()=>{
     expect(applicationProcess.reducer(previousState, changeCity(newChosenCity)))
       .toEqual({...previousState, chosenCity: newChosenCity});
   });
