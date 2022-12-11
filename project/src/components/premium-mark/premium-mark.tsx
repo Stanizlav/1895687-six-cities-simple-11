@@ -1,6 +1,6 @@
 type PremiumMarkProps = {
   isPremium: boolean;
-  className: string;
+  className?: string;
 }
 
 function PremiumMark({isPremium, className}:PremiumMarkProps):JSX.Element|null{
