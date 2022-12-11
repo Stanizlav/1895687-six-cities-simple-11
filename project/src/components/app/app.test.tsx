@@ -6,7 +6,6 @@ import App from './app';
 import AppRoute from '../../types/app-route';
 import { render, screen } from '@testing-library/react';
 import NameSpace from '../../types/name-space';
-import CitiesName from '../../types/cities-name';
 import SortType from '../../types/sort-type';
 import AuthorisationStatus from '../../types/authorisation-status';
 import { cities } from '../../consts/cities';
@@ -15,14 +14,14 @@ import { createAPI } from '../../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import AdditionalURL from '../../types/additional-url';
+import { DEFAULT_CARDS_COUNT, DEFAULT_NEAR_PLACES_COUNT } from '../../consts/consts';
 
 const SIGN_IN_ELEMENTS_COUNT = 2;
-const DEFAULT_CARDS_COUNT = 5;
-const NEAR_PLACES_COUNT = 3;
 
-const chosenCity = CitiesName.Paris;
-const sortType = SortType.Popular;
 const offer = generateOffer();
+const chosenCity = offer.city.name;
+const sortType = SortType.Popular;
+
 
 const api = createAPI();
 const mockAPI = new MockAdapter(api);
@@ -52,7 +51,7 @@ const history = createMemoryHistory();
 const fakeApp = (
   <Provider store={store}>
     <HistoryRouter history={history}>
-      <App defaultCardsCount={DEFAULT_CARDS_COUNT} nearPlacesCardsCount={NEAR_PLACES_COUNT}/>
+      <App defaultCardsCount={DEFAULT_CARDS_COUNT} nearPlacesCardsCount={DEFAULT_NEAR_PLACES_COUNT}/>
     </HistoryRouter>
   </Provider>
 );
@@ -62,7 +61,7 @@ describe('Application Routing', ()=>{
     history.push(AppRoute.Main);
     render(fakeApp);
 
-    expect(screen.getByText(/sign/i)).toBeInTheDocument();
+    expect(screen.getByText(/sign in/i)).toBeInTheDocument();
     cities.forEach((city) => expect(screen.getByText(city.name)).toBeInTheDocument());
     expect(screen.getByText(/to stay/i)).toBeInTheDocument();
   });

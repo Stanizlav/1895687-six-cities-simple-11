@@ -26,10 +26,10 @@ const store = mockStore({
   }
 });
 const history = createMemoryHistory();
-history.push(AppRoute.Login);
 
 describe('Component: LoginScreen', ()=>{
   it('should render when user navigate to "login" url', async()=>{
+    history.push(AppRoute.Login);
 
     render(
       <Provider store={store}>

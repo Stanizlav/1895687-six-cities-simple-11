@@ -8,10 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { checkAuthorisation, fetchOffers } from './store/thunk-actions';
 import HistoryRouter from './components/history-router/history-router';
 import browserHistory from './services/browser-history';
+import { DEFAULT_CARDS_COUNT, DEFAULT_NEAR_PLACES_COUNT } from './consts/consts';
 
 const Settings = {
-  defaultCardsCount: 5,
-  nearPlacesCardsCount: 3
+  defaultCardsCount: DEFAULT_CARDS_COUNT,
+  nearPlacesCardsCount: DEFAULT_NEAR_PLACES_COUNT
 };
 
 store.dispatch(checkAuthorisation());

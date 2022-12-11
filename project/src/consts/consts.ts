@@ -18,6 +18,9 @@ export const RatingTitle = {
 
 export const REDIRECT_ACTION_TYPE = 'application/redirectToRoute';
 
+export const DEFAULT_CARDS_COUNT = 5;
+export const DEFAULT_NEAR_PLACES_COUNT = 3;
+
 export const RAITING_MAX = 5;
 export const PERCENTAGE_MULTIPLAYER = 100 / RAITING_MAX;
 export const LAYER_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
