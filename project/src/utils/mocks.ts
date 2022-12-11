@@ -16,9 +16,10 @@ const LATITUDE_RANGE = 180;
 const MINIMAL_LONGITUDE = -180;
 const LONGITUDE_RANGE = 360;
 
-export const generateLocation = ():Location => {
-  const latitude = MINIMAL_LATITUDE + LATITUDE_RANGE * Math.random();
-  const longitude = MINIMAL_LONGITUDE + LONGITUDE_RANGE * Math.random();
+export const generateLocation = (percentage?:number):Location => {
+  const random = percentage ?? Math.random();
+  const latitude = MINIMAL_LATITUDE + LATITUDE_RANGE * random;
+  const longitude = MINIMAL_LONGITUDE + LONGITUDE_RANGE * (1 - random);
   return ({latitude, longitude});
 };
 
@@ -46,14 +47,19 @@ export const generateUser = ():User => {
   };
 };
 
+export const generateCity = (percentage?:number) => {
+  const random = percentage ?? Math.random();
+  const cityIndex = Math.floor(cities.length * random);
+  return cities[cityIndex];
+};
+
 export const generateOffer = ():Advert => {
   const types = Object.values(Accomodation);
   const random = Math.random();
   const id = Math.floor(MAX_ID * random);
   const title = commerce.productName();
-  const cityIndex = Math.floor(cities.length * random);
-  const city = cities[cityIndex];
-  const location = generateLocation();
+  const city = generateCity(random);
+  const location = generateLocation(random);
   const previewImage = internet.avatar();
   const isPremium = random > 0.5;
   const price = Math.floor(MAX_PRICE * random);
