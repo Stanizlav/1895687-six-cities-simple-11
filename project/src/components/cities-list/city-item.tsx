@@ -7,10 +7,10 @@ import CitiesName from '../../types/cities-name';
 
 type CityItemProps = {
   cityName: CitiesName;
-  isActive: boolean;
+  isActive?: boolean;
 }
 
-function CityItem({cityName, isActive}:CityItemProps):JSX.Element{
+function CityItem({cityName, isActive = false}:CityItemProps):JSX.Element{
   const dispatch = useAppDispatch();
 
   const handleLinkClick = (event:MouseEvent<HTMLAnchorElement>)=>{
