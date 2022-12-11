@@ -10,8 +10,13 @@ import NameSpace from '../../types/name-space';
 import AuthorisationStatus from '../../types/authorisation-status';
 import CitiesName from '../../types/cities-name';
 
-const mockStore = configureMockStore();
+const MOCK_EMAIL = 'someEmail@mockEmail.com';
+const MOCK_PASSWORD = 'password123';
+const SIGN_IN_ELEMENTS_COUNT = 2;
+
 const chosenCity = CitiesName.Paris;
+
+const mockStore = configureMockStore();
 const store = mockStore({
   [NameSpace.User]:{
     authorisationStatus: AuthorisationStatus.Unauth
@@ -26,9 +31,6 @@ history.push(AppRoute.Login);
 describe('Component: LoginScreen', ()=>{
   it('should render when user navigate to "login" url', async()=>{
 
-    const MOCK_EMAIL = 'someEmail@mockEmail.com';
-    const MOCK_PASSWORD = 'password123';
-
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
@@ -38,7 +40,7 @@ describe('Component: LoginScreen', ()=>{
     );
 
     const signInElements = screen.getAllByText(/Sign in/i);
-    expect(signInElements.length).toBe(2);
+    expect(signInElements.length).toBe(SIGN_IN_ELEMENTS_COUNT);
     signInElements.forEach((element)=>expect(element).toBeInTheDocument());
 
     expect(screen.getByText(chosenCity)).toBeInTheDocument();

@@ -13,9 +13,6 @@ describe('Component: NotFoundScreen', ()=>{
       </HistoryRouter>
     );
 
-    const headerElement = screen.getByText(/404 Not Found/i);
-
-    expect(headerElement).toBeInTheDocument();
-
+    expect(screen.getByText(/404 Not Found/i)).toBeInTheDocument();
   });
 });
