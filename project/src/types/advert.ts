@@ -1,3 +1,4 @@
+import Accomodation from './accomodation';
 import City from './city';
 import Location from './location';
 import Person from './person';
@@ -10,7 +11,7 @@ type Advert = {
   previewImage: string;
   isPremium: boolean;
   price: number;
-  type: string;
+  type: Accomodation;
   rating: number;
   bedrooms: number;
   description: string;

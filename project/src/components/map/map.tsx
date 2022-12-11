@@ -3,7 +3,7 @@ import Location from '../../types/location';
 import { useEffect, useRef } from 'react';
 import { Icon, LayerGroup, Marker } from 'leaflet';
 import useMap from '../../hooks/useMap';
-import { MapMarkerUrl } from '../../consts';
+import { MapMarkerUrl } from '../../consts/consts';
 import 'leaflet/dist/leaflet.css';
 import { arePointsEqual, getLatLng } from '../../utils/location-utils';
 import { useAppSelector } from '../../hooks/store-hooks';

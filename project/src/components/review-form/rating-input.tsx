@@ -1,5 +1,5 @@
 import { ChangeEvent, useMemo } from 'react';
-import { RAITING_MAX } from '../../consts';
+import { RAITING_MAX } from '../../consts/consts';
 import RatingStar from './rating-star';
 
 type RatingInputProps = {

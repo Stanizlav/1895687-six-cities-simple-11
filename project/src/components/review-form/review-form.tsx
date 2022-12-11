@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
+import { MINIMAL_COMMENT_SIZE } from '../../consts/consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { isDataSending } from '../../store/application-data/selectors';
 import { sendComment } from '../../store/thunk-actions';
@@ -7,7 +8,6 @@ import NewCommentData from '../../types/new-comment-data';
 import RatingInput from './rating-input';
 
 const INITIAL_RATING = 0;
-const MINIMAL_COMMENT_SIZE = 50;
 
 type ReviewFormProps = {
   hotelId:number;

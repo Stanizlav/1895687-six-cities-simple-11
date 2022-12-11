@@ -9,7 +9,8 @@ function Navigation():JSX.Element{
   const user = useAppSelector(getUser);
   const isAuthorised = useAppSelector(isStatusAuthorised);
   const dispatch = useAppDispatch();
-  const {avatarUrl, email} = user ?? {avatarUrl:'', email:''};
+  const avatarUrl = user?.avatarUrl;
+  const email = user?.email;
   const linkText = isAuthorised ? 'Sign out' : 'Sign in';
   const linkClassList = isAuthorised ? 'header__signout' : 'header__login';
 

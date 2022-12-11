@@ -49,8 +49,8 @@ export const fetchTheOffer = createAsyncThunk<OfferData, number, ThunkApiConfig>
 
 export const sendComment = createAsyncThunk<Comment[], {hotelId:number; newComment:NewCommentData}, ThunkApiConfig>('data/sendComment',
   async({hotelId, newComment}, {dispatch, extra:api})=>{
-    const makingCommentUrl = `${AdditionalURL.CommentsPrefix}${hotelId}`;
-    const {data} = await api.post<Comment[]>(makingCommentUrl, newComment);
+    const sendingCommentUrl = `${AdditionalURL.CommentsPrefix}${hotelId}`;
+    const {data} = await api.post<Comment[]>(sendingCommentUrl, newComment);
     return data;
   });
 

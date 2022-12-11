@@ -1,4 +1,4 @@
-import { PERCENTAGE_MULTIPLAYER } from '../../consts';
+import { PERCENTAGE_MULTIPLAYER } from '../../consts/consts';
 
 type StarsRatingProps = {
   rating:number;

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useAppSelector } from '../../hooks/store-hooks';
 import { getOffersData } from '../../store/application-process/selectors';
-import { cities, DEFAULT_CITY } from '../../utils/cities';
+import { cities, DEFAULT_CITY } from '../../consts/cities';
 import Map from '../map/map';
 import OffersList from '../offers-list/offers-list';
 import SortForm from '../sort-form/sort-form';

@@ -1,4 +1,4 @@
-import { OffersListClassList } from '../../consts';
+import { OffersListClassList } from '../../consts/consts';
 import { useAppDispatch } from '../../hooks/store-hooks';
 import { getRidOfSelectedPoint, selectPoint } from '../../store/application-process/application-process';
 import Advert from '../../types/advert';

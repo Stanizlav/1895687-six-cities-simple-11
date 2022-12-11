@@ -7,13 +7,13 @@ import StarsRating from '../stars-rating/stars-rating';
 
 type AdvertCardProps = {
   offer:Advert;
-  isForNearPlaces: boolean;
+  isForNearPlaces?: boolean;
   onMouseOver?:(offer:Advert)=>void;
   onMouseOut?:()=>void;
   onClick?:()=>void;
 }
 
-function AdvertCard({offer, isForNearPlaces, onMouseOver, onMouseOut, onClick}:AdvertCardProps):JSX.Element{
+function AdvertCard({offer, isForNearPlaces = false, onMouseOver, onMouseOut, onClick}:AdvertCardProps):JSX.Element{
   const {type, id, title, isPremium, previewImage, price, rating} = offer;
 
   const handleMouseOver = onMouseOver ? () => onMouseOver(offer) : undefined;

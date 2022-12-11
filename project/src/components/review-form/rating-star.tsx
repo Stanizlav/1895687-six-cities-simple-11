@@ -1,4 +1,4 @@
-import { RatingTitle } from '../../consts';
+import { RatingTitle } from '../../consts/consts';
 
 type RatingStarProps = {
   value: number;
