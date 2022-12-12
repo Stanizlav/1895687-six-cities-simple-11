@@ -1,18 +1,20 @@
-import { MouseEvent, FormEvent, useRef } from 'react';
+import { FormEvent, useRef } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { getChosenCity } from '../../store/application-process/selectors';
+import { changeCity } from '../../store/application-process/application-process';
 import { logIn } from '../../store/thunk-actions';
 import { isStatusAuthorised } from '../../store/user-process/selectors';
 import AppRoute from '../../types/app-route';
 import AuthData from '../../types/auth-data';
+import { getRandomCity } from '../../utils/mocks';
+import { toast } from 'react-toastify';
+import { isEmail, isPassword } from '../../utils/validation-utils';
 
 function LoginScreen():JSX.Element{
-  const
-    isAuthorised = useAppSelector(isStatusAuthorised),
-    chosenCity = useAppSelector(getChosenCity);
+  const isAuthorised = useAppSelector(isStatusAuthorised);
   const dispatch = useAppDispatch();
+  const cityToChoose = getRandomCity().name;
 
   const emailRef = useRef<HTMLInputElement|null>(null);
   const passwordRef = useRef<HTMLInputElement|null>(null);
@@ -21,10 +23,22 @@ function LoginScreen():JSX.Element{
     evt.preventDefault();
     if(emailRef.current !== null && passwordRef.current !== null){
       const email = emailRef.current.value;
+      if(!isEmail(email)){
+        toast.warn('Please type a correct email');
+        return;
+      }
       const password = passwordRef.current.value;
+      if(!isPassword(password)){
+        toast.warn('Password must contain at least a letter and a digit');
+        return;
+      }
       const data: AuthData = {email, password};
       dispatch(logIn(data));
     }
+  };
+
+  const handleCityButtonClick = ()=>{
+    dispatch(changeCity(cityToChoose));
   };
 
   if(isAuthorised){
@@ -62,11 +76,10 @@ function LoginScreen():JSX.Element{
               <Link
                 className="locations__item-link"
                 to={AppRoute.Main}
-                onClick={(evt:MouseEvent<HTMLAnchorElement>) => {
-                  evt.preventDefault();
-                }}
+                onClick={handleCityButtonClick}
+                data-testid="changing-city-link"
               >
-                <span>{chosenCity}</span>
+                <span>{cityToChoose}</span>
               </Link>
             </div>
           </section>

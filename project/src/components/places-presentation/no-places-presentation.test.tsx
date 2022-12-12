@@ -1,10 +1,10 @@
 import NoPlacesPresentation from './no-places-presentation';
 import { render, screen } from '@testing-library/react';
-import { generateCity } from '../../utils/mocks';
+import { getRandomCity } from '../../utils/mocks';
 
 describe('Component: NoPlacesPresentation', ()=>{
   it('should render correctly', ()=>{
-    const cityName = generateCity().name;
+    const cityName = getRandomCity().name;
     render(<NoPlacesPresentation cityName={cityName}/>);
 
     expect(screen.getByText(/No places to stay available/i)).toBeInTheDocument();

@@ -1,7 +1,7 @@
 import { render, screen, renderHook } from '@testing-library/react';
 import useMap from './useMap';
 import { Map } from 'leaflet';
-import { generateCity } from '../utils/mocks';
+import { getRandomCity } from '../utils/mocks';
 
 describe('Hook: useMap', ()=>{
   it('should return Map', ()=>{
@@ -11,7 +11,7 @@ describe('Hook: useMap', ()=>{
     const mapRef = {
       current: element
     };
-    const city = generateCity();
+    const city = getRandomCity();
 
     const {result} = renderHook(() => useMap(mapRef, city));
 

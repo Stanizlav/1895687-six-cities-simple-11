@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { generateCity } from '../../utils/mocks';
+import { getRandomCity } from '../../utils/mocks';
 import CityItem from './city-item';
 import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
@@ -12,7 +12,7 @@ const history = createMemoryHistory();
 
 describe('Component: CityItem', ()=>{
   it('should render correctly', ()=>{
-    const cityName = generateCity().name;
+    const cityName = getRandomCity().name;
 
     render(
       <Provider store={store}>

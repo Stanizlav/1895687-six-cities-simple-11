@@ -47,7 +47,7 @@ export const generateUser = ():User => {
   };
 };
 
-export const generateCity = (percentage?:number) => {
+export const getRandomCity = (percentage?:number) => {
   const random = percentage ?? Math.random();
   const cityIndex = Math.floor(cities.length * random);
   return cities[cityIndex];
@@ -58,7 +58,7 @@ export const generateOffer = ():Advert => {
   const random = Math.random();
   const id = Math.floor(MAX_ID * random);
   const title = commerce.productName();
-  const city = generateCity(random);
+  const city = getRandomCity(random);
   const location = generateLocation(random);
   const previewImage = internet.avatar();
   const isPremium = random > 0.5;
