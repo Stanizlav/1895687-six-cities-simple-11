@@ -31,7 +31,7 @@ function AdvertCard({offer, isForNearPlaces = false, onMouseOver, onMouseOut, on
     >
       <PremiumMark isPremium={isPremium} className="place-card__mark"/>
       <div className={imageWrapperClassList}>
-        <Link to={`${AppRoute.Room}/${id}`}>
+        <Link to={`${AppRoute.Room}/${id}`} data-testid="image-link">
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Apartment"/>
         </Link>
       </div>
@@ -46,7 +46,7 @@ function AdvertCard({offer, isForNearPlaces = false, onMouseOver, onMouseOut, on
           <StarsRating rating={rating} className="place-card__stars"/>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Room}/${id}`}>{title}</Link>
+          <Link to={`${AppRoute.Room}/${id}`} data-testid="title-link">{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
