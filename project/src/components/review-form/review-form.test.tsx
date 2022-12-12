@@ -5,10 +5,21 @@ import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import NameSpace from '../../types/name-space';
 import { MINIMAL_COMMENT_SIZE, RAITING_MAX } from '../../consts/consts';
+import { createAPI } from '../../services/api';
+import MockAdapter from 'axios-mock-adapter';
+import thunk from 'redux-thunk';
+import { State } from '../../types/state';
+import { Action } from 'redux';
+import AdditionalURL from '../../types/additional-url';
+import { sendComment } from '../../store/thunk-actions';
 
 const HOTEL_ID = 73;
 
-const mockStore = configureMockStore();
+const api = createAPI();
+const mockAPI = new MockAdapter(api);
+const middlewares = [thunk.withExtraArgument(api)];
+const mockStore = configureMockStore<State, Action<string>>(middlewares);
+
 const store = mockStore({
   [NameSpace.Data]: {
     isSending: false
@@ -53,16 +64,43 @@ describe('Component: ReviewForm', ()=>{
     await userEvent.click(radioButtons[FIRST_MOCK_RATING_INDEX]);
 
     expect(textarea).toHaveDisplayValue(MOCK_OPINION);
-    let lickelyUnchecked = radioButtons.filter((button, index)=> index !== FIRST_MOCK_RATING_INDEX);
-    lickelyUnchecked.forEach((button)=>expect(button).not.toBeChecked());
+    let likelyUnchecked = radioButtons.filter((button, index)=> index !== FIRST_MOCK_RATING_INDEX);
+    likelyUnchecked.forEach((button)=>expect(button).not.toBeChecked());
     expect(radioButtons[FIRST_MOCK_RATING_INDEX]).toBeChecked();
 
     await userEvent.click(radioButtons[SECOND_MOCK_RATING_INDEX]);
 
-    lickelyUnchecked = radioButtons.filter((button, index)=> index !== SECOND_MOCK_RATING_INDEX);
-    lickelyUnchecked.forEach((button)=>expect(button).not.toBeChecked());
+    likelyUnchecked = radioButtons.filter((button, index)=> index !== SECOND_MOCK_RATING_INDEX);
+    likelyUnchecked.forEach((button)=>expect(button).not.toBeChecked());
     expect(radioButtons[SECOND_MOCK_RATING_INDEX]).toBeChecked();
-
   });
+
+  it('should dispatch the "sendComment" action when user submits after typing decent comment and choosing rating',
+    async()=>{
+
+      const MOCK_OPINION = 'I like it. Simple living conditions around it are very good';
+      const MOCK_RATING_INDEX = RAITING_MAX - 1;
+
+      const sendingCommentUrl = `${AdditionalURL.CommentsPrefix}${HOTEL_ID}`;
+      mockAPI
+        .onPost(sendingCommentUrl)
+        .reply(200, []);
+
+      render(fakeReviewForm);
+      const textarea = screen.getByRole('textbox');
+      const ratingButtons = screen.getAllByRole('radio');
+      const submit = screen.getByRole('button');
+
+      expect(store.getActions()).toEqual([]);
+
+      await userEvent.type(textarea, MOCK_OPINION);
+      await userEvent.click(ratingButtons[MOCK_RATING_INDEX]);
+      await userEvent.click(submit);
+
+      const actions = store.getActions().map(({type})=>type);
+
+      expect(actions.includes(sendComment.pending.type)).toBe(true);
+
+    });
 
 });
