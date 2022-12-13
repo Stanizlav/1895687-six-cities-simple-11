@@ -86,6 +86,10 @@ export const generateOffer = ():Advert => {
   };
 };
 
+const generateImage = () => internet.avatar();
+
+export const generateImages = (count:number) => Array.from({length: count}, generateImage);
+
 export const generateOffers = (count:number):Advert[] => Array.from({length: count}, generateOffer);
 
 export const generateComment = ():Comment => {

@@ -1,3 +1,4 @@
+import { MAX_IMAGES_COUNT } from '../../consts/consts';
 import PropertyGalleryItem from './property-gallery-item';
 
 type PropertyGalleryProps = {
@@ -5,10 +6,12 @@ type PropertyGalleryProps = {
 }
 
 function PropertyGallery({images}:PropertyGalleryProps):JSX.Element{
+  const imagesToShow = images.slice(0, MAX_IMAGES_COUNT);
+
   return(
     <div className="property__gallery-container container">
       <div className="property__gallery">
-        {images.map((image)=><PropertyGalleryItem key={image} image={image}/>)}
+        {imagesToShow.map((image)=><PropertyGalleryItem key={image} image={image}/>)}
       </div>
     </div>
   );

@@ -23,6 +23,8 @@ export const MAXIMAL_COMMENT_SIZE = 300;
 
 export const MAX_COMMENTS_COUNT = 10;
 
+export const MAX_IMAGES_COUNT = 6;
+
 export const DEFAULT_CARDS_COUNT = 5;
 export const DEFAULT_NEAR_PLACES_COUNT = 3;
 
