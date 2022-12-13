@@ -1,13 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { MAX_IMAGES_COUNT } from '../../consts/consts';
-import { generateImages } from '../../utils/mocks';
+import { generateImages, generateInteger } from '../../utils/mocks';
 import ProperttyGallery from './property-gallery';
 
+const MIN_MOCK_IMAGES_COUNT = 1;
+
 describe('Component: PropertyGallery', ()=>{
-  const maxMockImagesCount = MAX_IMAGES_COUNT + 5;
 
   it('should render correctly', ()=>{
-    const mockImagesCount = Math.floor(maxMockImagesCount * Math.random());
+    const maxMockImagesCount = MAX_IMAGES_COUNT + 5;
+    const mockImagesCount = generateInteger(MIN_MOCK_IMAGES_COUNT, maxMockImagesCount);
     const images = generateImages(mockImagesCount);
 
     render(<ProperttyGallery images={images}/>);

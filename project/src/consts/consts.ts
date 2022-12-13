@@ -18,8 +18,10 @@ export const RatingTitle = {
 
 export const REDIRECT_ACTION_TYPE = 'application/redirectToRoute';
 
-export const MINIMAL_COMMENT_SIZE = 50;
-export const MAXIMAL_COMMENT_SIZE = 300;
+export enum CommentSizeLimit{
+  Min = 50,
+  Max = 300
+}
 
 export const MAX_COMMENTS_COUNT = 10;
 

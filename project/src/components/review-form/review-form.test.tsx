@@ -4,7 +4,7 @@ import ReviewForm from './review-form';
 import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import NameSpace from '../../types/name-space';
-import { MINIMAL_COMMENT_SIZE, RAITING_MAX } from '../../consts/consts';
+import { CommentSizeLimit, RAITING_MAX } from '../../consts/consts';
 import { createAPI } from '../../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
@@ -45,7 +45,7 @@ describe('Component: ReviewForm', ()=>{
     expect(screen.getByText(/To submit review please make sure to set /i)).toBeInTheDocument();
     expect(screen.getByText(/rating/i)).toBeInTheDocument();
     expect(screen.getByText(/ and describe your stay with at least /i)).toBeInTheDocument();
-    expect(screen.getByText(`${MINIMAL_COMMENT_SIZE} characters`)).toBeInTheDocument();
+    expect(screen.getByText(`${CommentSizeLimit.Min} characters`)).toBeInTheDocument();
   });
 
   it('should change the textarea content and the radiogroup state when a user interacts', async()=>{
