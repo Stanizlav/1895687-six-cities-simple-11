@@ -16,8 +16,6 @@ import thunk from 'redux-thunk';
 import AdditionalURL from '../../types/additional-url';
 import { DEFAULT_CARDS_COUNT, DEFAULT_NEAR_PLACES_COUNT } from '../../consts/consts';
 
-const SIGN_IN_ELEMENTS_COUNT = 2;
-
 const offer = generateOffer();
 const chosenCity = offer.city.name;
 const sortType = SortType.Popular;
@@ -57,6 +55,7 @@ const fakeApp = (
 );
 
 describe('Application Routing', ()=>{
+
   it('should render "MainScreen" when user navigate to "/"', ()=>{
     history.push(AppRoute.Main);
     render(fakeApp);
@@ -70,13 +69,16 @@ describe('Application Routing', ()=>{
     history.push(AppRoute.Login);
     render(fakeApp);
 
-    const signInElements = screen.getAllByText(/Sign in/i);
-    expect(signInElements.length).toBe(SIGN_IN_ELEMENTS_COUNT);
-    signInElements.forEach((element)=>expect(element).toBeInTheDocument());
+    const headerElement = screen.getByRole('heading');
+    const buttonElemnent = screen.getByRole('button');
 
-    expect(screen.getByTestId('changing-city-link')).toBeInTheDocument();
+    expect(headerElement).toHaveTextContent(/Sign in/i);
+    expect(headerElement).toBeInTheDocument();
     expect(screen.getByLabelText(/E-mail/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
+    expect(buttonElemnent).toHaveTextContent(/Sign in/i);
+    expect(buttonElemnent).toBeInTheDocument();
+    expect(screen.getByTestId('changing-city-link')).toBeInTheDocument();
   });
 
   it('should render "NotFoundScreen" when user navigate to unknown url', ()=>{
