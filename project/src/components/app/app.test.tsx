@@ -74,7 +74,7 @@ describe('Application Routing', ()=>{
     expect(signInElements.length).toBe(SIGN_IN_ELEMENTS_COUNT);
     signInElements.forEach((element)=>expect(element).toBeInTheDocument());
 
-    expect(screen.getByText(chosenCity)).toBeInTheDocument();
+    expect(screen.getByTestId('changing-city-link')).toBeInTheDocument();
     expect(screen.getByLabelText(/E-mail/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
   });

@@ -11,7 +11,7 @@ function RatingInput({rating, onChange}:RatingInputProps):JSX.Element{
   const ratingValues = useMemo(()=>Array.from(Array(RAITING_MAX), (element, index)=>RAITING_MAX - index), []);
 
   return(
-    <div className="reviews__rating-form form__rating" onChange={onChange}>
+    <div role="radiogroup" className="reviews__rating-form form__rating" onChange={onChange}>
       {ratingValues.map((item) => <RatingStar key={item} value={item} rating={rating}/>)}
     </div>
   );
