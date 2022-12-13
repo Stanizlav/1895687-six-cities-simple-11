@@ -7,7 +7,7 @@ import { logIn } from '../../store/thunk-actions';
 import { isStatusAuthorised } from '../../store/user-process/selectors';
 import AppRoute from '../../types/app-route';
 import AuthData from '../../types/auth-data';
-import { getRandomCity } from '../../utils/mocks';
+import getRandomCity from '../../utils/get-random-city';
 import { toast } from 'react-toastify';
 import { isEmail, isPassword } from '../../utils/validation-utils';
 

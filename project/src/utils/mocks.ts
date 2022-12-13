@@ -1,12 +1,12 @@
 import Advert from '../types/advert';
 import Location from '../types/location';
 import { name, internet, commerce, date } from 'faker';
-import { cities } from '../consts/cities';
 import Accomodation from '../types/accomodation';
 import { RAITING_MAX } from '../consts/consts';
 import Person from '../types/person';
 import Comment from '../types/comment';
 import User from '../types/user';
+import getRandomCity from './get-random-city';
 
 const MAX_ID = 356;
 const MAX_PRICE = 2000;
@@ -45,12 +45,6 @@ export const generateUser = ():User => {
     email: internet.email(),
     token: internet.password()
   };
-};
-
-export const getRandomCity = (percentage?:number) => {
-  const random = percentage ?? Math.random();
-  const cityIndex = Math.floor(cities.length * random);
-  return cities[cityIndex];
 };
 
 export const generateOffer = ():Advert => {

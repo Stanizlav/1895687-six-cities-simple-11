@@ -1,6 +1,6 @@
 import NoPlacesPresentation from './no-places-presentation';
 import { render, screen } from '@testing-library/react';
-import { getRandomCity } from '../../utils/mocks';
+import getRandomCity from '../../utils/get-random-city';
 
 describe('Component: NoPlacesPresentation', ()=>{
   it('should render correctly', ()=>{
