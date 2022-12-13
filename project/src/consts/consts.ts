@@ -33,8 +33,8 @@ export const DEFAULT_NEAR_PLACES_COUNT = 3;
 export const SORT_FORM_TAB_INDEX_START = 0;
 export const SORT_FORM_ACTIVITY_CLASS = 'places__options--opened';
 
-export const RAITING_MAX = 5;
-export const PERCENTAGE_MULTIPLAYER = 100 / RAITING_MAX;
+export const RATING_MAX = 5;
+export const PERCENTAGE_MULTIPLAYER = 100 / RATING_MAX;
 
 export const LAYER_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 export const LAYER_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';

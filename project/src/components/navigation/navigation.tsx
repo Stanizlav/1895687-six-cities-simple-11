@@ -24,7 +24,7 @@ function Navigation():JSX.Element{
   return(
     <nav className="header__nav">
       <ul className="header__nav-list">
-        {isAuthorised ?
+        {isAuthorised &&
           <li className="header__nav-item user">
             <div className="header__nav-profile">
               <div className="header__avatar-wrapper user__avatar-wrapper">
@@ -32,8 +32,7 @@ function Navigation():JSX.Element{
               </div>
               <span className="header__user-name user__name">{email}</span>
             </div>
-          </li>
-          : null }
+          </li>}
         <li className="header__nav-item">
           <Link className="header__nav-link" onClick={handleLinkClick} to={AppRoute.Login}>
             <span className={linkClassList}>{linkText}</span>

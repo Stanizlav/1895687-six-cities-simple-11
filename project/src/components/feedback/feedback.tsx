@@ -26,7 +26,7 @@ function Feedback({comments, hotelId}:FeedbackProps):JSX.Element{
             <span className="reviews__amount">{comments.length}</span>
           </h2>
           <CommentsList comments={commentsToShow}/>
-          {isAuthorised ? <ReviewForm hotelId={hotelId}/> : null}
+          {isAuthorised && <ReviewForm hotelId={hotelId}/>}
         </section>
       </div>
     </div>

@@ -4,7 +4,7 @@ import ReviewForm from './review-form';
 import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import NameSpace from '../../types/name-space';
-import { CommentSizeLimit, RAITING_MAX } from '../../consts/consts';
+import { CommentSizeLimit, RATING_MAX } from '../../consts/consts';
 import { createAPI } from '../../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
@@ -33,6 +33,7 @@ const fakeReviewForm = (
 );
 
 describe('Component: ReviewForm', ()=>{
+  const MOCK_OPINION = 'I like it. Simple living conditions around it are very good';
 
   it('should render properly', ()=>{
     render(fakeReviewForm);
@@ -40,7 +41,7 @@ describe('Component: ReviewForm', ()=>{
     expect(screen.getByText(/Your review/i)).toBeInTheDocument();
     expect(screen.getByRole('radiogroup')).toBeInTheDocument();
     const radioButtons = screen.getAllByRole('radio');
-    expect(radioButtons.length).toBe(RAITING_MAX);
+    expect(radioButtons.length).toBe(RATING_MAX);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(screen.getByText(/To submit review please make sure to set /i)).toBeInTheDocument();
     expect(screen.getByText(/rating/i)).toBeInTheDocument();
@@ -49,8 +50,7 @@ describe('Component: ReviewForm', ()=>{
   });
 
   it('should change the textarea content and the radiogroup state when a user interacts', async()=>{
-    const MOCK_OPINION = 'simple living conditions around it are very good';
-    const FIRST_MOCK_RATING_INDEX = RAITING_MAX - 1;
+    const FIRST_MOCK_RATING_INDEX = RATING_MAX - 1;
     const SECOND_MOCK_RATING_INDEX = 0;
 
     render(fakeReviewForm);
@@ -75,11 +75,10 @@ describe('Component: ReviewForm', ()=>{
     expect(radioButtons[SECOND_MOCK_RATING_INDEX]).toBeChecked();
   });
 
-  it('should dispatch the "sendComment" action when user submits after typing decent comment and choosing rating',
+  it('should dispatch the "sendComment" action when a user submits after typing decent comment and choosing rating',
     async()=>{
 
-      const MOCK_OPINION = 'I like it. Simple living conditions around it are very good';
-      const MOCK_RATING_INDEX = RAITING_MAX - 1;
+      const MOCK_RATING_INDEX = RATING_MAX - 1;
 
       const sendingCommentUrl = `${AdditionalURL.CommentsPrefix}${HOTEL_ID}`;
       mockAPI
@@ -100,7 +99,6 @@ describe('Component: ReviewForm', ()=>{
       const actions = store.getActions().map(({type})=>type);
 
       expect(actions.includes(sendComment.pending.type)).toBe(true);
-
     });
 
 });
