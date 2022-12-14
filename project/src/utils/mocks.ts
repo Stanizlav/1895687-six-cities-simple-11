@@ -54,10 +54,10 @@ export const generateUser = ():User => {
   };
 };
 
-export const generateOffer = ():Advert => {
+export const generateOffer = (key?:number):Advert => {
   const types = Object.values(Accomodation);
   const random = Math.random();
-  const id = Math.floor(MAX_ID * random);
+  const id = key ?? Math.floor(MAX_ID * random);
   const title = commerce.productName();
   const city = getRandomCity(random);
   const location = generateLocation(random);
@@ -97,11 +97,11 @@ const generateImage = () => internet.avatar();
 
 export const generateImages = (count:number) => Array.from({length: count}, generateImage);
 
-export const generateOffers = (count:number):Advert[] => Array.from({length: count}, generateOffer);
+export const generateOffers = (count:number):Advert[] => Array.from({length: count}, (item, index)=>generateOffer(index));
 
-export const generateComment = ():Comment => {
+export const generateComment = (key?:number):Comment => {
   const random = Math.random();
-  const id = Math.floor(MAX_ID * random);
+  const id = key ?? Math.floor(MAX_ID * random);
   const rating = MIN_RATING + Math.floor((RATING_MAX - MIN_RATING + 1) * random);
   return{
     comment: commerce.productDescription(),
@@ -112,4 +112,4 @@ export const generateComment = ():Comment => {
   };
 };
 
-export const generateComments = (count:number):Comment[] => Array.from({length:count}, generateComment);
+export const generateComments = (count:number):Comment[] => Array.from({length:count}, (item, index)=>generateComment(index));

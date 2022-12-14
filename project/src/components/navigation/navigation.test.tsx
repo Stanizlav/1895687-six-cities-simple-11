@@ -104,7 +104,7 @@ describe('Component: Navigation', ()=>{
     const actions = store.getActions().map(({type}) => type);
 
     expect(actions.includes(logOut.pending.type)).toBe(true);
-
+    expect(Storage.prototype.removeItem).toBeCalled();
   });
 
   it('should redirect to login screen when not authorised user clicks the link', async()=>{

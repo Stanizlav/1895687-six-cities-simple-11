@@ -7,9 +7,6 @@ import NameSpace from '../../types/name-space';
 import AuthorisationStatus from '../../types/authorisation-status';
 import { MAX_COMMENTS_COUNT } from '../../consts/consts';
 
-const HOTEL_ID = 37;
-const MIN_MOCK_COMMENTS_COUNT = 1;
-
 const mockStore = configureMockStore();
 const store = mockStore({
   [NameSpace.User]: {
@@ -19,6 +16,8 @@ const store = mockStore({
 });
 
 describe('Component: Feedback', ()=>{
+  const MOCK_HOTEL_ID = 37;
+  const MIN_MOCK_COMMENTS_COUNT = 1;
 
   it('should render correctly', ()=>{
     const maxMockCommentsCount = MAX_COMMENTS_COUNT + 5;
@@ -27,7 +26,7 @@ describe('Component: Feedback', ()=>{
 
     render(
       <Provider store={store}>
-        <Feedback comments={comments} hotelId={HOTEL_ID}/>
+        <Feedback comments={comments} hotelId={MOCK_HOTEL_ID}/>
       </Provider>
     );
 

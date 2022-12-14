@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux';
-import { configureMockStore } from '@jedmao/redux-mock-store';
+import { configureMockStore, MockStore } from '@jedmao/redux-mock-store';
 import HistoryRouter from '../../components/history-router/history-router';
 import { createMemoryHistory } from 'history';
 import MainScreen from './main-screen';
@@ -15,20 +15,27 @@ import AppRoute from '../../types/app-route';
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
 
+const fakeMainScreen = (storage:MockStore) => (
+  <Provider store={storage}>
+    <HistoryRouter history={history}>
+      <MainScreen defaultCardsCount={DEFAULT_CARDS_COUNT}/>
+    </HistoryRouter>
+  </Provider>
+);
+
 describe('Component: MainScreen', ()=>{
   it('should render correctly with loaded offers', ()=>{
-    const offers = [generateOffer()];
-    const chosenCity = offers[0].city.name;
-    const sortType = SortType.Popular;
+    const mockOffer = generateOffer();
+    const chosenCity = mockOffer.city.name;
 
     const store = mockStore({
       [NameSpace.Data]: {
-        offers,
+        offers: [mockOffer],
       },
       [NameSpace.Application]: {
         chosenCity,
-        sortType,
-        selectedPoint: offers[0].location
+        sortType: SortType.Popular,
+        selectedPoint: mockOffer.location
       },
       [NameSpace.User]:{
         user: null
@@ -37,13 +44,7 @@ describe('Component: MainScreen', ()=>{
 
     history.push(AppRoute.Main);
 
-    render(
-      <Provider store={store}>
-        <HistoryRouter history={history}>
-          <MainScreen defaultCardsCount={DEFAULT_CARDS_COUNT}/>
-        </HistoryRouter>
-      </Provider>
-    );
+    render(fakeMainScreen(store));
 
     expect(screen.getByText(/sign in/i)).toBeInTheDocument();
     cities.forEach((city) => expect(screen.getByText(city.name)).toBeInTheDocument());
@@ -53,7 +54,6 @@ describe('Component: MainScreen', ()=>{
 
   it('should render correctly without loaded offers', ()=>{
     const chosenCity = CitiesName.Brussels;
-    const sortType = SortType.Popular;
 
     const store = mockStore({
       [NameSpace.Data]: {
@@ -61,7 +61,7 @@ describe('Component: MainScreen', ()=>{
       },
       [NameSpace.Application]: {
         chosenCity,
-        sortType,
+        sortType: SortType.Popular,
       },
       [NameSpace.User]:{
         user: null
@@ -70,13 +70,7 @@ describe('Component: MainScreen', ()=>{
 
     history.push(AppRoute.Main);
 
-    render(
-      <Provider store={store}>
-        <HistoryRouter history={history}>
-          <MainScreen defaultCardsCount={DEFAULT_CARDS_COUNT}/>
-        </HistoryRouter>
-      </Provider>
-    );
+    render(fakeMainScreen(store));
 
     expect(screen.getByText(/sign in/i)).toBeInTheDocument();
     cities.forEach((city) => expect(screen.getByText(city.name)).toBeInTheDocument());

@@ -13,7 +13,7 @@ import { Action } from 'redux';
 import AdditionalURL from '../../types/additional-url';
 import { sendComment } from '../../store/thunk-actions';
 
-const HOTEL_ID = 73;
+const MOCK_HOTEL_ID = 73;
 
 const api = createAPI();
 const mockAPI = new MockAdapter(api);
@@ -28,7 +28,7 @@ const store = mockStore({
 
 const fakeReviewForm = (
   <Provider store={store}>
-    <ReviewForm hotelId={HOTEL_ID}/>
+    <ReviewForm hotelId={MOCK_HOTEL_ID}/>
   </Provider>
 );
 
@@ -80,7 +80,7 @@ describe('Component: ReviewForm', ()=>{
 
       const MOCK_RATING_INDEX = RATING_MAX - 1;
 
-      const sendingCommentUrl = `${AdditionalURL.CommentsPrefix}${HOTEL_ID}`;
+      const sendingCommentUrl = `${AdditionalURL.CommentsPrefix}${MOCK_HOTEL_ID}`;
       mockAPI
         .onPost(sendingCommentUrl)
         .reply(200, []);
