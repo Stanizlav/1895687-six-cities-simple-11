@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { getRandomCity } from '../../utils/mocks';
+import getRandomCity from '../../utils/get-random-city';
 import CityItem from './city-item';
 import { Provider } from 'react-redux';
 import { configureMockStore, MockStore } from '@jedmao/redux-mock-store';

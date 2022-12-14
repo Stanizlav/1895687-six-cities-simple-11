@@ -13,6 +13,8 @@ export const isDataLoading = (state:State) => state[NameSpace.Data].isLoading;
 
 export const isDataSending = (state:State) => state[NameSpace.Data].isSending;
 
+export const hasDataSendingError = (state:State) => state[NameSpace.Data].hasSendingError;
+
 export const getTheOfferData = (state:State) => ({
   offer: getTheOffer(state),
   offersNearby: getOffersNearby(state),

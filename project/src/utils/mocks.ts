@@ -1,12 +1,12 @@
 import Advert from '../types/advert';
 import Location from '../types/location';
 import { name, internet, commerce, date } from 'faker';
-import { cities } from '../consts/cities';
 import Accomodation from '../types/accomodation';
-import { RAITING_MAX } from '../consts/consts';
+import { RATING_MAX } from '../consts/consts';
 import Person from '../types/person';
 import Comment from '../types/comment';
 import User from '../types/user';
+import getRandomCity from './get-random-city';
 
 const MAX_ID = 356;
 const MAX_PRICE = 2000;
@@ -28,6 +28,13 @@ export const generateDifferentLocation = (location:Location):Location => ({
   longitude: -location.longitude
 });
 
+export const generateInteger = (min: number, max: number) => {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
+
+  return Math.floor(lower + Math.random() * (upper - lower + 1));
+};
+
 const generatePerson = ():Person => {
   const random = Math.random();
   return{
@@ -47,16 +54,10 @@ export const generateUser = ():User => {
   };
 };
 
-export const getRandomCity = (percentage?:number) => {
-  const random = percentage ?? Math.random();
-  const cityIndex = Math.floor(cities.length * random);
-  return cities[cityIndex];
-};
-
-export const generateOffer = ():Advert => {
+export const generateOffer = (key?:number):Advert => {
   const types = Object.values(Accomodation);
   const random = Math.random();
-  const id = Math.floor(MAX_ID * random);
+  const id = key ?? Math.floor(MAX_ID * random);
   const title = commerce.productName();
   const city = getRandomCity(random);
   const location = generateLocation(random);
@@ -65,7 +66,7 @@ export const generateOffer = ():Advert => {
   const price = Math.floor(MAX_PRICE * random);
   const typeIndex = Math.floor(types.length * random);
   const type = types[typeIndex];
-  const rating = MIN_RATING + Math.floor((RAITING_MAX - MIN_RATING + 1) * random);
+  const rating = MIN_RATING + Math.floor((RATING_MAX - MIN_RATING + 1) * random);
   const bedrooms = rating;
   const description = commerce.productDescription();
   const goods:string[] = [];
@@ -92,12 +93,16 @@ export const generateOffer = ():Advert => {
   };
 };
 
-export const generateOffers = (count:number):Advert[] => Array.from({length: count}, generateOffer);
+const generateImage = () => internet.avatar();
 
-export const generateComment = ():Comment => {
+export const generateImages = (count:number) => Array.from({length: count}, generateImage);
+
+export const generateOffers = (count:number):Advert[] => Array.from({length: count}, (item, index)=>generateOffer(index));
+
+export const generateComment = (key?:number):Comment => {
   const random = Math.random();
-  const id = Math.floor(MAX_ID * random);
-  const rating = MIN_RATING + Math.floor((RAITING_MAX - MIN_RATING + 1) * random);
+  const id = key ?? Math.floor(MAX_ID * random);
+  const rating = MIN_RATING + Math.floor((RATING_MAX - MIN_RATING + 1) * random);
   return{
     comment: commerce.productDescription(),
     date: date.past().toString(),
@@ -107,4 +112,4 @@ export const generateComment = ():Comment => {
   };
 };
 
-export const generateComments = (count:number):Comment[] => Array.from({length:count}, generateComment);
+export const generateComments = (count:number):Comment[] => Array.from({length:count}, (item, index)=>generateComment(index));

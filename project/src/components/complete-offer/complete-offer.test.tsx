@@ -3,9 +3,11 @@ import { generateOffer } from '../../utils/mocks';
 import CompleteOffer from './complete-offer';
 
 describe('Component: CompleteOffer', ()=>{
+  const mockOffer = generateOffer();
+
   it('should render correctly for premium offer', ()=>{
     const offer = {
-      ...generateOffer(),
+      ...mockOffer,
       isPremium: true
     };
 
@@ -32,7 +34,7 @@ describe('Component: CompleteOffer', ()=>{
 
   it('should render correctly for not premium offer', ()=>{
     const offer = {
-      ...generateOffer(),
+      ...mockOffer,
       isPremium: false
     };
 

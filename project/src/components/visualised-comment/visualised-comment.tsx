@@ -1,5 +1,6 @@
 import Comment from '../../types/comment';
 import StarsRating from '../stars-rating/stars-rating';
+import { getFormatedDate, getDateTime } from '../../utils/date-utils';
 import { memo } from 'react';
 
 type VisualisedCommentProps = {
@@ -9,6 +10,8 @@ type VisualisedCommentProps = {
 function VisualisedComment({commentary}:VisualisedCommentProps):JSX.Element{
   const {user, date, rating, comment} = commentary;
   const {avatarUrl, name} = user;
+  const dateTime = getDateTime(date);
+  const formatedDate = getFormatedDate(date);
 
   return(
     <>
@@ -27,7 +30,7 @@ function VisualisedComment({commentary}:VisualisedCommentProps):JSX.Element{
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime={date}>{date}</time>
+        <time role="time" className="reviews__time" dateTime={dateTime}>{formatedDate}</time>
       </div>
     </>
   );

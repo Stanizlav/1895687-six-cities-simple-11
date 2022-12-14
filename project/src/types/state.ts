@@ -14,6 +14,7 @@ export type ApplicationData = {
   comments: Comment[];
   isLoading: boolean;
   isSending: boolean;
+  hasSendingError: boolean;
 }
 
 export type UserProcess = {

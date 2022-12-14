@@ -1,6 +1,8 @@
+import { QuantityCap } from '../../consts/consts';
 import { useAppSelector } from '../../hooks/store-hooks';
 import { isStatusAuthorised } from '../../store/user-process/selectors';
 import Comment from '../../types/comment';
+import { getDifference } from '../../utils/date-utils';
 import CommentsList from '../comments-list/comments-list';
 import ReviewForm from '../review-form/review-form';
 
@@ -11,6 +13,10 @@ type FeedbackProps = {
 
 function Feedback({comments, hotelId}:FeedbackProps):JSX.Element{
   const isAuthorised = useAppSelector(isStatusAuthorised);
+  const commentsToShow = comments
+    .slice()
+    .sort((first, second) => getDifference(second.date, first.date))
+    .slice(0, QuantityCap.ForComments);
 
   return(
     <div className="property__container container">
@@ -19,8 +25,8 @@ function Feedback({comments, hotelId}:FeedbackProps):JSX.Element{
           <h2 className="reviews__title">Reviews &middot;
             <span className="reviews__amount">{comments.length}</span>
           </h2>
-          <CommentsList comments={comments}/>
-          {isAuthorised ? <ReviewForm hotelId={hotelId}/> : null}
+          <CommentsList comments={commentsToShow}/>
+          {isAuthorised && <ReviewForm hotelId={hotelId}/>}
         </section>
       </div>
     </div>

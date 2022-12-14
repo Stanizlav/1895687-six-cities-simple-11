@@ -10,7 +10,8 @@ const initialState: ApplicationData = {
   offersNearby: [],
   comments: [],
   isLoading: false,
-  isSending: false
+  isSending: false,
+  hasSendingError: false
 };
 
 const applicationData = createSlice({
@@ -45,9 +46,14 @@ const applicationData = createSlice({
       .addCase(sendComment.pending, (state)=>{
         state.isSending = true;
       })
+      .addCase(sendComment.rejected, (state)=>{
+        state.isSending = false;
+        state.hasSendingError = true;
+      })
       .addCase(sendComment.fulfilled, (state, action)=>{
         state.comments = action.payload;
         state.isSending = false;
+        state.hasSendingError = false;
       });
   }
 });

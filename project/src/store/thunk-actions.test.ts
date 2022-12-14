@@ -12,6 +12,8 @@ import { redirectToRoute } from './actions';
 import { AUTH_TOKEN_KEY } from '../services/token';
 
 describe('Async actions', ()=>{
+  const LIKELY_CALLS_COUNT = 1;
+
   const api = createAPI();
   const mockAPI = new MockAdapter(api);
   const middlewares = [thunk.withExtraArgument(api)];
@@ -134,7 +136,7 @@ describe('Async actions', ()=>{
       logIn.fulfilled.type
     ]);
 
-    expect(Storage.prototype.setItem).toBeCalledTimes(1);
+    expect(Storage.prototype.setItem).toBeCalledTimes(LIKELY_CALLS_COUNT);
     expect(Storage.prototype.setItem).toBeCalledWith(AUTH_TOKEN_KEY, mockToken);
 
   });
@@ -158,7 +160,7 @@ describe('Async actions', ()=>{
       logOut.fulfilled.type
     ]);
 
-    expect(Storage.prototype.removeItem).toBeCalledTimes(1);
+    expect(Storage.prototype.removeItem).toBeCalledTimes(LIKELY_CALLS_COUNT);
     expect(Storage.prototype.removeItem).toBeCalledWith(AUTH_TOKEN_KEY);
 
   });
