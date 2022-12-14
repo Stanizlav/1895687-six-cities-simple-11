@@ -7,7 +7,7 @@ import NameSpace from '../../types/name-space';
 import { generateOffer } from '../../utils/mocks';
 import SortType from '../../types/sort-type';
 import { render, screen } from '@testing-library/react';
-import { DEFAULT_CARDS_COUNT } from '../../consts/consts';
+import { CardsCount } from '../../consts/consts';
 import { cities } from '../../consts/cities';
 import CitiesName from '../../types/cities-name';
 import AppRoute from '../../types/app-route';
@@ -18,7 +18,7 @@ const history = createMemoryHistory();
 const fakeMainScreen = (storage:MockStore) => (
   <Provider store={storage}>
     <HistoryRouter history={history}>
-      <MainScreen defaultCardsCount={DEFAULT_CARDS_COUNT}/>
+      <MainScreen defaultCardsCount={CardsCount.Default}/>
     </HistoryRouter>
   </Provider>
 );

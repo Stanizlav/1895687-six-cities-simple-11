@@ -16,28 +16,35 @@ export const RatingTitle = {
   5 : 'perfect'
 } as const;
 
-export const REDIRECT_ACTION_TYPE = 'application/redirectToRoute';
+export const REDIRECT_ACTION_TYPE = 'Application/redirectToRoute';
 
 export enum CommentSizeLimit{
   Min = 50,
   Max = 300
 }
 
-export const MAX_COMMENTS_COUNT = 10;
+export enum CardsCount{
+  Default = 5,
+  ForNearPlaces = 3
+}
 
-export const MAX_IMAGES_COUNT = 6;
+export enum MarkerSize{
+  Full = 40,
+  Half = 20
+}
 
-export const DEFAULT_CARDS_COUNT = 5;
-export const DEFAULT_NEAR_PLACES_COUNT = 3;
+export enum MapLayerInfo{
+  Url = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  Attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+}
+
+export enum QuantityCap{
+  ForComments = 10,
+  ForImages = 6
+}
 
 export const SORT_FORM_TAB_INDEX_START = 0;
 export const SORT_FORM_ACTIVITY_CLASS = 'places__options--opened';
 
 export const RATING_MAX = 5;
 export const PERCENTAGE_MULTIPLAYER = 100 / RATING_MAX;
-
-export const MARKER_SIZE = 40;
-export const MARKER_HALF_SIZE = Math.round(MARKER_SIZE / 2);
-
-export const LAYER_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-export const LAYER_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';

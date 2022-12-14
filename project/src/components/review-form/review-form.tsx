@@ -26,13 +26,19 @@ function ReviewForm({hotelId}:ReviewFormProps):JSX.Element{
   const submitButtonText = isSending ? 'Sending...' : 'Submit';
 
   useEffect(()=>{
-    if(!isSending && !hasSendingError){
+    let isMounted = true;
+
+    if(isMounted && !isSending && !hasSendingError){
       setComment(INITIAL_COMMENT);
       setRating(INITIAL_RATING);
     }
     if(!isSending && hasSendingError){
       toast.warn('There has been an issue with sending your review');
     }
+
+    return ()=>{
+      isMounted = false;
+    };
   },[hasSendingError, isSending]);
 
   const handleRatingChange = (evt:ChangeEvent<HTMLInputElement>)=>{

@@ -2,7 +2,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
-import { DEFAULT_CARDS_COUNT } from '../../consts/consts';
+import { CardsCount } from '../../consts/consts';
 import AppRoute from '../../types/app-route';
 import NameSpace from '../../types/name-space';
 import SortType from '../../types/sort-type';
@@ -39,7 +39,7 @@ describe('Component: PlacesPresentation', ()=>{
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <PlacesPresentation maxCountToShow={DEFAULT_CARDS_COUNT}/>
+          <PlacesPresentation maxCountToShow={CardsCount.Default}/>
         </HistoryRouter>
       </Provider>
     );

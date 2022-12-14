@@ -5,7 +5,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { generateComments, generateInteger } from '../../utils/mocks';
 import NameSpace from '../../types/name-space';
 import AuthorisationStatus from '../../types/authorisation-status';
-import { MAX_COMMENTS_COUNT } from '../../consts/consts';
+import { QuantityCap } from '../../consts/consts';
 
 const mockStore = configureMockStore();
 const store = mockStore({
@@ -20,7 +20,7 @@ describe('Component: Feedback', ()=>{
   const MIN_MOCK_COMMENTS_COUNT = 1;
 
   it('should render correctly', ()=>{
-    const maxMockCommentsCount = MAX_COMMENTS_COUNT + 5;
+    const maxMockCommentsCount = QuantityCap.ForComments + 5;
     const commentsCount = generateInteger(MIN_MOCK_COMMENTS_COUNT, maxMockCommentsCount);
     const comments = generateComments(commentsCount);
 
@@ -35,6 +35,6 @@ describe('Component: Feedback', ()=>{
 
     const commentItems = screen.getAllByRole('listitem');
     commentItems.forEach((commentItem) => expect(commentItem).toBeInTheDocument());
-    expect(commentItems.length).toBe(Math.min(commentsCount, MAX_COMMENTS_COUNT));
+    expect(commentItems.length).toBe(Math.min(commentsCount, QuantityCap.ForComments));
   });
 });

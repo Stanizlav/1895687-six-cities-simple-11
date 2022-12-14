@@ -14,7 +14,7 @@ import { createAPI } from '../../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import AdditionalURL from '../../types/additional-url';
-import { DEFAULT_CARDS_COUNT, DEFAULT_NEAR_PLACES_COUNT } from '../../consts/consts';
+import { CardsCount } from '../../consts/consts';
 
 const offer = generateOffer();
 const chosenCity = offer.city.name;
@@ -49,7 +49,7 @@ const history = createMemoryHistory();
 const fakeApp = (
   <Provider store={store}>
     <HistoryRouter history={history}>
-      <App defaultCardsCount={DEFAULT_CARDS_COUNT} nearPlacesCardsCount={DEFAULT_NEAR_PLACES_COUNT}/>
+      <App defaultCardsCount={CardsCount.Default} nearPlacesCardsCount={CardsCount.ForNearPlaces}/>
     </HistoryRouter>
   </Provider>
 );

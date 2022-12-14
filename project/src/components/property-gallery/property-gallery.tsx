@@ -1,4 +1,4 @@
-import { MAX_IMAGES_COUNT } from '../../consts/consts';
+import { QuantityCap } from '../../consts/consts';
 import PropertyGalleryItem from './property-gallery-item';
 
 type PropertyGalleryProps = {
@@ -6,7 +6,7 @@ type PropertyGalleryProps = {
 }
 
 function PropertyGallery({images}:PropertyGalleryProps):JSX.Element{
-  const imagesToShow = images.slice(0, MAX_IMAGES_COUNT);
+  const imagesToShow = images.slice(0, QuantityCap.ForImages);
 
   return(
     <div className="property__gallery-container container">

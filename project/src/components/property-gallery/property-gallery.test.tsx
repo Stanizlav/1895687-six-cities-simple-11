@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { MAX_IMAGES_COUNT } from '../../consts/consts';
+import { QuantityCap } from '../../consts/consts';
 import { generateImages, generateInteger } from '../../utils/mocks';
 import ProperttyGallery from './property-gallery';
 
@@ -8,7 +8,7 @@ const MIN_MOCK_IMAGES_COUNT = 1;
 describe('Component: PropertyGallery', ()=>{
 
   it('should render correctly', ()=>{
-    const maxMockImagesCount = MAX_IMAGES_COUNT + 5;
+    const maxMockImagesCount = QuantityCap.ForImages + 5;
     const mockImagesCount = generateInteger(MIN_MOCK_IMAGES_COUNT, maxMockImagesCount);
     const images = generateImages(mockImagesCount);
 
@@ -16,7 +16,7 @@ describe('Component: PropertyGallery', ()=>{
 
     const imageElements = screen.getAllByRole('img');
     imageElements.forEach((imageElement) => expect(imageElement).toBeInTheDocument());
-    expect(imageElements.length).toBe(Math.min(MAX_IMAGES_COUNT, mockImagesCount));
+    expect(imageElements.length).toBe(Math.min(QuantityCap.ForImages, mockImagesCount));
   });
 
 });

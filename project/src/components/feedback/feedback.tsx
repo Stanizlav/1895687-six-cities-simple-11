@@ -1,4 +1,4 @@
-import { MAX_COMMENTS_COUNT } from '../../consts/consts';
+import { QuantityCap } from '../../consts/consts';
 import { useAppSelector } from '../../hooks/store-hooks';
 import { isStatusAuthorised } from '../../store/user-process/selectors';
 import Comment from '../../types/comment';
@@ -16,7 +16,7 @@ function Feedback({comments, hotelId}:FeedbackProps):JSX.Element{
   const commentsToShow = comments
     .slice()
     .sort((first, second) => getDifference(second.date, first.date))
-    .slice(0, MAX_COMMENTS_COUNT);
+    .slice(0, QuantityCap.ForComments);
 
   return(
     <div className="property__container container">
