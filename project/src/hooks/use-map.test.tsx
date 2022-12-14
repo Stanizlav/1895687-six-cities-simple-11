@@ -1,5 +1,5 @@
 import { render, screen, renderHook } from '@testing-library/react';
-import useMap from './useMap';
+import useMap from './use-map';
 import { Map } from 'leaflet';
 import getRandomCity from '../utils/get-random-city';
 

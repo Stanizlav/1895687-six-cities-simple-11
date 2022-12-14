@@ -2,15 +2,12 @@ import City from '../../types/city';
 import Location from '../../types/location';
 import { useEffect, useRef } from 'react';
 import { Icon, LayerGroup, Marker } from 'leaflet';
-import useMap from '../../hooks/useMap';
-import { MapMarkerUrl } from '../../consts/consts';
+import useMap from '../../hooks/use-map';
+import { MapMarkerUrl, MARKER_HALF_SIZE, MARKER_SIZE } from '../../consts/consts';
 import 'leaflet/dist/leaflet.css';
 import { arePointsEqual, getLatLng } from '../../utils/location-utils';
 import { useAppSelector } from '../../hooks/store-hooks';
 import { getSelectedPoint } from '../../store/application-process/selectors';
-
-const MARKER_SIZE = 40;
-const MARKER_HALF_SIZE = Math.round(MARKER_SIZE / 2);
 
 const defaultIcon = new Icon({
   iconUrl: MapMarkerUrl.Default,

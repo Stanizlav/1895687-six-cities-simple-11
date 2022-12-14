@@ -36,5 +36,8 @@ export const SORT_FORM_ACTIVITY_CLASS = 'places__options--opened';
 export const RATING_MAX = 5;
 export const PERCENTAGE_MULTIPLAYER = 100 / RATING_MAX;
 
+export const MARKER_SIZE = 40;
+export const MARKER_HALF_SIZE = Math.round(MARKER_SIZE / 2);
+
 export const LAYER_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 export const LAYER_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';

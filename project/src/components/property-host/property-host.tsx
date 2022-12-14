@@ -1,5 +1,4 @@
 import { memo } from 'react';
-
 import Person from '../../types/person';
 
 type PropertyHostProps = {

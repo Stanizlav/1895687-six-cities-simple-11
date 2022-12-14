@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { CommentSizeLimit } from '../../consts/consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { hasDataSendingError, isDataSending } from '../../store/application-data/selectors';
@@ -28,6 +29,9 @@ function ReviewForm({hotelId}:ReviewFormProps):JSX.Element{
     if(!isSending && !hasSendingError){
       setComment(INITIAL_COMMENT);
       setRating(INITIAL_RATING);
+    }
+    if(!isSending && hasSendingError){
+      toast.warn('There has been an issue with sending your review');
     }
   },[hasSendingError, isSending]);
 
