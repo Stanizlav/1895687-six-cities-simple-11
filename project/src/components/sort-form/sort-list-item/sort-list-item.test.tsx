@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import SortListItem from './sort-list-item';
-import SortType from '../../types/sort-type';
+import SortType from '../../../types/sort-type';
 import userEvent from '@testing-library/user-event';
 
 

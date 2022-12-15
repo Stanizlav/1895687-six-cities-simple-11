@@ -1,5 +1,5 @@
 import { QuantityCap } from '../../consts/consts';
-import PropertyGalleryItem from './property-gallery-item';
+import PropertyGalleryItem from './property-gallery-item/property-gallery-item';
 
 type PropertyGalleryProps = {
   images: string[];

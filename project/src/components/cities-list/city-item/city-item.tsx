@@ -1,9 +1,9 @@
 import { MouseEvent, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/store-hooks';
-import { changeCity } from '../../store/application-process/application-process';
-import AppRoute from '../../types/app-route';
-import CitiesName from '../../types/cities-name';
+import { useAppDispatch } from '../../../hooks/store-hooks';
+import { changeCity } from '../../../store/application-process/application-process';
+import AppRoute from '../../../types/app-route';
+import CitiesName from '../../../types/cities-name';
 
 type CityItemProps = {
   cityName: CitiesName;

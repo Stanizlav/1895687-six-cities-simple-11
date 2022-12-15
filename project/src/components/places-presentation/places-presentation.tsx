@@ -5,7 +5,7 @@ import { cities, DEFAULT_CITY } from '../../consts/cities';
 import Map from '../map/map';
 import OffersList from '../offers-list/offers-list';
 import SortForm from '../sort-form/sort-form';
-import NoPlacesPresentation from './no-places-presentation';
+import NoPlacesPresentation from './no-places-presentation/no-places-presentation';
 
 type PlacesPresentationProps = {
   maxCountToShow: number;
