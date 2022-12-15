@@ -4,7 +4,7 @@ import ReviewForm from './review-form';
 import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import NameSpace from '../../types/name-space';
-import { CommentSizeLimit, RATING_MAX } from '../../consts/consts';
+import { CommentSizeLimit, RATING_MAX, ResponseStatusCode } from '../../consts/consts';
 import { createAPI } from '../../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
@@ -83,7 +83,7 @@ describe('Component: ReviewForm', ()=>{
       const sendingCommentUrl = `${AdditionalURL.CommentsPrefix}${MOCK_HOTEL_ID}`;
       mockAPI
         .onPost(sendingCommentUrl)
-        .reply(200, []);
+        .reply(ResponseStatusCode.Ok, []);
 
       render(fakeReviewForm);
       const textarea = screen.getByRole('textbox');

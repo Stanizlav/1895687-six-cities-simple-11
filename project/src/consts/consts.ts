@@ -43,6 +43,14 @@ export enum QuantityCap{
   ForImages = 6
 }
 
+export enum ResponseStatusCode{
+  BadRequest = 400,
+  Unauthorised = 401,
+  NotFound = 404,
+  Ok = 200,
+  NoContent = 204
+}
+
 export const SORT_FORM_TAB_INDEX_START = 0;
 export const SORT_FORM_ACTIVITY_CLASS = 'places__options--opened';
 

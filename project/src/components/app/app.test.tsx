@@ -14,7 +14,7 @@ import { createAPI } from '../../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import AdditionalURL from '../../types/additional-url';
-import { CardsCount } from '../../consts/consts';
+import { CardsCount, ResponseStatusCode } from '../../consts/consts';
 
 const offer = generateOffer();
 const chosenCity = offer.city.name;
@@ -95,11 +95,11 @@ describe('Application Routing', ()=>{
     const commentsUrl = `${AdditionalURL.CommentsPrefix}${mockOfferId}`;
     mockAPI
       .onGet(theOfferUrl)
-      .reply(200)
+      .reply(ResponseStatusCode.Ok)
       .onGet(offersNearbyUrl)
-      .reply(200)
+      .reply(ResponseStatusCode.Ok)
       .onGet(commentsUrl)
-      .reply(200);
+      .reply(ResponseStatusCode.Ok);
 
     const propertyUrl = `${AppRoute.Room}/${mockOfferId}`;
     history.push(propertyUrl);

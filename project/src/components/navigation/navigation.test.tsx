@@ -17,6 +17,7 @@ import { State } from '../../types/state';
 import { Action } from 'redux';
 import AdditionalURL from '../../types/additional-url';
 import { logOut } from '../../store/thunk-actions';
+import { ResponseStatusCode } from '../../consts/consts';
 
 const api = createAPI();
 const mockAPI = new MockAdapter(api);
@@ -83,7 +84,7 @@ describe('Component: Navigation', ()=>{
   it('should stay on the page and dispatch the "logOut" action when an authorised user clicks the link', async()=>{
     mockAPI
       .onDelete(AdditionalURL.Logout)
-      .reply(204);
+      .reply(ResponseStatusCode.NoContent);
 
     const store = mockStoreWithAuthorisation();
     Storage.prototype.removeItem = jest.fn();
