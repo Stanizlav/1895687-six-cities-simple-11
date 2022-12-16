@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { hasDataSendingError, isDataSending } from '../../store/application-data/selectors';
 import { sendComment } from '../../store/thunk-actions';
 import NewCommentData from '../../types/new-comment-data';
-import RatingInput from './rating-input';
+import RatingInput from './rating-input/rating-input';
 
 const INITIAL_RATING = 0;
 const INITIAL_COMMENT = '';

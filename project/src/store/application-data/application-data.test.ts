@@ -14,39 +14,37 @@ describe('Reducer: applicationData',()=>{
   });
 
   it('should start loading if fetchOffers is pending', ()=>{
-    expect(applicationData.reducer(initialState, fetchOffers.pending))
-      .toEqual({...initialState, isLoading: true});
+    const state = {...initialState, isLoading: false};
+
+    expect(applicationData.reducer(state, fetchOffers.pending))
+      .toEqual({...state, isLoading: true});
   });
 
   it('should stop loading if fetchOffers is rejected', ()=>{
-    const state = {...initialState, isLoading: true};
-
-    expect(applicationData.reducer(state, fetchOffers.rejected))
-      .toEqual({...state, isLoading: false});
+    expect(applicationData.reducer(initialState, fetchOffers.rejected))
+      .toEqual({...initialState, isLoading: false});
   });
 
   it('should stop loading and set the "offers" field in accordance with recieved offers if fetchOffers is fulfilled', ()=>{
-    const state = {...initialState, isLoading: true};
     const recievedOffers = generateOffers(MOCK_OFFERS_COUNT);
 
-    expect(applicationData.reducer(state, {type: fetchOffers.fulfilled.type, payload: recievedOffers}))
-      .toEqual({...state, isLoading: false, offers: recievedOffers});
+    expect(applicationData.reducer(initialState, {type: fetchOffers.fulfilled.type, payload: recievedOffers}))
+      .toEqual({...initialState, isLoading: false, offers: recievedOffers});
   });
 
   it('should start loading if fetchTheOffer is pending', ()=>{
-    expect(applicationData.reducer(initialState, fetchTheOffer.pending))
-      .toEqual({...initialState, isLoading: true});
+    const state = {...initialState, isLoading: false};
+
+    expect(applicationData.reducer(state, fetchTheOffer.pending))
+      .toEqual({...state, isLoading: true});
   });
 
   it('should stop loading if fetchTheOffer is rejected', ()=>{
-    const state = {...initialState, isLoading: true};
-
-    expect(applicationData.reducer(state, fetchTheOffer.rejected))
-      .toEqual({...state, isLoading: false});
+    expect(applicationData.reducer(initialState, fetchTheOffer.rejected))
+      .toEqual({...initialState, isLoading: false});
   });
 
   it('should stop loading and set fields in accordance with recieved data if fetchTheOffer is fulfilled',()=>{
-    const state = {...initialState, isLoading: true};
     const recievedOffer = generateOffer();
     const recievedOffersNearby = generateOffers(MOCK_OFFERS_COUNT);
     const recievedComments = generateComments(MOCK_COMMENTS_COUNT);
@@ -59,9 +57,9 @@ describe('Reducer: applicationData',()=>{
       }
     };
 
-    expect(applicationData.reducer(state,action))
+    expect(applicationData.reducer(initialState,action))
       .toEqual({
-        ...state,
+        ...initialState,
         isLoading: false,
         offer: recievedOffer,
         offersNearby: recievedOffersNearby,

@@ -10,6 +10,7 @@ import { generateComment } from '../utils/mocks';
 import AuthData from '../types/auth-data';
 import { redirectToRoute } from './actions';
 import { AUTH_TOKEN_KEY } from '../services/token';
+import { ResponseStatusCode } from '../consts/consts';
 
 describe('Async actions', ()=>{
   const LIKELY_CALLS_COUNT = 1;
@@ -27,7 +28,7 @@ describe('Async actions', ()=>{
   it('should dispatch the "checkAuthorisation" actions to store when checking authorisation is successful', async()=>{
     mockAPI
       .onGet(AdditionalURL.Login)
-      .reply(200);
+      .reply(ResponseStatusCode.Ok);
 
     const store = mockStore();
 
@@ -49,7 +50,7 @@ describe('Async actions', ()=>{
     const sendingCommentUrl = `${AdditionalURL.CommentsPrefix}${MOCK_HOTEL_ID}`;
     mockAPI
       .onPost(sendingCommentUrl)
-      .reply(200, [mockComment]);
+      .reply(ResponseStatusCode.Ok, [mockComment]);
 
     const store = mockStore();
 
@@ -74,11 +75,11 @@ describe('Async actions', ()=>{
 
     mockAPI
       .onGet(theOfferUrl)
-      .reply(200)
+      .reply(ResponseStatusCode.Ok)
       .onGet(offersNearbyUrl)
-      .reply(200)
+      .reply(ResponseStatusCode.Ok)
       .onGet(commentsUrl)
-      .reply(200);
+      .reply(ResponseStatusCode.Ok);
 
     const store = mockStore();
 
@@ -97,7 +98,7 @@ describe('Async actions', ()=>{
   it('should dispatch the "fetchOffers" actions to store when data is successfuly delivered', async()=>{
     mockAPI
       .onGet(AdditionalURL.Offers)
-      .reply(200);
+      .reply(ResponseStatusCode.Ok);
 
     const store = mockStore();
 
@@ -119,7 +120,7 @@ describe('Async actions', ()=>{
 
     mockAPI
       .onPost(AdditionalURL.Login)
-      .reply(200, {token: mockToken});
+      .reply(ResponseStatusCode.Ok, {token: mockToken});
 
     const store = mockStore();
     Storage.prototype.setItem = jest.fn();
@@ -144,7 +145,7 @@ describe('Async actions', ()=>{
   it('should dispatch the "logOut" actions to store when loged out', async()=>{
     mockAPI
       .onDelete(AdditionalURL.Logout)
-      .reply(204);
+      .reply(ResponseStatusCode.NoContent);
 
     const store = mockStore();
     Storage.prototype.removeItem = jest.fn();

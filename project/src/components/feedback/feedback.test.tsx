@@ -17,11 +17,13 @@ const store = mockStore({
 
 describe('Component: Feedback', ()=>{
   const MOCK_HOTEL_ID = 37;
-  const MIN_MOCK_COMMENTS_COUNT = 1;
+  const MockCommentsCountLimit = {
+    Min: 1,
+    Max: QuantityCap.ForComments + 5
+  } as const;
 
   it('should render correctly', ()=>{
-    const maxMockCommentsCount = QuantityCap.ForComments + 5;
-    const commentsCount = generateInteger(MIN_MOCK_COMMENTS_COUNT, maxMockCommentsCount);
+    const commentsCount = generateInteger(MockCommentsCountLimit.Min, MockCommentsCountLimit.Max);
     const comments = generateComments(commentsCount);
 
     render(

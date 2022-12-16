@@ -5,13 +5,14 @@ type StarsRatingProps = {
   className?:string;
 }
 
-function StarsRating({rating, className = ''}:StarsRatingProps):JSX.Element{
-  const classList = `${className} rating__stars`;
+function StarsRating({rating, className}:StarsRatingProps):JSX.Element{
+  const appendedClass = className ? `${className} ` : '';
+  const classList = `${appendedClass}rating__stars`;
   const ratingPercentage = Math.round(rating) * PERCENTAGE_MULTIPLAYER;
   const stringRatingPercentage = `${ratingPercentage}%`;
   return(
     <div className={classList}>
-      <span style={{
+      <span data-testid="stars" style={{
         width: stringRatingPercentage
       }}
       >

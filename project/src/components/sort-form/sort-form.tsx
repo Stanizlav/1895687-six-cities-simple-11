@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { chooseSortType } from '../../store/application-process/application-process';
 import { getSortType } from '../../store/application-process/selectors';
 import SortType from '../../types/sort-type';
-import SortListItem from './sort-list-item';
+import SortListItem from './sort-list-item/sort-list-item';
 
 function SortForm():JSX.Element{
   const sortType = useAppSelector(getSortType);

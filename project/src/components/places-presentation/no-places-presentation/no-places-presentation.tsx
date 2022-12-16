@@ -1,4 +1,4 @@
-import CitiesName from '../../types/cities-name';
+import CitiesName from '../../../types/cities-name';
 
 type NoPlacesPresentationProps = {
   cityName:CitiesName;

@@ -1,4 +1,4 @@
-import SortType from '../../types/sort-type';
+import SortType from '../../../types/sort-type';
 
 type SortListItemProps = {
   tabIndex: number;

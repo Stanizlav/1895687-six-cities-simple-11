@@ -48,14 +48,17 @@ function Map({city, points, className = '', standingOutPoint}: MapProps):JSX.Ele
         }).addTo(layerGroup);
       });
       layerGroup.addTo(map);
-      map.flyTo(getLatLng(city.location));
     }
     return ()=>{
       layerGroup.clearLayers();
     };
-  }, [map, points, city, highlightedPoint]);
+  }, [map, points, highlightedPoint]);
 
-  return <section className={classList} ref={mapRef}></section>;
+  useEffect(()=>{
+    map?.flyTo(getLatLng(city.location));
+  }, [city, map]);
+
+  return <section className={classList} ref={mapRef} data-testid="map"></section>;
 }
 
 export default Map;

@@ -3,13 +3,14 @@ import { QuantityCap } from '../../consts/consts';
 import { generateImages, generateInteger } from '../../utils/mocks';
 import ProperttyGallery from './property-gallery';
 
-const MIN_MOCK_IMAGES_COUNT = 1;
-
 describe('Component: PropertyGallery', ()=>{
+  const MockImagesCountLimit = {
+    Min: 1,
+    Max: QuantityCap.ForImages + 5
+  } as const;
 
   it('should render correctly', ()=>{
-    const maxMockImagesCount = QuantityCap.ForImages + 5;
-    const mockImagesCount = generateInteger(MIN_MOCK_IMAGES_COUNT, maxMockImagesCount);
+    const mockImagesCount = generateInteger(MockImagesCountLimit.Min, MockImagesCountLimit.Max);
     const images = generateImages(mockImagesCount);
 
     render(<ProperttyGallery images={images}/>);

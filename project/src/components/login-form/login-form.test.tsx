@@ -11,6 +11,7 @@ import AdditionalURL from '../../types/additional-url';
 import userEvent from '@testing-library/user-event';
 import { logIn } from '../../store/thunk-actions';
 import { generateUser } from '../../utils/mocks';
+import { ResponseStatusCode } from '../../consts/consts';
 
 const api = createAPI();
 const mockAPI = new MockAdapter(api);
@@ -65,7 +66,7 @@ describe('Component: LoginForm', ()=>{
     };
     mockAPI
       .onPost(AdditionalURL.Login)
-      .reply(200, user);
+      .reply(ResponseStatusCode.Ok, user);
 
     Storage.prototype.setItem = jest.fn();
 
