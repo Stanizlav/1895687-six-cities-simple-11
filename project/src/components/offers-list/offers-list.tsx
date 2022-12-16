@@ -26,7 +26,7 @@ function OffersList({offers, isForNearPlaces = false}: OffersListProps):JSX.Elem
   };
 
   return (
-    <div className={classList}>
+    <div role="list" className={classList}>
       {offers.map((offer) => (
         <AdvertCard
           key={offer.id}

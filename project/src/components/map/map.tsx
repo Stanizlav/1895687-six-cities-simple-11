@@ -58,7 +58,7 @@ function Map({city, points, className = '', standingOutPoint}: MapProps):JSX.Ele
     map?.flyTo(getLatLng(city.location));
   }, [city, map]);
 
-  return <section className={classList} ref={mapRef}></section>;
+  return <section className={classList} ref={mapRef} data-testid="map"></section>;
 }
 
 export default Map;

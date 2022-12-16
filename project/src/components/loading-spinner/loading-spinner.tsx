@@ -1,13 +1,7 @@
-import CircleLoader from 'react-spinners/CircleLoader';
-import { CSSProperties } from 'react';
+import './loading-spinner.css';
 
-function LoadingSpinner():JSX.Element | null{
-  const override: CSSProperties = {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-  };
-  return <CircleLoader cssOverride={override} color="green" size="150px" />;
+function LoadingSpinner():JSX.Element{
+  return <div className="loader" data-testid="loader"></div>;
 }
 
 export default LoadingSpinner;

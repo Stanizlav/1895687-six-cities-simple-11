@@ -50,8 +50,10 @@ describe('Component: ReviewForm', ()=>{
   });
 
   it('should change the textarea content and the radiogroup state when a user interacts', async()=>{
-    const FIRST_MOCK_RATING_INDEX = RATING_MAX - 1;
-    const SECOND_MOCK_RATING_INDEX = 0;
+    const InteractionIndex = {
+      First: RATING_MAX - 1,
+      Last: 0
+    } as const;
 
     render(fakeReviewForm);
     const textarea = screen.getByRole('textbox');
@@ -61,18 +63,18 @@ describe('Component: ReviewForm', ()=>{
     radioButtons.forEach((button)=>expect(button).not.toBeChecked());
 
     await userEvent.type(textarea, MOCK_OPINION);
-    await userEvent.click(radioButtons[FIRST_MOCK_RATING_INDEX]);
+    await userEvent.click(radioButtons[InteractionIndex.First]);
 
     expect(textarea).toHaveDisplayValue(MOCK_OPINION);
-    let likelyUnchecked = radioButtons.filter((button, index)=> index !== FIRST_MOCK_RATING_INDEX);
+    let likelyUnchecked = radioButtons.filter((button, index)=> index !== InteractionIndex.First);
     likelyUnchecked.forEach((button)=>expect(button).not.toBeChecked());
-    expect(radioButtons[FIRST_MOCK_RATING_INDEX]).toBeChecked();
+    expect(radioButtons[InteractionIndex.First]).toBeChecked();
 
-    await userEvent.click(radioButtons[SECOND_MOCK_RATING_INDEX]);
+    await userEvent.click(radioButtons[InteractionIndex.Last]);
 
-    likelyUnchecked = radioButtons.filter((button, index)=> index !== SECOND_MOCK_RATING_INDEX);
+    likelyUnchecked = radioButtons.filter((button, index)=> index !== InteractionIndex.Last);
     likelyUnchecked.forEach((button)=>expect(button).not.toBeChecked());
-    expect(radioButtons[SECOND_MOCK_RATING_INDEX]).toBeChecked();
+    expect(radioButtons[InteractionIndex.Last]).toBeChecked();
   });
 
   it('should dispatch the "sendComment" action when a user submits after typing decent comment and choosing rating',

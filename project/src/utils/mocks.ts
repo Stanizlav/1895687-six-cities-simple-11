@@ -1,6 +1,6 @@
 import Advert from '../types/advert';
 import Location from '../types/location';
-import { name, internet, commerce, date } from 'faker';
+import { name, internet, commerce, date, image } from 'faker';
 import Accomodation from '../types/accomodation';
 import { RATING_MAX } from '../consts/consts';
 import Person from '../types/person';
@@ -93,9 +93,9 @@ export const generateOffer = (key?:number):Advert => {
   };
 };
 
-const generateImage = () => internet.avatar();
+export const generateImage = () => image.image();
 
-export const generateImages = (count:number) => Array.from({length: count}, generateImage);
+export const generateImages = (count:number) => Array.from({length: count}, (item, index) => generateImage().concat(`${index}`));
 
 export const generateOffers = (count:number):Advert[] => Array.from({length: count}, (item, index)=>generateOffer(index));
 
