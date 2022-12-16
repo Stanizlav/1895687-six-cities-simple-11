@@ -7,12 +7,19 @@ import NameSpace from '../../types/name-space';
 import { generateOffer } from '../../utils/mocks';
 import SortType from '../../types/sort-type';
 import { render, screen } from '@testing-library/react';
-import { CardsCount } from '../../consts/consts';
+import { CardsCount, ResponseStatusCode } from '../../consts/consts';
 import { cities } from '../../consts/cities';
 import CitiesName from '../../types/cities-name';
 import AppRoute from '../../types/app-route';
+import { createAPI } from '../../services/api';
+import MockAdapter from 'axios-mock-adapter';
+import thunk from 'redux-thunk';
+import AdditionalURL from '../../types/additional-url';
 
-const mockStore = configureMockStore();
+const api = createAPI();
+const mockAPI = new MockAdapter(api);
+const middlewares = [thunk.withExtraArgument(api)];
+const mockStore = configureMockStore(middlewares);
 const history = createMemoryHistory();
 
 const fakeMainScreen = (storage:MockStore) => (
@@ -24,6 +31,10 @@ const fakeMainScreen = (storage:MockStore) => (
 );
 
 describe('Component: MainScreen', ()=>{
+  mockAPI
+    .onGet(AdditionalURL.Offers)
+    .reply(ResponseStatusCode.Ok);
+
   it('should render correctly with loaded offers', ()=>{
     const mockOffer = generateOffer();
     const chosenCity = mockOffer.city.name;

@@ -9,7 +9,7 @@ const initialState: ApplicationData = {
   offer: null,
   offersNearby: [],
   comments: [],
-  isLoading: false,
+  isLoading: true,
   isSending: false,
   hasSendingError: false
 };

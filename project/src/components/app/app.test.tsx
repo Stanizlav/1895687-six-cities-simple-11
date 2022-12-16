@@ -57,6 +57,10 @@ const fakeApp = (
 describe('Application Routing', ()=>{
 
   it('should render "MainScreen" when user navigate to "/"', ()=>{
+    mockAPI
+      .onGet(AdditionalURL.Offers)
+      .reply(ResponseStatusCode.Ok);
+
     history.push(AppRoute.Main);
     render(fakeApp);
 
